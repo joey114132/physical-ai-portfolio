@@ -1,0 +1,7 @@
+.DS_Store
+*.log
+*.bak
+js.bak/
+css/*.bak
+gesto-media-found.txt
+.netlify/
