@@ -133,6 +133,9 @@ const els = {
   lightboxStage: document.getElementById("lightbox-stage"),
   lightboxCaption: document.getElementById("lightbox-caption"),
   mobileControls: document.getElementById("mobile-controls"),
+  mobileJoystick: document.getElementById("mobile-joystick"),
+  mobileJoystickThumb: document.getElementById("mobile-joystick-thumb"),
+  mobileSprint: document.getElementById("mobile-sprint"),
   mobileInteract: document.getElementById("mobile-interact"),
   cutscene: document.getElementById("cutscene"),
   cutscenePhase: document.getElementById("cutscene-phase"),
@@ -143,8 +146,15 @@ const els = {
   uiDrawerBackdrop: document.getElementById("ui-drawer-backdrop"),
   uiDrawerClose: document.getElementById("ui-drawer-close"),
   uiDrawerTitle: document.getElementById("ui-drawer-title"),
+  uiDrawerMeta: document.getElementById("ui-drawer-meta"),
+  topBar: document.querySelector(".top-bar"),
+  topBarRow: document.querySelector(".top-bar__row"),
+  topBarTools: document.querySelector(".top-bar__tools"),
+  topStatus: document.getElementById("top-status"),
   detail3dToggle: document.getElementById("detail-3d-toggle"),
 };
+
+let drawerQuickTools = null;
 
 const MAZE_MENU_MQ = window.matchMedia("(max-width: 719px)");
 
@@ -169,6 +179,43 @@ function setUiMenuOpen(open) {
 
 function syncUiMenuMode() {
   if (!usesMazeMenu()) setUiMenuOpen(false);
+}
+
+function ensureDrawerQuickTools() {
+  if (drawerQuickTools) return drawerQuickTools;
+  drawerQuickTools = document.createElement("div");
+  drawerQuickTools.className = "ui-drawer__quick-tools";
+  return drawerQuickTools;
+}
+
+function layoutMazeChrome() {
+  const { topBar, topBarRow, topBarTools, topStatus, questBanner, soundBtn, langBtn, uiMenuBtn, uiDrawerMeta } =
+    els;
+  if (!topBar || !topBarRow || !topBarTools || !uiDrawerMeta) return;
+
+  const useDrawer = usesMazeMenu();
+  document.body.classList.toggle("maze-menu-chrome", useDrawer);
+
+  if (useDrawer) {
+    if (topStatus) uiDrawerMeta.append(topStatus);
+    if (questBanner) uiDrawerMeta.append(questBanner);
+    if (soundBtn && langBtn) {
+      const quick = ensureDrawerQuickTools();
+      quick.append(soundBtn, langBtn);
+      uiDrawerMeta.append(quick);
+    }
+  } else {
+    if (topStatus) topBarRow.insertBefore(topStatus, topBarTools);
+    if (questBanner) topBar.appendChild(questBanner);
+    if (soundBtn && langBtn && uiMenuBtn) {
+      topBarTools.insertBefore(soundBtn, uiMenuBtn);
+      topBarTools.insertBefore(langBtn, uiMenuBtn);
+      drawerQuickTools?.remove();
+    }
+  }
+
+  syncUiMenuMode();
+  if (mode === "maze") updateQuestBanner();
 }
 
 let cutsceneTimer = null;
@@ -351,6 +398,17 @@ function setQuestBanner(text) {
   els.questBanner.innerHTML = formatConceptHtml(text);
 }
 
+function questCopy(key, vars = {}) {
+  const s = STRINGS[lang].nav;
+  const useShort = isTouchDevice() && window.innerWidth < 720 && !document.body.classList.contains("maze-menu-chrome");
+  const shortKey = `${key}Short`;
+  const template = (useShort && s[shortKey]) || s[key] || "";
+  return Object.entries(vars).reduce(
+    (text, [k, v]) => text.replaceAll(`{${k}}`, String(v)),
+    template,
+  );
+}
+
 function updateQuestBanner() {
   if (!els.questBanner) return;
   const s = STRINGS[lang];
@@ -372,9 +430,7 @@ function updateQuestBanner() {
     const next = maze?.getNextGate?.();
     if (next) {
       const p = STRINGS[lang].projects[next];
-      setQuestBanner(
-        s.nav.questNext.replace("{order}", stationOrder(next)).replace("{title}", p.title),
-      );
+      setQuestBanner(questCopy("questNext", { order: stationOrder(next), title: p.title }));
       els.questBanner.classList.add("quest-banner--active");
     } else {
       setQuestBanner(s.nav.questIdle);
@@ -402,7 +458,11 @@ function updateQuestBanner() {
 function updateProgress() {
   if (!maze) return;
   const n = maze.visitCount ?? 0;
-  const progressText = STRINGS[lang].nav.questProgress.replace("{n}", String(n));
+  const progressKey = isTouchDevice() ? "questProgressShort" : "questProgress";
+  const progressText = (STRINGS[lang].nav[progressKey] ?? STRINGS[lang].nav.questProgress).replace(
+    "{n}",
+    String(n),
+  );
   if (els.questProgress) els.questProgress.textContent = progressText;
   if (els.topQuestProgress) els.topQuestProgress.textContent = progressText;
   drawMinimap();
@@ -773,42 +833,154 @@ function syncMobileControls() {
     isTouchDevice() &&
     !document.body.classList.contains("cutscene-mode");
   els.mobileControls.hidden = !show;
+  if (!show) {
+    resetMobileJoystick();
+    resetMobileSprint();
+  }
 }
 
-function bindMobilePad(btn) {
-  const key = btn.dataset.key;
-  if (!key) return;
-  const down = () => maze?.setVirtualKey(key, true);
-  const up = () => maze?.setVirtualKey(key, false);
-  btn.addEventListener("pointerdown", (e) => {
+function isMobileSprintHeld() {
+  return els.mobileSprint?.classList.contains("mobile-btn--sprint-active") ?? false;
+}
+
+function mobileStickPower() {
+  return Math.hypot(maze?.stickX ?? 0, maze?.stickZ ?? 0);
+}
+
+function syncMobileSprintKey(power) {
+  const p = power ?? mobileStickPower();
+  maze?.setVirtualKey?.("shift", isMobileSprintHeld() || p >= 0.9);
+}
+
+function resetMobileSprint() {
+  els.mobileSprint?.classList.remove("mobile-btn--sprint-active");
+  els.mobileSprint?.setAttribute("aria-pressed", "false");
+  maze?.setVirtualKey?.("shift", false);
+}
+
+function resetMobileJoystick() {
+  maze?.setVirtualStick?.(0, 0);
+  if (els.mobileJoystickThumb) {
+    els.mobileJoystickThumb.style.transform = "translate(-50%, -50%)";
+  }
+  els.mobileJoystick?.classList.remove("mobile-joystick--active");
+  if (!isMobileSprintHeld()) maze?.setVirtualKey?.("shift", false);
+}
+
+function bindMobileJoystick() {
+  const root = els.mobileJoystick;
+  const thumb = els.mobileJoystickThumb;
+  const base = root?.querySelector(".mobile-joystick__base");
+  if (!root || !thumb || !base) return;
+
+  const DEADZONE = 0.14;
+  let activePointer = null;
+
+  const applyStick = (clientX, clientY) => {
+    const rect = base.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const maxR = rect.width * 0.36;
+    let dx = clientX - cx;
+    let dy = clientY - cy;
+    const dist = Math.hypot(dx, dy);
+    if (dist > maxR) {
+      const scale = maxR / dist;
+      dx *= scale;
+      dy *= scale;
+    }
+    thumb.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+    const norm = Math.hypot(dx, dy);
+    if (norm < DEADZONE * maxR) {
+      maze?.setVirtualStick?.(0, 0);
+      syncMobileSprintKey(0);
+      return;
+    }
+    const power = Math.min(1, (norm - DEADZONE * maxR) / (maxR - DEADZONE * maxR));
+    maze?.setVirtualStick?.((dx / norm) * power, (dy / norm) * power);
+    syncMobileSprintKey(power);
+  };
+
+  const endStick = () => {
+    activePointer = null;
+    resetMobileJoystick();
+  };
+
+  root.addEventListener("pointerdown", (e) => {
+    if (activePointer !== null) return;
+    e.preventDefault();
+    activePointer = e.pointerId;
+    root.setPointerCapture(e.pointerId);
+    root.classList.add("mobile-joystick--active");
+    applyStick(e.clientX, e.clientY);
+  });
+
+  root.addEventListener("pointermove", (e) => {
+    if (activePointer !== e.pointerId) return;
+    e.preventDefault();
+    applyStick(e.clientX, e.clientY);
+  });
+
+  root.addEventListener("pointerup", (e) => {
+    if (activePointer !== e.pointerId) return;
+    endStick();
+  });
+  root.addEventListener("pointercancel", (e) => {
+    if (activePointer !== e.pointerId) return;
+    endStick();
+  });
+  root.addEventListener("lostpointercapture", endStick);
+}
+
+function bindMobileSprint() {
+  const btn = els.mobileSprint;
+  if (!btn) return;
+
+  const down = (e) => {
     e.preventDefault();
     btn.setPointerCapture(e.pointerId);
-    down();
-  });
+    btn.classList.add("mobile-btn--sprint-active");
+    btn.setAttribute("aria-pressed", "true");
+    maze?.setVirtualKey?.("shift", true);
+  };
+
+  const up = (e) => {
+    if (btn.hasPointerCapture(e.pointerId)) btn.releasePointerCapture(e.pointerId);
+    btn.classList.remove("mobile-btn--sprint-active");
+    btn.setAttribute("aria-pressed", "false");
+    syncMobileSprintKey();
+  };
+
+  btn.addEventListener("pointerdown", down);
   btn.addEventListener("pointerup", up);
   btn.addEventListener("pointercancel", up);
-  btn.addEventListener("pointerleave", (e) => {
-    if (!btn.hasPointerCapture(e.pointerId)) up();
+  btn.addEventListener("lostpointercapture", () => {
+    btn.classList.remove("mobile-btn--sprint-active");
+    btn.setAttribute("aria-pressed", "false");
+    syncMobileSprintKey();
   });
-  btn.addEventListener("lostpointercapture", up);
 }
 
 function initMobileControls() {
   if (!els.mobileControls) return;
-  els.mobileControls.querySelectorAll(".mobile-pad__btn").forEach(bindMobilePad);
+  bindMobileJoystick();
+  bindMobileSprint();
   els.mobileInteract?.addEventListener("click", () => maze?.tryInteract?.());
-  window.addEventListener("resize", syncMobileControls, { passive: true });
+  window.addEventListener(
+    "resize",
+    () => {
+      syncMobileControls();
+      if (mode === "maze") updateQuestBanner();
+    },
+    { passive: true },
+  );
   syncMobileControls();
 }
 
 async function openDetail(key) {
   setUiMenuOpen(false);
   syncMobileControls();
-  if (isTouchDevice()) {
-    document.body.classList.add("detail-hide-3d");
-  } else {
-    document.body.classList.remove("detail-hide-3d");
-  }
+  document.body.classList.remove("detail-hide-3d");
   mode = "detail";
   maze?.setPaused(true);
   maze?.visited?.add(key);
@@ -821,11 +993,12 @@ async function openDetail(key) {
   els.detailView.dataset.key = key;
   document.body.classList.add("detail-mode");
   document.body.classList.remove("maze-mode");
+  layoutMazeChrome();
   els.detailContent?.focus({ preventScroll: true });
-  if (els.detail3dToggle && isTouchDevice()) {
+  if (els.detail3dToggle) {
     const nav = STRINGS[lang].nav;
-    els.detail3dToggle.textContent = nav.detail3dShow;
-    els.detail3dToggle.setAttribute("aria-expanded", "false");
+    els.detail3dToggle.textContent = nav.detail3dHide;
+    els.detail3dToggle.setAttribute("aria-expanded", "true");
   }
   requestAnimationFrame(() => {
     detail3d?._resize?.();
@@ -847,6 +1020,7 @@ function closeDetail() {
   els.detailView.dataset.key = "";
   els.gameUi.classList.remove("hidden");
   document.body.classList.add("maze-mode");
+  layoutMazeChrome();
   els.detailContent?.blur();
   setActiveTimeline(maze?.nearZone ?? maze?.getNextGate?.() ?? "dl");
   updateQuestBanner();
@@ -896,6 +1070,7 @@ function hideAbout() {
   els.aboutOverlay.hidden = true;
   document.body.classList.remove("about-mode");
   document.body.classList.add("maze-mode");
+  layoutMazeChrome();
   els.gameUi.classList.remove("hidden");
   maze?.setPaused(false);
   syncMobileControls();
@@ -916,6 +1091,7 @@ function startMaze() {
   els.introOverlay.hidden = true;
   document.body.classList.remove("intro");
   document.body.classList.add("maze-mode");
+  layoutMazeChrome();
   maze?.setPaused(false);
   syncMobileControls();
   updateQuestBanner();
@@ -939,8 +1115,11 @@ function applyLanguage() {
     els.detailScrollHint.textContent = isTouchDevice() ? (s.nav.scrollHintTouch ?? s.nav.scrollHint) : s.nav.scrollHint;
   }
   if (els.mobileInteract) {
-    els.mobileInteract.textContent = s.nav.mobileInteract ?? "E";
+    els.mobileInteract.textContent = isTouchDevice() ? "E" : (s.nav.mobileInteract ?? "E");
     els.mobileInteract.setAttribute("aria-label", s.nav.mobileInteract ?? "Open");
+  }
+  if (els.mobileSprint) {
+    els.mobileSprint.setAttribute("aria-label", s.nav.mobileSprint ?? "Sprint");
   }
   if (els.hint) {
     els.hint.textContent = isTouchDevice() ? (s.nav.hintTouch ?? s.nav.hint) : s.nav.hint;
@@ -1023,11 +1202,11 @@ function setupUiMenu() {
   els.uiDrawerClose?.addEventListener("click", () => setUiMenuOpen(false));
   els.uiDrawerBackdrop?.addEventListener("click", () => setUiMenuOpen(false));
 
-  const onMq = () => syncUiMenuMode();
+  const onMq = () => layoutMazeChrome();
   if (MAZE_MENU_MQ.addEventListener) MAZE_MENU_MQ.addEventListener("change", onMq);
   else MAZE_MENU_MQ.addListener(onMq);
 
-  window.addEventListener("resize", syncUiMenuMode, { passive: true });
+  window.addEventListener("resize", layoutMazeChrome, { passive: true });
 }
 
 function setupDetail3dToggle() {
@@ -1140,6 +1319,7 @@ function showBootError(message) {
 
 function init() {
   try {
+    if (isTouchDevice()) document.body.classList.add("touch-ui");
     perfTier = applyPerfClass(detectPerfTier());
     applyLanguage();
     setupCursorGlow();
@@ -1192,6 +1372,7 @@ function init() {
     updateProgress();
     updateSoundBtn();
     initMobileControls();
+    layoutMazeChrome();
 
     if (new URLSearchParams(location.search).get("debug") === "1") {
       window.__portfolio = {

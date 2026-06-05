@@ -253,6 +253,8 @@ export class MazeScene {
     this._stuckTime = 0;
 
     this.keys = { w: false, a: false, s: false, d: false, shift: false };
+    this.stickX = 0;
+    this.stickZ = 0;
     this.facing = 0;
     this.pulse = 0;
     this.moveSpeed = 0;
@@ -324,10 +326,17 @@ export class MazeScene {
     this.paused = p;
     if (p) {
       this.keys = { w: false, a: false, s: false, d: false, shift: false };
+      this.stickX = 0;
+      this.stickZ = 0;
       this.velX = 0;
       this.velZ = 0;
       this.moveSpeed = 0;
     }
+  }
+
+  setVirtualStick(x, z) {
+    this.stickX = x;
+    this.stickZ = z;
   }
 
   setVirtualKey(key, down) {
@@ -1059,12 +1068,17 @@ export class MazeScene {
     {
       const sprint = this.keys.shift;
       const speed = sprint ? 16 : 10;
-      let mx = 0;
-      let mz = 0;
-      if (this.keys.w) mz -= 1;
-      if (this.keys.s) mz += 1;
-      if (this.keys.a) mx -= 1;
-      if (this.keys.d) mx += 1;
+      let mx = this.stickX;
+      let mz = this.stickZ;
+      const stickMag = Math.hypot(mx, mz);
+      if (stickMag < 0.08) {
+        mx = 0;
+        mz = 0;
+        if (this.keys.w) mz -= 1;
+        if (this.keys.s) mz += 1;
+        if (this.keys.a) mx -= 1;
+        if (this.keys.d) mx += 1;
+      }
       const moving = mx !== 0 || mz !== 0;
       if (moving) {
         const len = Math.hypot(mx, mz) || 1;

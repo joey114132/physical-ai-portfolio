@@ -105,34 +105,37 @@
 
     <div id="orbit-ui" class="ui">
       <header class="top-bar">
-        <div class="brand">
-          <span class="brand__mark">◈</span>
-          <span class="brand__text">Physical AI · 2025–2026</span>
+        <div class="top-bar__row">
+          <div class="brand">
+            <span class="brand__mark">◈</span>
+            <span class="brand__text">Physical AI · 2025–2026</span>
+          </div>
+          <div class="top-bar__status" id="top-status" aria-live="polite">
+            <span class="top-bar__status-num" id="top-station-num">01</span>
+            <span class="top-bar__status-phase" id="top-station-phase">DL</span>
+            <span class="top-bar__status-progress" id="top-quest-progress"></span>
+          </div>
+          <div class="top-bar__tools">
+            <button type="button" id="sound-btn" class="icon-btn" aria-label="Toggle sound" aria-pressed="false">
+              <span class="icon-btn__glyph" id="sound-glyph">♪</span>
+            </button>
+            <button type="button" id="lang-btn" class="lang-btn" aria-label="Switch language">
+              <span class="lang-btn__dot"></span>
+              <span class="lang-btn__label">English</span>
+            </button>
+            <button
+              type="button"
+              id="ui-menu-btn"
+              class="icon-btn ui-menu-btn"
+              aria-expanded="false"
+              aria-controls="ui-drawer-panel"
+              aria-label="Open menu"
+            >
+              <span class="ui-menu-btn__icon" aria-hidden="true"></span>
+            </button>
+          </div>
         </div>
-        <div class="top-bar__status" id="top-status" aria-live="polite">
-          <span class="top-bar__status-num" id="top-station-num">01</span>
-          <span class="top-bar__status-phase" id="top-station-phase">DL</span>
-          <span class="top-bar__status-progress" id="top-quest-progress"></span>
-        </div>
-        <div class="top-bar__tools">
-          <button type="button" id="sound-btn" class="icon-btn" aria-label="Toggle sound" aria-pressed="false">
-            <span class="icon-btn__glyph" id="sound-glyph">♪</span>
-          </button>
-          <button type="button" id="lang-btn" class="lang-btn" aria-label="Switch language">
-            <span class="lang-btn__dot"></span>
-            <span class="lang-btn__label">English</span>
-          </button>
-          <button
-            type="button"
-            id="ui-menu-btn"
-            class="icon-btn ui-menu-btn"
-            aria-expanded="false"
-            aria-controls="ui-drawer-panel"
-            aria-label="Open menu"
-          >
-            <span class="ui-menu-btn__icon" aria-hidden="true"></span>
-          </button>
-        </div>
+        <p id="quest-banner" class="quest-banner" role="status"></p>
       </header>
 
       <section class="hero">
@@ -165,8 +168,6 @@
         <p id="quest-progress" class="minimap__progress"></p>
       </aside>
 
-      <p id="quest-banner" class="quest-banner" role="status"></p>
-
       <aside id="ui-drawer" class="ui-drawer" aria-hidden="true">
         <div id="ui-drawer-backdrop" class="ui-drawer__backdrop" tabindex="-1" hidden></div>
         <div id="ui-drawer-panel" class="ui-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="ui-drawer-title">
@@ -174,6 +175,7 @@
             <h2 id="ui-drawer-title" class="ui-drawer__title">Projects</h2>
             <button type="button" id="ui-drawer-close" class="icon-btn ui-drawer__close" aria-label="Close menu">✕</button>
           </header>
+          <div id="ui-drawer-meta" class="ui-drawer__meta" aria-live="polite"></div>
           <nav id="timeline" class="timeline" aria-label="Project timeline"></nav>
           <footer class="dock">
             <a
@@ -292,13 +294,33 @@
     </div>
 
     <div id="mobile-controls" class="mobile-controls" hidden>
-      <div class="mobile-pad" role="group" aria-label="Move">
-        <button type="button" class="mobile-pad__btn mobile-pad__btn--up" data-key="w" aria-label="Up">▲</button>
-        <button type="button" class="mobile-pad__btn mobile-pad__btn--left" data-key="a" aria-label="Left">◀</button>
-        <button type="button" class="mobile-pad__btn mobile-pad__btn--right" data-key="d" aria-label="Right">▶</button>
-        <button type="button" class="mobile-pad__btn mobile-pad__btn--down" data-key="s" aria-label="Down">▼</button>
+      <div id="mobile-joystick" class="mobile-joystick" role="group" aria-label="Move">
+        <div class="mobile-joystick__base">
+          <div id="mobile-joystick-thumb" class="mobile-joystick__thumb" aria-hidden="true"></div>
+        </div>
       </div>
-      <button type="button" id="mobile-interact" class="mobile-btn mobile-btn--interact" aria-label="Open">E</button>
+      <div class="mobile-actions">
+        <button
+          type="button"
+          id="mobile-sprint"
+          class="mobile-btn mobile-btn--sprint"
+          aria-pressed="false"
+          aria-label="Sprint"
+        >
+          <svg class="mobile-sprint-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle class="mobile-sprint-icon__head" cx="14.2" cy="5.1" r="1.85" />
+            <path
+              class="mobile-sprint-icon__runner"
+              d="M12.6 7.5 9.8 11.8l-2.7 1.1.9 2.1 3.1-.8 1.9 5.1h2.2l-1.1-5.7 2.4-1-.7-1.8-2.7.1 1.6-2.9 2.3-2.2-1.6-1.4 1.2Z"
+            />
+            <path
+              class="mobile-sprint-icon__motion"
+              d="M3.4 17.2h2.6M2.3 14h2.1M4.5 19.8h2.2"
+            />
+          </svg>
+        </button>
+        <button type="button" id="mobile-interact" class="mobile-btn mobile-btn--interact" aria-label="Open">E</button>
+      </div>
     </div>
 
     <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true">
