@@ -1,28 +1,62 @@
+/**
+ * Locale strings and media resolution. Site facts live in `config.js`.
+ * @module i18n
+ */
+
+import { SITE } from "./config.js";
+
+export { PROJECT_COLORS, PROJECT_KEYS, REPO_URLS, PHASE_SHORT } from "./config.js";
+
+/**
+ * @param {string} text
+ * @param {Record<string, string|number>} [vars]
+ * @returns {string}
+ */
+export function interpolateCopy(text, vars = {}) {
+  return String(text).replace(/\{(\w+)\}/g, (_, key) =>
+    vars[key] != null ? String(vars[key]) : `{${key}}`,
+  );
+}
+
 export const PRISMIC = {
   /** Gesto (DL cohort) — woolimi Prismic, same assets as minsungchoi.com/projects/schools/gesto */
-  gestoPptMode: "https://images.prismic.io/woolimi/aaUlj8FoBIGEg9yq_ppt-mode.gif?auto=format,compress",
-  gestoYoutubeMode: "https://images.prismic.io/woolimi/aaUlkMFoBIGEg9yr_youtube-mode.gif?auto=format,compress",
-  gestoGestureWorking: "https://images.prismic.io/woolimi/aaW4RTPJ2QKSVUFn_gesture-working.gif?auto=format,compress",
-  gestoGestureNotWorking: "https://images.prismic.io/woolimi/aaW4RDPJ2QKSVUFl_gesture-not-working.gif?auto=format,compress",
-  gestoTrigger: "https://images.prismic.io/woolimi/aaW4RzPJ2QKSVUFp_trigger.gif?auto=format,compress",
-  gestoMediapipe: "https://images.prismic.io/woolimi/aaWyozPJ2QKSVT-e_mediapipe.png?auto=format,compress",
+  gestoPptMode:
+    "https://images.prismic.io/woolimi/aaUlj8FoBIGEg9yq_ppt-mode.gif?auto=format,compress",
+  gestoYoutubeMode:
+    "https://images.prismic.io/woolimi/aaUlkMFoBIGEg9yr_youtube-mode.gif?auto=format,compress",
+  gestoGestureWorking:
+    "https://images.prismic.io/woolimi/aaW4RTPJ2QKSVUFn_gesture-working.gif?auto=format,compress",
+  gestoGestureNotWorking:
+    "https://images.prismic.io/woolimi/aaW4RDPJ2QKSVUFl_gesture-not-working.gif?auto=format,compress",
+  gestoTrigger:
+    "https://images.prismic.io/woolimi/aaW4RzPJ2QKSVUFp_trigger.gif?auto=format,compress",
+  gestoMediapipe:
+    "https://images.prismic.io/woolimi/aaWyozPJ2QKSVT-e_mediapipe.png?auto=format,compress",
   hifiveGif: "https://images.prismic.io/joey/ah544AeQX7-eWhsi_hifive_final.gif",
   cloud: "https://images.prismic.io/joey/ah541QeQX7-eWhsX_browser_cloud.jpg?auto=format,compress",
   simBalls: "https://images.prismic.io/joey/ah545AeQX7-eWhsl_hifive_sim.gif",
   mujoco: "https://images.prismic.io/joey/ah548AeQX7-eWhsw_twin_blueball.jpg?auto=format,compress",
   mugunghwa: "https://images.prismic.io/joey/ah546geQX7-eWhsq_mugunghwa_real.gif",
-  mugunghwaUi: "https://images.prismic.io/joey/ah548weQX7-eWhs0_web_eduping_ui.jpg?auto=format,compress",
+  mugunghwaUi:
+    "https://images.prismic.io/joey/ah548weQX7-eWhs0_web_eduping_ui.jpg?auto=format,compress",
   reportUi: "https://images.prismic.io/joey/ah547AeQX7-eWhss_report_ui.jpg?auto=format,compress",
-  reportTimeline: "https://images.prismic.io/joey/ah546weQX7-eWhsr_report_ui2.jpg?auto=format,compress",
-  oxBoard: "https://images.prismic.io/block/ah6SSgeQX7-eWh5Y_ox-vision-board.png?auto=format,compress",
-  oxLock: "https://images.prismic.io/block/ah6STAeQX7-eWh5b_ox-vision-lockin.png?auto=format,compress",
+  reportTimeline:
+    "https://images.prismic.io/joey/ah546weQX7-eWhsr_report_ui2.jpg?auto=format,compress",
+  oxBoard:
+    "https://images.prismic.io/block/ah6SSgeQX7-eWh5Y_ox-vision-board.png?auto=format,compress",
+  oxLock:
+    "https://images.prismic.io/block/ah6STAeQX7-eWh5b_ox-vision-lockin.png?auto=format,compress",
   /** GogoPing (pingdergarten · proj 04) — teacher follow; not ShopPinkki mart cart */
-  gogopingFollow: "https://minsung.cdn.prismic.io/minsung/aiDnLAeQX7-eWtio_%EC%B6%94%EC%A2%85_%EC%B5%9C%EC%A2%85.mp4",
-  gogopingHideseek: "https://minsung.cdn.prismic.io/minsung/aiDiLgeQX7-eWtWx_%EC%88%A8%EB%B0%94%EA%BC%AD%EC%A7%88-%EC%B5%9C%EC%A2%85.mp4",
+  gogopingFollow:
+    "https://minsung.cdn.prismic.io/minsung/aiDnLAeQX7-eWtio_%EC%B6%94%EC%A2%85_%EC%B5%9C%EC%A2%85.mp4",
+  gogopingHideseek:
+    "https://minsung.cdn.prismic.io/minsung/aiDiLgeQX7-eWtWx_%EC%88%A8%EB%B0%94%EA%BC%AD%EC%A7%88-%EC%B5%9C%EC%A2%85.mp4",
   trackingReid: "https://woolimi.cdn.prismic.io/woolimi/ad_Me51ZCF7ETObD_yolo_reid_bytetracker.mp4",
   trackingLive: "https://woolimi.cdn.prismic.io/woolimi/ad-Dd51ZCF7ETNkJ_tracking_muted.mp4",
-  trackingStart: "https://images.prismic.io/woolimi/ad-Bwp1ZCF7ETNiP_start-tracking.gif?auto=format,compress",
-  shopRegister: "https://images.prismic.io/woolimi/ad9i4J1ZCF7ETNOV_register.gif?auto=format,compress",
+  trackingStart:
+    "https://images.prismic.io/woolimi/ad-Bwp1ZCF7ETNiP_start-tracking.gif?auto=format,compress",
+  shopRegister:
+    "https://images.prismic.io/woolimi/ad9i4J1ZCF7ETNOV_register.gif?auto=format,compress",
   /** ShopPinkki — woolimi Prismic (minsungchoi.com/projects/schools/shoppinkki) */
   finalDemo: "https://woolimi.cdn.prismic.io/woolimi/aee1FsBOoF08xL-c_final-demo.mp4",
   shopShoppingList: "https://woolimi.cdn.prismic.io/woolimi/aeB4WJ1ZCF7ETPD6_shopping-list.mp4",
@@ -33,26 +67,28 @@ export const PRISMIC = {
   shopReturn: "https://woolimi.cdn.prismic.io/woolimi/aeeisMBOoF08xL04_return-demo.mp4",
   shopGuideDemo: "https://woolimi.cdn.prismic.io/woolimi/aeezmMBOoF08xL92_guide-demo.mp4",
   guidingDemo: "https://woolimi.cdn.prismic.io/woolimi/aeE4C51ZCF7ETQ5Z_guiding-18-demo.mp4",
-  hifiveVideo: "https://minsung.cdn.prismic.io/minsung/aiDiPgeQX7-eWtW4_%ED%95%98%EC%9D%B4%ED%8C%8C%EC%9D%B4%EB%B8%8C-%EC%B5%9C%EC%A2%85-.mp4",
-  danceVideo: "https://minsung.cdn.prismic.io/minsung/aiDhDgeQX7-eWtV8_%EC%9C%A8%EB%8F%99-%EC%B5%9C%EC%A2%85-.mp4",
+  hifiveVideo:
+    "https://minsung.cdn.prismic.io/minsung/aiDiPgeQX7-eWtW4_%ED%95%98%EC%9D%B4%ED%8C%8C%EC%9D%B4%EB%B8%8C-%EC%B5%9C%EC%A2%85-.mp4",
+  danceVideo:
+    "https://minsung.cdn.prismic.io/minsung/aiDhDgeQX7-eWtV8_%EC%9C%A8%EB%8F%99-%EC%B5%9C%EC%A2%85-.mp4",
   map: "https://images.prismic.io/woolimi/ad5Y051ZCF7ETL0w_shop-map2.png?auto=format,compress",
 };
 
 export const STRINGS = {
   en: {
-    meta: { title: "Joey Lee — Physical AI Portfolio" },
+    meta: { titleSuffix: "Physical AI Portfolio" },
     nav: {
-      hint: "WASD move · Shift sprint · E at gates & exit · 1–4 open a project · Esc back",
+      hint: "WASD move · Shift sprint · E at gates & exit · 1–{projectLast} open a project · Esc back",
       hudLabel: "LAB",
-      questIdle: "Follow the lit corridor — stations 01→04 in order",
+      questIdle: "Follow the lit corridor — stations {stationFirst}→{stationLast} in order",
       questNext: "Head to Station {order}: {title}",
       questNextShort: "Station {order} · {title}",
       questNear: "Press E — Station {order}: {title}",
       questExit: "All clear · E — about me",
       questLocked: "Complete station {order} first ({title})",
-      questExitLocked: "Visit all 4 stations before the exit",
-      questProgress: "Stations cleared {n}/4",
-      questProgressShort: "{n}/4",
+      questExitLocked: "Visit all {projectCount} stations before the exit",
+      questProgress: "Stations cleared {n}/{projectCount}",
+      questProgressShort: "{n}/{projectCount}",
       lang: "한국어",
       back: "Back to lab",
       visualCaption: "3D · drag to orbit · W/S scroll the panel",
@@ -70,18 +106,17 @@ export const STRINGS = {
     },
     intro: {
       eyebrow: "SOFTWARE DEVELOPER PORTFOLIO",
-      title: "Joey Lee",
-      nameKo: "이정우",
       role: "Physical AI · robotics · vision-UI",
-      lead: "Walk the **3D lab** and open stations **01→04**. I only put in what I actually built — four team projects, my parts.",
-      touchNote: "Mobile: **joystick** · hold **sprint** · **E** to open · **menu (≡)** for status & projects",
+      lead: "Walk the **3D lab** and open stations **{stationFirst}→{stationLast}**. I only put in what I actually built — team projects, my parts.",
+      touchNote:
+        "Mobile: **joystick** · hold **sprint** · **E** to open · **menu (≡)** for status & projects",
       edu: "B.S. Game Design, University of Utah — 2024",
       controlsTitle: "How to explore",
       controls: [
         { keys: "W A S D", label: "Move through the lab" },
         { keys: "Shift", label: "Sprint" },
         { keys: "E", label: "Open a station or the exit arch" },
-        { keys: "1 – 4", label: "Jump to a project (after unlocked)" },
+        { keys: "1 – {projectLast}", label: "Jump to a project (after unlocked)" },
         { keys: "Esc", label: "Close panels and return to the maze" },
       ],
       cta: "Enter lab",
@@ -90,9 +125,7 @@ export const STRINGS = {
     },
     about: {
       profileImage: "assets/about/profile.jpg",
-      profileAlt: "Joey Lee · 이정우",
       eyebrow: "EXIT · ABOUT ME",
-      title: "Joey Lee · 이정우",
       role: "Physical AI · robotics · vision-UI",
       bio: "Game school at **Utah (2024)**. These days it's **Physical AI** — robots, vision, UI. I hook cameras into **PyQt** or a browser, run **sim** first when I can, then move to hardware. **3D** spatial sense still shows up in **teleop** layout.",
       strengths: [
@@ -103,25 +136,38 @@ export const STRINGS = {
       galleryTitle: "Clips",
       artLinkIntro: "Older **game/3D** art — separate page, link below.",
       media: [
-        { type: "video", src: "assets/about/hifive-demo.mp4", caption: "EduPing — real high-five on OpenArm" },
-        { type: "video", src: "assets/about/hri-lab.webm", caption: "HiFive robot — interaction test in the lab" },
-        { type: "video", src: "assets/about/hifive-sim.webm", caption: "Browser IK sim — blue/red target balls" },
+        {
+          type: "video",
+          src: "assets/about/hifive-demo.mp4",
+          caption: "EduPing — real high-five on OpenArm",
+        },
+        {
+          type: "video",
+          src: "assets/about/hri-lab.webm",
+          caption: "HiFive robot — interaction test in the lab",
+        },
+        {
+          type: "video",
+          src: "assets/about/hifive-sim.webm",
+          caption: "Browser IK sim — blue/red target balls",
+        },
         { type: "gif", src: "PRISMIC_HIFIVE", caption: "High-five demo (depth + arm)" },
         { type: "gif", src: "PRISMIC_SIM", caption: "IK tuning loop in the browser" },
-        { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "Gesto — gesture game / presenter mode" },
+        {
+          type: "gif",
+          src: "PRISMIC_GESTO_WORKING",
+          caption: "Gesto — gesture game / presenter mode",
+        },
       ],
-      contact: "+82-10-9989-8403",
       artLinkLabel: "3D art portfolio (game school work)",
-      artLinkUrl: "https://joeyjeongwooleeportfolio.netlify.app/",
       close: "Back to lab",
       finish: "Thanks for walking through",
     },
     hero: {
-      eyebrow: "PORTFOLIO · 04 PROJECTS",
-      name: "Joey Lee",
-      nameKo: "이정우",
+      eyebrow: "PORTFOLIO · {projectCount} PROJECTS",
       role: "Physical AI · robotics · vision-UI",
-      tagline: "**4** projects · **01→04** in order · exit for about me",
+      tagline:
+        "**{projectCount}** projects · **{stationFirst}→{stationLast}** in order · exit for about me",
     },
     panel: {
       role: "My role",
@@ -136,15 +182,13 @@ export const STRINGS = {
       gallery: "Gallery & demos",
       close: "Close",
     },
-    footer: { github: "joey114132" },
     projects: {
       dl: {
         phase: "01 · Deep Learning",
         title: "Gesto",
         subtitle: "MediaPipe + LSTM Hand Gesture PC Control",
-        team: "DL Team 4 · deeplearning-repo-4",
-        metaLine:
-          "29 Jan – 6 Feb 2026 · LLM robot interaction · team of 6 · GitHub: joey114132",
+        team: "DL Team 4 · {repo}",
+        metaLine: "29 Jan – 6 Feb 2026 · LLM robot interaction · team of 6 · GitHub: {github}",
         highlights: [
           "Webcam gestures → **PPT / YouTube** without keyboard or mouse",
           "**PyQt6** UI ~1,600+ lines — live feed, modes, gauge, **worker threads**",
@@ -168,9 +212,28 @@ export const STRINGS = {
           "QA on **trigger**, **PPT**, and **YouTube** before the final.",
         ],
         skills: [
-          { category: "Languages & frameworks", items: ["Python 3.10", "PyQt6", "OpenCV", "pynput"] },
-          { category: "ML / vision", items: ["MediaPipe Hands", "LSTM sequence classifier", "11-dim landmark features", "Dataset collection & labeling", "Partial LSTM training"] },
-          { category: "Software design", items: ["Gesture registry + action mapper", "Mode state machine", "Thread-safe UI updates"] },
+          {
+            category: "Languages & frameworks",
+            items: ["Python 3.10", "PyQt6", "OpenCV", "pynput"],
+          },
+          {
+            category: "ML / vision",
+            items: [
+              "MediaPipe Hands",
+              "LSTM sequence classifier",
+              "11-dim landmark features",
+              "Dataset collection & labeling",
+              "Partial LSTM training",
+            ],
+          },
+          {
+            category: "Software design",
+            items: [
+              "Gesture registry + action mapper",
+              "Mode state machine",
+              "Thread-safe UI updates",
+            ],
+          },
         ],
         techniques: [
           "**21 landmarks** → **30-frame** window → **LSTM**; optional **11-D features**.",
@@ -218,21 +281,69 @@ export const STRINGS = {
         ],
         stack: ["Python", "PyQt6", "MediaPipe", "LSTM", "OpenCV", "pynput", "Threading"],
         media: [
-          { type: "gif", src: "PRISMIC_GESTO_PPT", caption: "PPT mode — next/prev slide & fullscreen gestures" },
-          { type: "gif", src: "PRISMIC_GESTO_YOUTUBE", caption: "YouTube mode — transport, volume, fullscreen" },
+          {
+            type: "gif",
+            src: "PRISMIC_GESTO_PPT",
+            caption: "PPT mode — next/prev slide & fullscreen gestures",
+          },
+          {
+            type: "gif",
+            src: "PRISMIC_GESTO_YOUTUBE",
+            caption: "YouTube mode — transport, volume, fullscreen",
+          },
           { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "Detection armed — LSTM → pynput" },
-          { type: "gif", src: "PRISMIC_GESTO_TRIGGER", caption: "Trigger gesture — start/stop motion recognition" },
-          { type: "gif", src: "PRISMIC_GESTO_NOT_WORKING", caption: "Idle until trigger — prevents false fires" },
-          { type: "image", src: "assets/gesto/deck-demo-ui.png", caption: "Team deck — game / YouTube PyQt shell" },
-          { type: "image", src: "assets/gesto/deck-pipeline.png", caption: "Team deck — landmarks → 30-frame LSTM" },
-          { type: "image", src: "assets/gesto/deck-features-11d.png", caption: "Team deck — 11-D feature expansion" },
-          { type: "image", src: "assets/gesto/deck-results.png", caption: "Team deck — LSTM F1 (~74% avg)" },
-          { type: "image", src: "assets/gesto/deck-sequence.png", caption: "Team deck — camera / trigger / detection threads" },
+          {
+            type: "gif",
+            src: "PRISMIC_GESTO_TRIGGER",
+            caption: "Trigger gesture — start/stop motion recognition",
+          },
+          {
+            type: "gif",
+            src: "PRISMIC_GESTO_NOT_WORKING",
+            caption: "Idle until trigger — prevents false fires",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/deck-demo-ui.png",
+            caption: "Team deck — game / YouTube PyQt shell",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/deck-pipeline.png",
+            caption: "Team deck — landmarks → 30-frame LSTM",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/deck-features-11d.png",
+            caption: "Team deck — 11-D feature expansion",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/deck-results.png",
+            caption: "Team deck — LSTM F1 (~74% avg)",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/deck-sequence.png",
+            caption: "Team deck — camera / trigger / detection threads",
+          },
           { type: "image", src: "assets/gesto/deck-arch.png", caption: "Team deck — architecture" },
           { type: "image", src: "assets/gesto/deck-team.png", caption: "Team deck — who did what" },
-          { type: "image", src: "PRISMIC_GESTO_MEDIAPIPE", caption: "MediaPipe overlay in the operator UI" },
-          { type: "image", src: "assets/gesto/ui.jpg", caption: "Gesto control shell — modes, sensitivity, gesture status" },
-          { type: "image", src: "assets/gesto/page-115.png", caption: "Swipe-right trajectory overlays (collection QA)" },
+          {
+            type: "image",
+            src: "PRISMIC_GESTO_MEDIAPIPE",
+            caption: "MediaPipe overlay in the operator UI",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/ui.jpg",
+            caption: "Gesto control shell — modes, sensitivity, gesture status",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/page-115.png",
+            caption: "Swipe-right trajectory overlays (collection QA)",
+          },
           { type: "image", src: "assets/gesto/landmarks.png", caption: "21-landmark vocabulary" },
         ],
       },
@@ -240,9 +351,8 @@ export const STRINGS = {
         phase: "02 · IoT",
         title: "Wizard of Parking",
         subtitle: "오주의 마법사 — Smart tower parking (APS)",
-        team: "IoT Team 2 · iot-repo-2",
-        metaLine:
-          "23 Feb – 4 Mar 2026 · IoT robotics integration · team of 6 · ESP32-CAM + PyQt6",
+        team: "IoT Team 2 · {repo}",
+        metaLine: "23 Feb – 4 Mar 2026 · IoT robotics integration · team of 6 · ESP32-CAM + PyQt6",
         highlights: [
           "Miniature **rotary parking tower** — **ESP32-CAM**, gates, tower lift",
           "Early **UDP/TCP comms**: multi-cam GUI, **33-byte packets**, parking-guide **firmware**",
@@ -264,9 +374,15 @@ export const STRINGS = {
           "Fixed **webcam drops** on demo laptops (USB re-enumeration, **OpenCV**, retry).",
         ],
         skills: [
-          { category: "Desktop / vision", items: ["PyQt6 layouts", "OpenCV VideoCapture", "PaddleOCR LPR", "LPR validation UI"] },
+          {
+            category: "Desktop / vision",
+            items: ["PyQt6 layouts", "OpenCV VideoCapture", "PaddleOCR LPR", "LPR validation UI"],
+          },
           { category: "Backend (team)", items: ["FastAPI REST", "MySQL / SQLAlchemy (14 tables)"] },
-          { category: "Embedded interface", items: ["ESP32-CAM UDP", "Arduino gates & stepper tower", "Device-client protocols"] },
+          {
+            category: "Embedded interface",
+            items: ["ESP32-CAM UDP", "Arduino gates & stepper tower", "Device-client protocols"],
+          },
         ],
         techniques: [
           "**PyQt** ↔ team **FastAPI**; cameras on **UDP**; devices on **33-byte TCP**.",
@@ -312,36 +428,108 @@ export const STRINGS = {
             caption: "ESP32-CAM · FastAPI · PyQt6 · MySQL stack.",
           },
         ],
-        stack: ["ESP32-CAM", "Arduino", "FastAPI", "PyQt6", "OpenCV", "PaddleOCR", "MySQL", "UDP/TCP"],
+        stack: [
+          "ESP32-CAM",
+          "Arduino",
+          "FastAPI",
+          "PyQt6",
+          "OpenCV",
+          "PaddleOCR",
+          "MySQL",
+          "UDP/TCP",
+        ],
         media: [
-          { type: "video", src: "assets/iot/image69.webm", caption: "Tower control UI — plate assign, lift log (team deck)" },
-          { type: "video", src: "assets/iot/image70.webm", caption: "Gate + tower coordination — end-to-end rehearsal" },
-          { type: "gif", src: "assets/iot/image57.gif", caption: "PyQt6 SMART PARKING admin dashboard (team deck)" },
-          { type: "gif", src: "assets/iot/image66.gif", caption: "Rotary tower lift — mechanical simulation" },
+          {
+            type: "video",
+            src: "assets/iot/image69.webm",
+            caption: "Tower control UI — plate assign, lift log (team deck)",
+          },
+          {
+            type: "video",
+            src: "assets/iot/image70.webm",
+            caption: "Gate + tower coordination — end-to-end rehearsal",
+          },
+          {
+            type: "gif",
+            src: "assets/iot/image57.gif",
+            caption: "PyQt6 SMART PARKING admin dashboard (team deck)",
+          },
+          {
+            type: "gif",
+            src: "assets/iot/image66.gif",
+            caption: "Rotary tower lift — mechanical simulation",
+          },
           { type: "gif", src: "assets/iot/image50.gif", caption: "Tower lift sequence" },
           { type: "gif", src: "assets/iot/image40.gif", caption: "LPR enter / exit validation UI" },
-          { type: "image", src: "assets/iot/pyqt-cam-capture.jpg", caption: "ESP32-CAM UDP preview in PyQt (Z20260302 repo capture)" },
-          { type: "image", src: "assets/iot/pyqt-admin-ui.png", caption: "Operator UI during integration demo week" },
-          { type: "image", src: "assets/iot/deck-overview.png", caption: "Team deck — system overview" },
-          { type: "image", src: "assets/iot/deck-architecture.png", caption: "Team deck — 3-tier stack" },
-          { type: "image", src: "assets/iot/deck-features.png", caption: "Team deck — feature list" },
-          { type: "image", src: "assets/iot/deck-testing.png", caption: "Team deck — TC tests (all pass)" },
-          { type: "image", src: "assets/iot/deck-metrics.png", caption: "Team deck — LPR %, lift error, DB" },
-          { type: "image", src: "assets/iot/deck-hardware.png", caption: "Team deck — hardware photo" },
+          {
+            type: "image",
+            src: "assets/iot/pyqt-cam-capture.jpg",
+            caption: "ESP32-CAM UDP preview in PyQt (Z20260302 repo capture)",
+          },
+          {
+            type: "image",
+            src: "assets/iot/pyqt-admin-ui.png",
+            caption: "Operator UI during integration demo week",
+          },
+          {
+            type: "image",
+            src: "assets/iot/deck-overview.png",
+            caption: "Team deck — system overview",
+          },
+          {
+            type: "image",
+            src: "assets/iot/deck-architecture.png",
+            caption: "Team deck — 3-tier stack",
+          },
+          {
+            type: "image",
+            src: "assets/iot/deck-features.png",
+            caption: "Team deck — feature list",
+          },
+          {
+            type: "image",
+            src: "assets/iot/deck-testing.png",
+            caption: "Team deck — TC tests (all pass)",
+          },
+          {
+            type: "image",
+            src: "assets/iot/deck-metrics.png",
+            caption: "Team deck — LPR %, lift error, DB",
+          },
+          {
+            type: "image",
+            src: "assets/iot/deck-hardware.png",
+            caption: "Team deck — hardware photo",
+          },
           { type: "image", src: "assets/iot/deck-erd.png", caption: "Team deck — MySQL ERD" },
-          { type: "image", src: "assets/iot/hero.jpg", caption: "Wizard of Parking — physical demo layout" },
-          { type: "image", src: "assets/iot/system.jpg", caption: "Architecture & data flow (team diagram)" },
-          { type: "image", src: "assets/iot/image18.jpg", caption: "Miniature lot — gates and operator screens" },
-          { type: "image", src: "assets/iot/image34.png", caption: "ESP32 gate wiring & bench test" },
+          {
+            type: "image",
+            src: "assets/iot/hero.jpg",
+            caption: "Wizard of Parking — physical demo layout",
+          },
+          {
+            type: "image",
+            src: "assets/iot/system.jpg",
+            caption: "Architecture & data flow (team diagram)",
+          },
+          {
+            type: "image",
+            src: "assets/iot/image18.jpg",
+            caption: "Miniature lot — gates and operator screens",
+          },
+          {
+            type: "image",
+            src: "assets/iot/image34.png",
+            caption: "ESP32 gate wiring & bench test",
+          },
         ],
       },
       ros: {
         phase: "03 · ROS",
         title: "ShopPinkki",
         subtitle: "Autonomous Mart Cart (쑈삥끼)",
-        team: "ROS Team 2 · ros-repo-2",
-        metaLine:
-          "3 Apr – 14 Apr 2026 · AI autonomous driving · Pinky Pro differential drive",
+        team: "ROS Team 2 · {repo}",
+        metaLine: "3 Apr – 14 Apr 2026 · AI autonomous driving · Pinky Pro differential drive",
         highlights: [
           "**Owner tracking** on **Pinky Pro** for the mini-mart follow demo",
           "**YOLOv8 + ByteTrack + ReID** with **5-frame Safe-ID** lock",
@@ -364,8 +552,14 @@ export const STRINGS = {
         ],
         skills: [
           { category: "ROS 2", items: ["Jazzy", "Perception nodes", "Topic timing analysis"] },
-          { category: "Vision / ML", items: ["YOLOv8", "ByteTrack", "torchreid OSNet", "NCNN export"] },
-          { category: "Systems", items: ["Latency profiling", "Multi-camera sync", "On-robot UI layout"] },
+          {
+            category: "Vision / ML",
+            items: ["YOLOv8", "ByteTrack", "torchreid OSNet", "NCNN export"],
+          },
+          {
+            category: "Systems",
+            items: ["Latency profiling", "Multi-camera sync", "On-robot UI layout"],
+          },
         ],
         techniques: [
           "**Detect → track → ReID**; thresholds tuned on mart footage.",
@@ -413,35 +607,90 @@ export const STRINGS = {
         ],
         stack: ["ROS 2 Jazzy", "YOLOv8", "ByteTrack", "torchreid", "MobileNetV3", "NCNN", "OpenCV"],
         media: [
-          { type: "video", src: "PRISMIC_FINAL_DEMO", caption: "Integrated mart run — Pinky Pro final demo" },
-          { type: "video", src: "PRISMIC_SHOP_GUIDE", caption: "In-store guiding — follow shopper to aisle" },
-          { type: "video", src: "PRISMIC_SHOP_LLM_GUIDE", caption: "LLM-assisted product guide on mart map" },
-          { type: "video", src: "PRISMIC_SHOP_RETURN", caption: "Return-to-base after checkout flow" },
-          { type: "video", src: "PRISMIC_SHOP_PAYMENT", caption: "Payment / checkout station demo" },
-          { type: "video", src: "PRISMIC_SHOP_WAITING", caption: "Waiting zone — customer hand-off" },
-          { type: "video", src: "PRISMIC_SHOP_SHOPPING_LIST", caption: "Shopping-list driven pick route" },
-          { type: "video", src: "PRISMIC_TRACKING_REID", caption: "YOLO + ByteTrack + ReID on mart footage" },
+          {
+            type: "video",
+            src: "PRISMIC_FINAL_DEMO",
+            caption: "Integrated mart run — Pinky Pro final demo",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_SHOP_GUIDE",
+            caption: "In-store guiding — follow shopper to aisle",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_SHOP_LLM_GUIDE",
+            caption: "LLM-assisted product guide on mart map",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_SHOP_RETURN",
+            caption: "Return-to-base after checkout flow",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_SHOP_PAYMENT",
+            caption: "Payment / checkout station demo",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_SHOP_WAITING",
+            caption: "Waiting zone — customer hand-off",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_SHOP_SHOPPING_LIST",
+            caption: "Shopping-list driven pick route",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_TRACKING_REID",
+            caption: "YOLO + ByteTrack + ReID on mart footage",
+          },
           { type: "video", src: "PRISMIC_TRACKING", caption: "Tracking pipeline — live rehearsal" },
-          { type: "video", src: "PRISMIC_GUIDING", caption: "Guiding mode — alternate rehearsal capture" },
-          { type: "video", src: "PRISMIC_SHOP_GUIDE_ADMIN", caption: "Guide admin / map configuration UI" },
+          {
+            type: "video",
+            src: "PRISMIC_GUIDING",
+            caption: "Guiding mode — alternate rehearsal capture",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_SHOP_GUIDE_ADMIN",
+            caption: "Guide admin / map configuration UI",
+          },
           { type: "gif", src: "PRISMIC_TRACKING_START", caption: "Tracking session start" },
           { type: "gif", src: "PRISMIC_SHOP_REGISTER", caption: "Customer register / QR pairing" },
           { type: "image", src: "assets/shop/demo.jpg", caption: "Miniature mart floor setup" },
-          { type: "image", src: "assets/shop/page-014.png", caption: "ByteTrack + ReID pipeline slides" },
-          { type: "image", src: "assets/shop/page-027.png", caption: "YOLO / tracking tuning notes" },
+          {
+            type: "image",
+            src: "assets/shop/page-014.png",
+            caption: "ByteTrack + ReID pipeline slides",
+          },
+          {
+            type: "image",
+            src: "assets/shop/page-027.png",
+            caption: "YOLO / tracking tuning notes",
+          },
           { type: "image", src: "assets/shop/page-048.png", caption: "On-robot LCD & QR layout" },
           { type: "image", src: "PRISMIC_MAP", caption: "Mart zone map" },
-          { type: "image", src: "assets/shop/arch.png", caption: "ROS perception & navigation architecture" },
-          { type: "image", src: "assets/shop/hero.jpg", caption: "ShopPinkki overview (shoppinkki.pdf)" },
+          {
+            type: "image",
+            src: "assets/shop/arch.png",
+            caption: "ROS perception & navigation architecture",
+          },
+          {
+            type: "image",
+            src: "assets/shop/hero.jpg",
+            caption: "ShopPinkki overview (shoppinkki.pdf)",
+          },
         ],
       },
       pai: {
         phase: "04 · Physical AI",
         title: "pingdergarten",
         subtitle: "EduPing — Kindergarten Assistant Robot",
-        team: "Team EduPing · physical-ai-repo-2",
-        metaLine:
-          "23 Apr – 4 Jun 2026 · Physical AI robotics · ~68 commits (joey114132)",
+        team: "Team EduPing · {repo}",
+        metaLine: "23 Apr – 4 Jun 2026 · Physical AI robotics · ~68 commits ({github})",
         highlights: [
           "**Depth high-five**: browser hand → **TRAC-IK** loop; miss **~20–28 cm → ~2 cm**",
           "**MuJoCo twin** before real **OpenArm** demo",
@@ -465,10 +714,22 @@ export const STRINGS = {
           "Korean **Q&A** slides for final presentation.",
         ],
         skills: [
-          { category: "Frontend", items: ["Vue 3", "Three.js", "Web Workers", "WebRTC datachannel", "TypeScript"] },
-          { category: "Vision", items: ["MediaPipe Hands", "Depth deprojection", "Face detection", "GLSL point clouds"] },
-          { category: "Robotics", items: ["ROS 2 Jazzy", "TRAC-IK", "MuJoCo twin", "Joint-limit tuning"] },
-          { category: "Delivery", items: ["DAE→GLB mesh pipeline", "Prismic asset pipeline", "Presentation report pages"] },
+          {
+            category: "Frontend",
+            items: ["Vue 3", "Three.js", "Web Workers", "WebRTC datachannel", "TypeScript"],
+          },
+          {
+            category: "Vision",
+            items: ["MediaPipe Hands", "Depth deprojection", "Face detection", "GLSL point clouds"],
+          },
+          {
+            category: "Robotics",
+            items: ["ROS 2 Jazzy", "TRAC-IK", "MuJoCo twin", "Joint-limit tuning"],
+          },
+          {
+            category: "Delivery",
+            items: ["DAE→GLB mesh pipeline", "Prismic asset pipeline", "Presentation report pages"],
+          },
         ],
         techniques: [
           "**Depth + MediaPipe** → **TRAC-IK** → **FK residual** → joint cmd (closed loop).",
@@ -503,7 +764,14 @@ export const STRINGS = {
           {
             type: "flow",
             title: "High-five closed loop",
-            steps: ["D435 depth", "Hand landmark", "IK target", "TRAC-IK", "FK residual", "Joint command"],
+            steps: [
+              "D435 depth",
+              "Hand landmark",
+              "IK target",
+              "TRAC-IK",
+              "FK residual",
+              "Joint command",
+            ],
             caption: "The browser depth view is the calibration source of truth.",
           },
           {
@@ -521,36 +789,64 @@ export const STRINGS = {
         ],
         stack: ["Vue 3", "Three.js", "MediaPipe", "ROS 2", "MuJoCo", "WebRTC", "TRAC-IK", "Python"],
         media: [
-          { type: "video", src: "PRISMIC_HIFIVE_VIDEO", caption: "EduPing — real high-five demo (full capture)" },
-          { type: "video", src: "PRISMIC_DANCE_VIDEO", caption: "EduPing — Mugunghwa rhythm routine playback" },
-          { type: "video", src: "PRISMIC_GOGOPING_FOLLOW", caption: "GogoPing — teacher follow mode (mobile base)" },
-          { type: "video", src: "PRISMIC_GOGOPING_HIDESEEK", caption: "GogoPing — hide-and-seek navigation game" },
+          {
+            type: "video",
+            src: "PRISMIC_HIFIVE_VIDEO",
+            caption: "EduPing — real high-five demo (full capture)",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_DANCE_VIDEO",
+            caption: "EduPing — Mugunghwa rhythm routine playback",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_GOGOPING_FOLLOW",
+            caption: "GogoPing — teacher follow mode (mobile base)",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_GOGOPING_HIDESEEK",
+            caption: "GogoPing — hide-and-seek navigation game",
+          },
           { type: "gif", src: "PRISMIC_HIFIVE", caption: "EduPing high-five demo (GIF)" },
-          { type: "gif", src: "PRISMIC_SIM", caption: "IK residual loop — blue/red target balls (GIF)" },
-          { type: "gif", src: "PRISMIC_MUGUNGHWA", caption: "Mugunghwa rhythm routine — dance recording UI (GIF)" },
+          {
+            type: "gif",
+            src: "PRISMIC_SIM",
+            caption: "IK residual loop — blue/red target balls (GIF)",
+          },
+          {
+            type: "gif",
+            src: "PRISMIC_MUGUNGHWA",
+            caption: "Mugunghwa rhythm routine — dance recording UI (GIF)",
+          },
           { type: "image", src: "PRISMIC_CLOUD", caption: "Browser D435 point cloud viewer" },
           { type: "image", src: "PRISMIC_MUJOCO", caption: "MuJoCo digital twin" },
           { type: "image", src: "PRISMIC_UI", caption: "EduPing web robot console" },
-          { type: "image", src: "PRISMIC_REPORT", caption: "Daily report page (final presentation)" },
+          {
+            type: "image",
+            src: "PRISMIC_REPORT",
+            caption: "Daily report page (final presentation)",
+          },
           { type: "image", src: "PRISMIC_REPORT2", caption: "Timeline & schedule report page" },
         ],
       },
     },
   },
   ko: {
-    meta: { title: "이정우 — Physical AI 포트폴리오" },
+    meta: { titleSuffix: "Physical AI 포트폴리오" },
     nav: {
-      hint: "WASD 이동 · Shift 달리기 · E로 게이트·출구 · 1–4 프로젝트 · Esc 뒤로",
+      hint: "WASD 이동 · Shift 달리기 · E로 게이트·출구 · 1–{projectLast} 프로젝트 · Esc 뒤로",
       hudLabel: "랩",
-      questIdle: "스테이션 **01→04**를 순서대로 방문해 주세요",
+      questIdle: "스테이션 **{stationFirst}→{stationLast}**를 순서대로 방문해 주세요",
       questNext: "다음 — 스테이션 {order} · {title}",
       questNextShort: "스테이션 {order} · {title}",
       questNear: "E — 스테이션 {order} · {title}",
       questExit: "네 스테이션을 다 보셨다면 E — 소개",
       questLocked: "먼저 스테이션 {order} · {title}을(를) 완료해 주세요",
       questExitLocked: "네 스테이션을 모두 방문하신 뒤 출구로 가 주세요",
-      questProgress: "스테이션 {n}/4 완료",
-      questProgressShort: "{n}/4",
+      questProgress: "스테이션 {n}/{projectCount} 완료",
+      questProgressShort: "{n}/{projectCount}",
       lang: "English",
       back: "랩으로 복귀",
       visualCaption: "3D · 드래그 회전 · W/S로 패널 스크롤",
@@ -567,19 +863,18 @@ export const STRINGS = {
       detail3dHide: "3D 숨기기",
     },
     intro: {
-      eyebrow: "이정우 · 포트폴리오",
-      title: "이정우",
-      nameKo: "Joey Lee",
+      eyebrow: "{nameKo} · 포트폴리오",
       role: "Physical AI · 로봇 · 비전-UI",
-      lead: "**3D 랩**을 돌아다니시며 스테이션 **01→04**를 열어보시면 됩니다. 팀 프로젝트 네 개 중 제가 손댄 부분만 골라 담았습니다.",
-      touchNote: "모바일: **조이스틱** · **달리기** 길게 누르기 · **E**로 열기 · **메뉴(≡)** 에서 상태·프로젝트",
+      lead: "**3D 랩**을 돌아다니시며 스테이션 **{stationFirst}→{stationLast}**를 열어보시면 됩니다. 팀 프로젝트 중 제가 손댄 부분만 골라 담았습니다.",
+      touchNote:
+        "모바일: **조이스틱** · **달리기** 길게 누르기 · **E**로 열기 · **메뉴(≡)** 에서 상태·프로젝트",
       edu: "유타대학교 게임학 학사 · 2024",
       controlsTitle: "조작 방법",
       controls: [
         { keys: "W A S D", label: "랩 안에서 이동" },
         { keys: "Shift", label: "달리기" },
         { keys: "E", label: "스테이션·출구 아치에서 열기" },
-        { keys: "1 – 4", label: "프로젝트로 바로 이동 (해금 후)" },
+        { keys: "1 – {projectLast}", label: "프로젝트로 바로 이동 (해금 후)" },
         { keys: "Esc", label: "패널 닫고 미로로 돌아가기" },
       ],
       cta: "랩 입장하기",
@@ -588,9 +883,7 @@ export const STRINGS = {
     },
     about: {
       profileImage: "assets/about/profile.jpg",
-      profileAlt: "이정우 · Joey Lee",
       eyebrow: "출구 · 소개",
-      title: "이정우 · Joey Lee",
       role: "Physical AI · 로봇 · 비전-UI",
       bio: "**유타대** 게임 전공(2024)입니다. 현재 **Physical AI** — **로봇·비전·UI** 관련 작업을 하고 있습니다. 카메라는 **PyQt**나 **브라우저 UI**에 연결하고, **시뮬**에서 먼저 확인할 수 있으면 그렇게 한 뒤 실물로 옮깁니다. **3D** 작업 때 익힌 공간 감각은 **teleop**과 UI 배치에 아직도 사용하고 있습니다.",
       strengths: [
@@ -600,26 +893,35 @@ export const STRINGS = {
       ],
       galleryTitle: "영상",
       media: [
-        { type: "video", src: "assets/about/hifive-demo.mp4", caption: "EduPing — OpenArm 실물 하이파이브" },
-        { type: "video", src: "assets/about/hri-lab.webm", caption: "HiFive 로봇 — 실험실 상호작용 테스트" },
-        { type: "video", src: "assets/about/hifive-sim.webm", caption: "브라우저 IK 시뮬 — 파란/빨간 볼" },
+        {
+          type: "video",
+          src: "assets/about/hifive-demo.mp4",
+          caption: "EduPing — OpenArm 실물 하이파이브",
+        },
+        {
+          type: "video",
+          src: "assets/about/hri-lab.webm",
+          caption: "HiFive 로봇 — 실험실 상호작용 테스트",
+        },
+        {
+          type: "video",
+          src: "assets/about/hifive-sim.webm",
+          caption: "브라우저 IK 시뮬 — 파란/빨간 볼",
+        },
         { type: "gif", src: "PRISMIC_HIFIVE", caption: "하이파이브 (뎁스 + 암)" },
         { type: "gif", src: "PRISMIC_SIM", caption: "브라우저 IK 튜닝 루프" },
         { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "Gesto — 제스처 게임/발표 모드" },
       ],
-      contact: "+82-10-9989-8403",
-      artLinkIntro: "예전 **게임·3D** 아트 작업은 따로 모아 두었습니다. 아래 링크에서 보실 수 있습니다.",
+      artLinkIntro:
+        "예전 **게임·3D** 아트 작업은 따로 모아 두었습니다. 아래 링크에서 보실 수 있습니다.",
       artLinkLabel: "3D 아트 포트폴리오",
-      artLinkUrl: "https://joeyjeongwooleeportfolio.netlify.app/",
       close: "랩으로 돌아가기",
       finish: "둘러봐 주셔서 감사합니다",
     },
     hero: {
-      eyebrow: "포트폴리오 · 4개",
-      name: "이정우",
-      nameKo: "Joey Lee",
+      eyebrow: "포트폴리오 · {projectCount}개",
       role: "Physical AI · 로봇 · 비전-UI",
-      tagline: "프로젝트 **4**개 · **01→04** · 출구에서 소개",
+      tagline: "프로젝트 **{projectCount}**개 · **{stationFirst}→{stationLast}** · 출구에서 소개",
     },
     panel: {
       role: "담당 역할",
@@ -634,15 +936,13 @@ export const STRINGS = {
       gallery: "갤러리 & 데모",
       close: "닫기",
     },
-    footer: { github: "joey114132" },
     projects: {
       dl: {
         phase: "01 · 딥러닝",
         title: "Gesto",
         subtitle: "MediaPipe + LSTM 손동작 PC 제어",
-        team: "DL 4조 · deeplearning-repo-4",
-        metaLine:
-          "2026.01.29 – 2026.02.06 · LLM 로봇 인터랙션 · 6인 팀 · GitHub joey114132",
+        team: "DL 4조 · {repo}",
+        metaLine: "2026.01.29 – 2026.02.06 · LLM 로봇 인터랙션 · 6인 팀 · GitHub {github}",
         highlights: [
           "웹캠 손동작 → **PPT·YouTube** 핸즈프리 제어",
           "**PyQt6** UI 약 1,600+ 라인 — 실시간 피드, 모드, **워커 스레드**",
@@ -667,8 +967,20 @@ export const STRINGS = {
         ],
         skills: [
           { category: "언어 & 프레임워크", items: ["Python 3.10", "PyQt6", "OpenCV", "pynput"] },
-          { category: "ML / 비전", items: ["MediaPipe Hands", "LSTM 시퀀스 분류", "11차원 랜드마크 피처", "데이터셋 수집·라벨링", "LSTM 일부 학습"] },
-          { category: "설계", items: ["제스처 레지스트리", "액션 매퍼", "모드 상태 머신", "스레드-세이프 UI"] },
+          {
+            category: "ML / 비전",
+            items: [
+              "MediaPipe Hands",
+              "LSTM 시퀀스 분류",
+              "11차원 랜드마크 피처",
+              "데이터셋 수집·라벨링",
+              "LSTM 일부 학습",
+            ],
+          },
+          {
+            category: "설계",
+            items: ["제스처 레지스트리", "액션 매퍼", "모드 상태 머신", "스레드-세이프 UI"],
+          },
         ],
         techniques: [
           "**21점** → **30프레임** → **LSTM**; **11차원 피처**.",
@@ -676,9 +988,15 @@ export const STRINGS = {
           "모드별 **pynput** 키 출력 **레지스트리**.",
         ],
         obstacles: [
-          { title: "처음엔 **학습 데이터** 들쭉날쭉", body: "수집 프레임워크·매뉴얼 후 **6,276 시퀀스** **30프레임** 보간 재수집." },
+          {
+            title: "처음엔 **학습 데이터** 들쭉날쭉",
+            body: "수집 프레임워크·매뉴얼 후 **6,276 시퀀스** **30프레임** 보간 재수집.",
+          },
           { title: "추론 시 **UI 멈춤**", body: "시퀀스 그림대로 **스레드** 분리." },
-          { title: "일부 제스처 늦게 잡힘", body: "데이터 추가 + **LSTM v1→v4**; **~74% F1**, **Swipe Left ~0.89**." },
+          {
+            title: "일부 제스처 늦게 잡힘",
+            body: "데이터 추가 + **LSTM v1→v4**; **~74% F1**, **Swipe Left ~0.89**.",
+          },
         ],
         outcomes: [
           "기말: **PPT + YouTube + Rat Labyrinth**, 웹캠만.",
@@ -686,22 +1004,65 @@ export const STRINGS = {
           "수업 후에도 쓰던 **PyQt + MediaPipe** 구조.",
         ],
         visualAids: [
-          { type: "flow", title: "인식 파이프라인", steps: ["웹캠", "MediaPipe 21점", "30프레임", "LSTM(11-D)", "pynput"], caption: "팀 최종 발표 — 공간 랜드마크 후 시계열 LSTM." },
-          { type: "diagram", src: "assets/gesto/deck-sequence.png", title: "런타임 시퀀스", caption: "양손 펼침 트리거 → 검출 ON → UI·액션." },
-          { type: "diagram", src: "assets/gesto/deck-arch.png", title: "시스템 아키텍처", caption: "사용자 PC — 카메라·메인 앱 (팀 발표)." },
+          {
+            type: "flow",
+            title: "인식 파이프라인",
+            steps: ["웹캠", "MediaPipe 21점", "30프레임", "LSTM(11-D)", "pynput"],
+            caption: "팀 최종 발표 — 공간 랜드마크 후 시계열 LSTM.",
+          },
+          {
+            type: "diagram",
+            src: "assets/gesto/deck-sequence.png",
+            title: "런타임 시퀀스",
+            caption: "양손 펼침 트리거 → 검출 ON → UI·액션.",
+          },
+          {
+            type: "diagram",
+            src: "assets/gesto/deck-arch.png",
+            title: "시스템 아키텍처",
+            caption: "사용자 PC — 카메라·메인 앱 (팀 발표).",
+          },
         ],
         stack: ["Python", "PyQt6", "MediaPipe", "LSTM", "OpenCV", "pynput"],
         media: [
           { type: "gif", src: "PRISMIC_GESTO_PPT", caption: "PPT 모드 — 슬라이드·전체화면 제스처" },
-          { type: "gif", src: "PRISMIC_GESTO_YOUTUBE", caption: "YouTube 모드 — 재생/볼륨/전체화면" },
+          {
+            type: "gif",
+            src: "PRISMIC_GESTO_YOUTUBE",
+            caption: "YouTube 모드 — 재생/볼륨/전체화면",
+          },
           { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "인식 활성 — LSTM → pynput" },
-          { type: "gif", src: "PRISMIC_GESTO_TRIGGER", caption: "트리거 제스처 — 동작 감지 시작/종료" },
+          {
+            type: "gif",
+            src: "PRISMIC_GESTO_TRIGGER",
+            caption: "트리거 제스처 — 동작 감지 시작/종료",
+          },
           { type: "gif", src: "PRISMIC_GESTO_NOT_WORKING", caption: "트리거 대기 — 오동작 방지" },
-          { type: "image", src: "assets/gesto/deck-demo-ui.png", caption: "팀 발표 — 게임/YouTube PyQt UI" },
-          { type: "image", src: "assets/gesto/deck-pipeline.png", caption: "팀 발표 — MediaPipe → LSTM" },
-          { type: "image", src: "assets/gesto/deck-features-11d.png", caption: "팀 발표 — 11차원 피처" },
-          { type: "image", src: "assets/gesto/deck-results.png", caption: "팀 발표 — LSTM F1 (~74%)" },
-          { type: "image", src: "assets/gesto/deck-sequence.png", caption: "팀 발표 — 스레드 시퀀스" },
+          {
+            type: "image",
+            src: "assets/gesto/deck-demo-ui.png",
+            caption: "팀 발표 — 게임/YouTube PyQt UI",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/deck-pipeline.png",
+            caption: "팀 발표 — MediaPipe → LSTM",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/deck-features-11d.png",
+            caption: "팀 발표 — 11차원 피처",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/deck-results.png",
+            caption: "팀 발표 — LSTM F1 (~74%)",
+          },
+          {
+            type: "image",
+            src: "assets/gesto/deck-sequence.png",
+            caption: "팀 발표 — 스레드 시퀀스",
+          },
           { type: "image", src: "assets/gesto/deck-arch.png", caption: "팀 발표 — 아키텍처" },
           { type: "image", src: "assets/gesto/deck-team.png", caption: "팀 발표 — 역할" },
           { type: "image", src: "PRISMIC_GESTO_MEDIAPIPE", caption: "운영 UI MediaPipe 오버레이" },
@@ -714,9 +1075,8 @@ export const STRINGS = {
         phase: "02 · IoT",
         title: "오주의 마법사",
         subtitle: "스마트 타워 주차 시스템 (APS)",
-        team: "IoT 2조 · iot-repo-2",
-        metaLine:
-          "2026.02.23 – 2026.03.04 · IoT 로봇 시스템 · 6인 팀 · ESP32-CAM + PyQt6",
+        team: "IoT 2조 · {repo}",
+        metaLine: "2026.02.23 – 2026.03.04 · IoT 로봇 시스템 · 6인 팀 · ESP32-CAM + PyQt6",
         highlights: [
           "실물 **로타리 주차 타워** — **ESP32-CAM**, 게이트, 리프트",
           "초반 **UDP/TCP**: 다중 CAM GUI, **33바이트 패킷**, 주차 안내 **펌웨어**",
@@ -738,9 +1098,15 @@ export const STRINGS = {
           "데모 노트북 **웹캠 끊김** 수정 (**OpenCV**, USB 재열거, 재시도).",
         ],
         skills: [
-          { category: "데스크톱·비전", items: ["PyQt6", "OpenCV VideoCapture", "PaddleOCR LPR", "LPR 검증 UI"] },
+          {
+            category: "데스크톱·비전",
+            items: ["PyQt6", "OpenCV VideoCapture", "PaddleOCR LPR", "LPR 검증 UI"],
+          },
           { category: "백엔드(팀)", items: ["FastAPI REST", "MySQL / SQLAlchemy (14테이블)"] },
-          { category: "임베디드 연동", items: ["ESP32-CAM UDP", "Arduino 게이트·스테퍼 타워", "디바이스 클라이언트"] },
+          {
+            category: "임베디드 연동",
+            items: ["ESP32-CAM UDP", "Arduino 게이트·스테퍼 타워", "디바이스 클라이언트"],
+          },
         ],
         techniques: [
           "**PyQt** ↔ 팀 **FastAPI**; 카메라 **UDP**; 장비 **33바이트 TCP**.",
@@ -758,40 +1124,115 @@ export const STRINGS = {
           "갤러리에 실물 프로토 + 팀 덱.",
         ],
         visualAids: [
-          { type: "flow", title: "주차 흐름", steps: ["입차 LPR", "자리 배정", "IR 안내", "타워 리프트", "요금", "출차"], caption: "미니 로트 — ESP32 + PyQt 관제." },
-          { type: "diagram", src: "assets/iot/deck-architecture.png", title: "3계층 구조", caption: "팀 발표 — PyQt / FastAPI / 하드웨어." },
-          { type: "diagram", src: "assets/iot/deck-overview.png", title: "시스템 개요", caption: "ESP32-CAM · FastAPI · PyQt6 · MySQL." },
+          {
+            type: "flow",
+            title: "주차 흐름",
+            steps: ["입차 LPR", "자리 배정", "IR 안내", "타워 리프트", "요금", "출차"],
+            caption: "미니 로트 — ESP32 + PyQt 관제.",
+          },
+          {
+            type: "diagram",
+            src: "assets/iot/deck-architecture.png",
+            title: "3계층 구조",
+            caption: "팀 발표 — PyQt / FastAPI / 하드웨어.",
+          },
+          {
+            type: "diagram",
+            src: "assets/iot/deck-overview.png",
+            title: "시스템 개요",
+            caption: "ESP32-CAM · FastAPI · PyQt6 · MySQL.",
+          },
         ],
-        stack: ["ESP32-CAM", "Arduino", "FastAPI", "PyQt6", "OpenCV", "PaddleOCR", "MySQL", "UDP/TCP"],
+        stack: [
+          "ESP32-CAM",
+          "Arduino",
+          "FastAPI",
+          "PyQt6",
+          "OpenCV",
+          "PaddleOCR",
+          "MySQL",
+          "UDP/TCP",
+        ],
         media: [
-          { type: "video", src: "assets/iot/image69.webm", caption: "타워 제어 UI — 차판 배정·리프트 로그 (팀 덱)" },
-          { type: "video", src: "assets/iot/image70.webm", caption: "게이트·타워 연동 — 입차→출차 리허설" },
-          { type: "gif", src: "assets/iot/image57.gif", caption: "PyQt6 SMART PARKING 관제 대시보드 (팀 덱)" },
-          { type: "gif", src: "assets/iot/image66.gif", caption: "회전식 타워 리프트 — 기구 시뮬레이션" },
+          {
+            type: "video",
+            src: "assets/iot/image69.webm",
+            caption: "타워 제어 UI — 차판 배정·리프트 로그 (팀 덱)",
+          },
+          {
+            type: "video",
+            src: "assets/iot/image70.webm",
+            caption: "게이트·타워 연동 — 입차→출차 리허설",
+          },
+          {
+            type: "gif",
+            src: "assets/iot/image57.gif",
+            caption: "PyQt6 SMART PARKING 관제 대시보드 (팀 덱)",
+          },
+          {
+            type: "gif",
+            src: "assets/iot/image66.gif",
+            caption: "회전식 타워 리프트 — 기구 시뮬레이션",
+          },
           { type: "gif", src: "assets/iot/image50.gif", caption: "타워 리프트 시퀀스" },
           { type: "gif", src: "assets/iot/image40.gif", caption: "LPR 입·출차 검증 UI" },
-          { type: "image", src: "assets/iot/pyqt-cam-capture.jpg", caption: "PyQt ESP32-CAM UDP 미리보기 (Z20260302 캡처)" },
-          { type: "image", src: "assets/iot/pyqt-admin-ui.png", caption: "통합 데모 주간 — 관제 UI" },
+          {
+            type: "image",
+            src: "assets/iot/pyqt-cam-capture.jpg",
+            caption: "PyQt ESP32-CAM UDP 미리보기 (Z20260302 캡처)",
+          },
+          {
+            type: "image",
+            src: "assets/iot/pyqt-admin-ui.png",
+            caption: "통합 데모 주간 — 관제 UI",
+          },
           { type: "image", src: "assets/iot/deck-overview.png", caption: "팀 발표 — 시스템 개요" },
-          { type: "image", src: "assets/iot/deck-architecture.png", caption: "팀 발표 — 3계층 구조" },
+          {
+            type: "image",
+            src: "assets/iot/deck-architecture.png",
+            caption: "팀 발표 — 3계층 구조",
+          },
           { type: "image", src: "assets/iot/deck-features.png", caption: "팀 발표 — 기능 목록" },
-          { type: "image", src: "assets/iot/deck-testing.png", caption: "팀 발표 — TC 테스트 (전항 PASS)" },
-          { type: "image", src: "assets/iot/deck-metrics.png", caption: "팀 발표 — LPR %, 리프트 오차, DB" },
-          { type: "image", src: "assets/iot/deck-hardware.png", caption: "팀 발표 — 하드웨어 사진" },
+          {
+            type: "image",
+            src: "assets/iot/deck-testing.png",
+            caption: "팀 발표 — TC 테스트 (전항 PASS)",
+          },
+          {
+            type: "image",
+            src: "assets/iot/deck-metrics.png",
+            caption: "팀 발표 — LPR %, 리프트 오차, DB",
+          },
+          {
+            type: "image",
+            src: "assets/iot/deck-hardware.png",
+            caption: "팀 발표 — 하드웨어 사진",
+          },
           { type: "image", src: "assets/iot/deck-erd.png", caption: "팀 발표 — MySQL ERD" },
           { type: "image", src: "assets/iot/hero.jpg", caption: "오주의 마법사 — 물리 데모 배치" },
-          { type: "image", src: "assets/iot/system.jpg", caption: "아키텍처 & 데이터 흐름 (팀 다이어그램)" },
-          { type: "image", src: "assets/iot/image18.jpg", caption: "미니어처 로트 — 게이트·운영 화면" },
-          { type: "image", src: "assets/iot/image34.png", caption: "ESP32 게이트 배선·벤치 테스트" },
+          {
+            type: "image",
+            src: "assets/iot/system.jpg",
+            caption: "아키텍처 & 데이터 흐름 (팀 다이어그램)",
+          },
+          {
+            type: "image",
+            src: "assets/iot/image18.jpg",
+            caption: "미니어처 로트 — 게이트·운영 화면",
+          },
+          {
+            type: "image",
+            src: "assets/iot/image34.png",
+            caption: "ESP32 게이트 배선·벤치 테스트",
+          },
         ],
       },
       ros: {
         phase: "03 · ROS",
         title: "쑈삥끼",
         subtitle: "자율주행 마트 카트 (ShopPinkki)",
-        team: "ROS 2조 · ros-repo-2",
-        metaLine:
-          "2026.04.03 – 2026.04.14 · AI 로봇 자율주행 · Pinky Pro",
+        team: "ROS 2조 · {repo}",
+        metaLine: "2026.04.03 – 2026.04.14 · AI 로봇 자율주행 · Pinky Pro",
         highlights: [
           "**Pinky Pro** 미니 마트 **Owner 추적** 데모",
           "**YOLOv8 + ByteTrack + ReID**, **5프레임 Safe-ID**",
@@ -824,7 +1265,10 @@ export const STRINGS = {
         ],
         obstacles: [
           { title: "사람 지나갈 때 **ID 스왑**", body: "**ReID** 키우고 트랙 생명주기 조정." },
-          { title: "**지연**으로 추적 늦음", body: "파이프라인 지연 재고, **Safe-ID**·임계값 보완." },
+          {
+            title: "**지연**으로 추적 늦음",
+            body: "파이프라인 지연 재고, **Safe-ID**·임계값 보완.",
+          },
           { title: "인형 데모 **오검출**", body: "**YOLO** 클래스·**ROI** 분리." },
         ],
         outcomes: [
@@ -833,41 +1277,75 @@ export const STRINGS = {
           "엣지용 **NCNN** 파일.",
         ],
         visualAids: [
-          { type: "flow", title: "인식 스택", steps: ["카메라", "YOLOv8", "ByteTrack", "ReID", "Safe-ID"], caption: "제가 만든 부분: 트래커 + ReID." },
-          { type: "diagram", src: "assets/shop/arch.png", title: "ShopPinkki 아키텍처", caption: "shoppinkki.pdf ROS 그래프." },
-          { type: "diagram", src: "assets/shop/demo.jpg", title: "마트 데모 환경", caption: "미니어처 매장의 Pinky Pro." },
+          {
+            type: "flow",
+            title: "인식 스택",
+            steps: ["카메라", "YOLOv8", "ByteTrack", "ReID", "Safe-ID"],
+            caption: "제가 만든 부분: 트래커 + ReID.",
+          },
+          {
+            type: "diagram",
+            src: "assets/shop/arch.png",
+            title: "ShopPinkki 아키텍처",
+            caption: "shoppinkki.pdf ROS 그래프.",
+          },
+          {
+            type: "diagram",
+            src: "assets/shop/demo.jpg",
+            title: "마트 데모 환경",
+            caption: "미니어처 매장의 Pinky Pro.",
+          },
         ],
         stack: ["ROS 2 Jazzy", "YOLOv8", "ByteTrack", "torchreid", "MobileNetV3", "NCNN"],
         media: [
-          { type: "video", src: "PRISMIC_FINAL_DEMO", caption: "통합 마트 주행 — Pinky Pro 최종 데모" },
+          {
+            type: "video",
+            src: "PRISMIC_FINAL_DEMO",
+            caption: "통합 마트 주행 — Pinky Pro 최종 데모",
+          },
           { type: "video", src: "PRISMIC_SHOP_GUIDE", caption: "매장 안내 — 고객 추종 주행" },
           { type: "video", src: "PRISMIC_SHOP_LLM_GUIDE", caption: "LLM 기반 상품 안내 · 맵 연동" },
           { type: "video", src: "PRISMIC_SHOP_RETURN", caption: "결제 후 복귀 주행" },
           { type: "video", src: "PRISMIC_SHOP_PAYMENT", caption: "결제·체크아웃 스테이션 데모" },
           { type: "video", src: "PRISMIC_SHOP_WAITING", caption: "대기 구역 — 고객 인계" },
-          { type: "video", src: "PRISMIC_SHOP_SHOPPING_LIST", caption: "쇼핑 리스트 기반 픽업 경로" },
-          { type: "video", src: "PRISMIC_TRACKING_REID", caption: "YOLO + ByteTrack + ReID 마트 영상" },
+          {
+            type: "video",
+            src: "PRISMIC_SHOP_SHOPPING_LIST",
+            caption: "쇼핑 리스트 기반 픽업 경로",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_TRACKING_REID",
+            caption: "YOLO + ByteTrack + ReID 마트 영상",
+          },
           { type: "video", src: "PRISMIC_TRACKING", caption: "추적 파이프라인 — 라이브 리허설" },
           { type: "video", src: "PRISMIC_GUIDING", caption: "가이딩 모드 — 추가 리허설 영상" },
           { type: "video", src: "PRISMIC_SHOP_GUIDE_ADMIN", caption: "안내 맵·관리자 설정 UI" },
           { type: "gif", src: "PRISMIC_TRACKING_START", caption: "추적 세션 시작" },
           { type: "gif", src: "PRISMIC_SHOP_REGISTER", caption: "고객 등록 · QR 페어링" },
           { type: "image", src: "assets/shop/demo.jpg", caption: "미니어처 마트 데모 환경" },
-          { type: "image", src: "assets/shop/page-014.png", caption: "ByteTrack + ReID 파이프라인" },
+          {
+            type: "image",
+            src: "assets/shop/page-014.png",
+            caption: "ByteTrack + ReID 파이프라인",
+          },
           { type: "image", src: "assets/shop/page-027.png", caption: "YOLO·트래킹 튜닝" },
           { type: "image", src: "assets/shop/page-048.png", caption: "온로봇 LCD·QR 배치" },
           { type: "image", src: "PRISMIC_MAP", caption: "매장 구역 맵" },
           { type: "image", src: "assets/shop/arch.png", caption: "ROS 인식·내비 아키텍처" },
-          { type: "image", src: "assets/shop/hero.jpg", caption: "ShopPinkki 개요 (shoppinkki.pdf)" },
+          {
+            type: "image",
+            src: "assets/shop/hero.jpg",
+            caption: "ShopPinkki 개요 (shoppinkki.pdf)",
+          },
         ],
       },
       pai: {
         phase: "04 · Physical AI",
         title: "pingdergarten",
         subtitle: "EduPing — 유치원 교육보조 로봇",
-        team: "사랑의 에듀핑 · physical-ai-repo-2",
-        metaLine:
-          "2026.04.23 – 2026.06.04 · Physical AI 로봇 구현 · 커밋 약 68",
+        team: "사랑의 에듀핑 · {repo}",
+        metaLine: "2026.04.23 – 2026.06.04 · Physical AI 로봇 구현 · 커밋 약 68",
         highlights: [
           "**뎁스 하이파이브**: 손 3D → **TRAC-IK**; 빗나감 **~20–28cm → ~2cm**",
           "**MuJoCo 트윈** 후 실물 **OpenArm** 데모",
@@ -891,10 +1369,19 @@ export const STRINGS = {
           "최종 **Q&A** 슬라이드.",
         ],
         skills: [
-          { category: "프론트", items: ["Vue 3", "Three.js", "Web Worker", "WebRTC", "TypeScript"] },
-          { category: "비전", items: ["MediaPipe Hands", "뎁스 역투영", "얼굴 인식", "GLSL 포인트클라우드"] },
+          {
+            category: "프론트",
+            items: ["Vue 3", "Three.js", "Web Worker", "WebRTC", "TypeScript"],
+          },
+          {
+            category: "비전",
+            items: ["MediaPipe Hands", "뎁스 역투영", "얼굴 인식", "GLSL 포인트클라우드"],
+          },
           { category: "로봇", items: ["ROS 2 Jazzy", "TRAC-IK", "MuJoCo", "관절 한계 튜닝"] },
-          { category: "전달", items: ["DAE→GLB 메쉬 파이프라인", "Prismic 자산", "발표 리포트 페이지"] },
+          {
+            category: "전달",
+            items: ["DAE→GLB 메쉬 파이프라인", "Prismic 자산", "발표 리포트 페이지"],
+          },
         ],
         techniques: [
           "**IK→FK 잔차** 폐루프로 아이 손 추종.",
@@ -903,8 +1390,14 @@ export const STRINGS = {
           "**MediaPipe** 메인 스레드; **zstd**는 **Worker**.",
         ],
         obstacles: [
-          { title: "**IK** 나와도 하이파이브 빗나감", body: "**FK 잔차** 루프·어깨 높이 캡·리치 박스 튜닝." },
-          { title: "**뎁스 뷰** 멈춤", body: "**cv_bridge** ABI → **D435** 스트리머 시스템 Python." },
+          {
+            title: "**IK** 나와도 하이파이브 빗나감",
+            body: "**FK 잔차** 루프·어깨 높이 캡·리치 박스 튜닝.",
+          },
+          {
+            title: "**뎁스 뷰** 멈춤",
+            body: "**cv_bridge** ABI → **D435** 스트리머 시스템 Python.",
+          },
           { title: "**URDF** 렉·뒤집힘", body: "**DAE→GLB**; **Z-up→Y-up** 1회만." },
           { title: "**moveit_servo PSM** 데드락", body: "**JointTrajectory** 스무딩 우회." },
         ],
@@ -915,19 +1408,50 @@ export const STRINGS = {
           "**URDF** 좌표 수정은 이 포트폴리오 미로에도 재사용.",
         ],
         visualAids: [
-          { type: "flow", title: "하이파이브 폐루프", steps: ["D435 뎁스", "손 랜드마크", "IK 타겟", "TRAC-IK", "FK 잔차", "관절 명령"], caption: "브라우저 뎁스 뷰가 캘리브레이션 기준." },
-          { type: "diagram", src: "PRISMIC_CLOUD", title: "뎁스 포인트클라우드 (브라우저)", caption: "Three.js로 렌더한 실시간 D435 스트림." },
-          { type: "diagram", src: "PRISMIC_SIM", title: "IK 시뮬레이션", caption: "블루·레드 타겟 볼 + 리치 튜닝." },
+          {
+            type: "flow",
+            title: "하이파이브 폐루프",
+            steps: ["D435 뎁스", "손 랜드마크", "IK 타겟", "TRAC-IK", "FK 잔차", "관절 명령"],
+            caption: "브라우저 뎁스 뷰가 캘리브레이션 기준.",
+          },
+          {
+            type: "diagram",
+            src: "PRISMIC_CLOUD",
+            title: "뎁스 포인트클라우드 (브라우저)",
+            caption: "Three.js로 렌더한 실시간 D435 스트림.",
+          },
+          {
+            type: "diagram",
+            src: "PRISMIC_SIM",
+            title: "IK 시뮬레이션",
+            caption: "블루·레드 타겟 볼 + 리치 튜닝.",
+          },
         ],
         stack: ["Vue 3", "Three.js", "MediaPipe", "ROS 2", "MuJoCo", "WebRTC", "TRAC-IK", "Python"],
         media: [
-          { type: "video", src: "PRISMIC_HIFIVE_VIDEO", caption: "EduPing — 실물 하이파이브 데모 (전체 영상)" },
+          {
+            type: "video",
+            src: "PRISMIC_HIFIVE_VIDEO",
+            caption: "EduPing — 실물 하이파이브 데모 (전체 영상)",
+          },
           { type: "video", src: "PRISMIC_DANCE_VIDEO", caption: "EduPing — 무궁화 리듬 율동 재생" },
-          { type: "video", src: "PRISMIC_GOGOPING_FOLLOW", caption: "GogoPing — 교사 추종 모드 (모바일 베이스)" },
-          { type: "video", src: "PRISMIC_GOGOPING_HIDESEEK", caption: "GogoPing — 숨바꼭질 내비게이션" },
+          {
+            type: "video",
+            src: "PRISMIC_GOGOPING_FOLLOW",
+            caption: "GogoPing — 교사 추종 모드 (모바일 베이스)",
+          },
+          {
+            type: "video",
+            src: "PRISMIC_GOGOPING_HIDESEEK",
+            caption: "GogoPing — 숨바꼭질 내비게이션",
+          },
           { type: "gif", src: "PRISMIC_HIFIVE", caption: "EduPing 하이파이브 데모 (GIF)" },
           { type: "gif", src: "PRISMIC_SIM", caption: "IK 잔차 루프 — 블루·레드 볼 (GIF)" },
-          { type: "gif", src: "PRISMIC_MUGUNGHWA", caption: "무궁화 리듬 율동 — 동작 녹화 UI (GIF)" },
+          {
+            type: "gif",
+            src: "PRISMIC_MUGUNGHWA",
+            caption: "무궁화 리듬 율동 — 동작 녹화 UI (GIF)",
+          },
           { type: "image", src: "PRISMIC_CLOUD", caption: "브라우저 D435 포인트클라우드" },
           { type: "image", src: "PRISMIC_MUJOCO", caption: "MuJoCo 디지털 트윈" },
           { type: "image", src: "PRISMIC_UI", caption: "EduPing 웹 로봇 콘솔" },
@@ -938,15 +1462,6 @@ export const STRINGS = {
     },
   },
 };
-
-export const PROJECT_KEYS = ["dl", "iot", "ros", "pai"];
-export const REPO_URLS = {
-  dl: "https://github.com/addinedu-physicalai-1st/deeplearning-repo-4",
-  iot: "https://github.com/addinedu-physicalai-1st/iot-repo-2",
-  ros: "https://github.com/addinedu-physicalai-1st/ros-repo-2",
-  pai: "https://github.com/addinedu-physicalai-1st/physical-ai-repo-2",
-};
-export const PROJECT_COLORS = { dl: 0x7c5cff, iot: 0x00e5a0, ros: 0xff6b4a, pai: 0xffd166 };
 
 const PRISMIC_KEYS = {
   PRISMIC_GESTO_PPT: "gestoPptMode",
@@ -1012,16 +1527,18 @@ export function prioritizeMedia(media) {
 
 /** System language first; localStorage only after manual toggle. */
 export function detectLanguage() {
-  if (localStorage.getItem("portfolio-lang-manual") === "1") {
-    const stored = localStorage.getItem("portfolio-lang");
+  const { lang, langManual } = SITE.storage;
+  if (localStorage.getItem(langManual) === "1") {
+    const stored = localStorage.getItem(lang);
     if (stored === "en" || stored === "ko") return stored;
   }
   return (navigator.language || "ko").toLowerCase().startsWith("ko") ? "ko" : "en";
 }
 
 export function setLanguage(lang, manual = true) {
-  localStorage.setItem("portfolio-lang", lang);
-  if (manual) localStorage.setItem("portfolio-lang-manual", "1");
+  const { lang: langKey, langManual } = SITE.storage;
+  localStorage.setItem(langKey, lang);
+  if (manual) localStorage.setItem(langManual, "1");
 }
 
 export function t(lang, path) {

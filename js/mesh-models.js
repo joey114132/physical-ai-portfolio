@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { PROJECT_COLORS } from "./i18n.js";
+import { PROJECT_COLORS } from "./config.js";
 import { buildProjectModel } from "./models.js";
 
 /** Target max dimension in world units for detail viewer. */

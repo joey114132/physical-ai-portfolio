@@ -5,3 +5,5 @@ js.bak/
 css/*.bak
 gesto-media-found.txt
 .netlify/
+node_modules/
+package-lock.json

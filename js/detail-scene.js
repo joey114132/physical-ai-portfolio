@@ -4,8 +4,13 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
-import { PROJECT_COLORS } from "./i18n.js";
-import { loadProjectModel, tickModelAnimation, getModelCredit, frameModelForCamera } from "./mesh-models.js";
+import { PROJECT_COLORS } from "./config.js";
+import {
+  loadProjectModel,
+  tickModelAnimation,
+  getModelCredit,
+  frameModelForCamera,
+} from "./mesh-models.js";
 import { getPixelRatio, useBloom } from "./perf.js";
 
 export class DetailScene {

@@ -147,10 +147,7 @@ export function createCartModel(color = 0xff6b4a) {
   const body = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.5, 1.9), mat(color, 0.12));
   body.position.y = 0.5;
   g.add(body);
-  const skirt = new THREE.Mesh(
-    new THREE.BoxGeometry(1.56, 0.18, 1.96),
-    mat(0xd0dae8, 0.08),
-  );
+  const skirt = new THREE.Mesh(new THREE.BoxGeometry(1.56, 0.18, 1.96), mat(0xd0dae8, 0.08));
   skirt.position.y = 0.28;
   g.add(skirt);
 
@@ -233,7 +230,10 @@ export function createRobotModel(color = 0xffd166) {
   g.add(armL);
   g.add(armR);
 
-  const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.24, 6), metalMat(0xc8cfda));
+  const antenna = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.02, 0.02, 0.24, 6),
+    metalMat(0xc8cfda),
+  );
   antenna.position.set(0, 1.92, 0);
   g.add(antenna);
   addDot(g, glow(color, 1.7), 0, 2.08, 0, 0.06);

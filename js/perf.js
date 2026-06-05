@@ -1,10 +1,11 @@
+import { isTouchViewport } from "./config.js";
+
 /** Device-aware quality tier for WebGL + CSS effects. */
 export function detectPerfTier() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return "low";
   const mem = navigator.deviceMemory;
   const cores = navigator.hardwareConcurrency ?? 4;
-  const mobile =
-    window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
+  const mobile = isTouchViewport();
   if (mem && mem <= 4) return "low";
   if (mobile || cores <= 4) return "medium";
   return "high";

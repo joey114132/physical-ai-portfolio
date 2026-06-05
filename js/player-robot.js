@@ -27,10 +27,16 @@ export function createPlayerRobot() {
   body.position.y = 0.95;
   root.add(body);
 
-  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.62, 0.38), mat(BODY, { emissiveIntensity: 0.22 }));
+  const torso = new THREE.Mesh(
+    new THREE.BoxGeometry(0.52, 0.62, 0.38),
+    mat(BODY, { emissiveIntensity: 0.22 }),
+  );
   body.add(torso);
 
-  const chestPlate = new THREE.Mesh(new THREE.BoxGeometry(0.38, 0.28, 0.08), mat(METAL, { emissiveIntensity: 0.05 }));
+  const chestPlate = new THREE.Mesh(
+    new THREE.BoxGeometry(0.38, 0.28, 0.08),
+    mat(METAL, { emissiveIntensity: 0.05 }),
+  );
   chestPlate.position.set(0, 0.05, 0.22);
   body.add(chestPlate);
 
@@ -52,10 +58,16 @@ export function createPlayerRobot() {
   visor.position.set(0, 0.04, 0.22);
   head.add(visor);
 
-  const antenna = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.35, 6), mat(ACCENT, { emissiveIntensity: 0.6 }));
+  const antenna = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.02, 0.02, 0.35, 6),
+    mat(ACCENT, { emissiveIntensity: 0.6 }),
+  );
   antenna.position.set(0, 0.32, 0);
   head.add(antenna);
-  const tip = new THREE.Mesh(new THREE.SphereGeometry(0.06, 8, 8), mat(ACCENT, { emissiveIntensity: 1.4 }));
+  const tip = new THREE.Mesh(
+    new THREE.SphereGeometry(0.06, 8, 8),
+    mat(ACCENT, { emissiveIntensity: 1.4 }),
+  );
   tip.position.y = 0.2;
   antenna.add(tip);
 
@@ -67,10 +79,16 @@ export function createPlayerRobot() {
     const thigh = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.32, 0.14), mat(METAL));
     thigh.position.y = -0.18;
     legG.add(thigh);
-    const shin = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.3, 0.16), mat(BODY, { emissiveIntensity: 0.15 }));
+    const shin = new THREE.Mesh(
+      new THREE.BoxGeometry(0.12, 0.3, 0.16),
+      mat(BODY, { emissiveIntensity: 0.15 }),
+    );
     shin.position.y = -0.42;
     legG.add(shin);
-    const foot = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.08, 0.28), mat(METAL, { emissiveIntensity: 0.08 }));
+    const foot = new THREE.Mesh(
+      new THREE.BoxGeometry(0.2, 0.08, 0.28),
+      mat(METAL, { emissiveIntensity: 0.08 }),
+    );
     foot.position.set(0, -0.6, 0.06);
     legG.add(foot);
     return legG;
@@ -87,7 +105,10 @@ export function createPlayerRobot() {
     const upper = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.28, 0.1), mat(METAL));
     upper.position.y = -0.12;
     a.add(upper);
-    const lower = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.24, 0.09), mat(BODY, { emissiveIntensity: 0.12 }));
+    const lower = new THREE.Mesh(
+      new THREE.BoxGeometry(0.09, 0.24, 0.09),
+      mat(BODY, { emissiveIntensity: 0.12 }),
+    );
     lower.position.set(side * 0.04, -0.32, 0.04);
     a.add(lower);
     return a;
@@ -155,5 +176,6 @@ export function updatePlayerRobot(robot, dt, moving, sprint) {
     ring.scale.setScalar(1 + Math.sin(robot.idlePhase * 2) * 0.03);
   }
 
-  chestLed.material.emissiveIntensity = 0.85 + (moving ? Math.abs(Math.sin(robot.walkPhase * 2)) * 0.6 : 0.2);
+  chestLed.material.emissiveIntensity =
+    0.85 + (moving ? Math.abs(Math.sin(robot.walkPhase * 2)) * 0.6 : 0.2);
 }

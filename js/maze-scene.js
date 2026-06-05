@@ -3,7 +3,13 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
-import { PROJECT_COLORS } from "./i18n.js";
+import {
+  PROJECT_COLORS,
+  PROJECT_KEYS,
+  GATE_CHAR,
+  STATION_LABELS,
+  PROJECT_COUNT,
+} from "./config.js";
 import { createPlayerRobot, updatePlayerRobot } from "./player-robot.js";
 import { getPixelRatio, useBloom, envCounts } from "./perf.js";
 
@@ -31,8 +37,11 @@ const GATE_RADIUS = 3.2;
 const EXIT_RADIUS = 3.2;
 const WALL_H = 5.0;
 
-const GATE_ORDER = ["dl", "iot", "ros", "pai"];
-const GATE_CHAR = { "1": "dl", "2": "iot", "3": "ros", "4": "pai" };
+const GATE_ORDER = PROJECT_KEYS;
+
+if (Object.keys(GATE_CHAR).length !== PROJECT_COUNT) {
+  console.warn("[maze] Gate markers in MAZE_ROWS must match PROJECTS length in config.js");
+}
 
 // ── Palette (cool neon lab) ──
 const COL_BG = 0x05070d;
@@ -112,13 +121,6 @@ function buildRouteCells(maze) {
   }
   return route;
 }
-
-const STATION_LABEL = {
-  dl: "STATION 01 · GESTO",
-  iot: "STATION 02 · PARKING",
-  ros: "STATION 03 · SHOPPINKKI",
-  pai: "STATION 04 · PINGDERGARTEN",
-};
 
 const MAZE = parseMazeRows(MAZE_ROWS);
 const GATES = MAZE.gates;
@@ -348,12 +350,15 @@ export class MazeScene {
   tryInteract() {
     if (this.paused || document.body.classList.contains("cutscene-mode")) return;
     if (this.nearExit) {
-      if (this.visited.size >= 4 && this.onReachExit) this.onReachExit();
+      if (this.visited.size >= PROJECT_COUNT && this.onReachExit) this.onReachExit();
       else if (this.onGateLocked) this.onGateLocked("exit");
       return;
     }
     if (this.nearZone) {
-      if ((this.canActivateGate(this.nearZone) || this.visited.has(this.nearZone)) && this.onZoneActivate) {
+      if (
+        (this.canActivateGate(this.nearZone) || this.visited.has(this.nearZone)) &&
+        this.onZoneActivate
+      ) {
         this.onZoneActivate(this.nearZone);
       } else if (this.onGateLocked) {
         this.onGateLocked(this.nearZone);
@@ -475,7 +480,13 @@ export class MazeScene {
       const h = 3 + (i % 3) * 2.5;
       const pylon = new THREE.Mesh(
         new THREE.BoxGeometry(1.4, h, 1.4),
-        new THREE.MeshStandardMaterial({ color: 0x0b1018, emissive: col, emissiveIntensity: 0.55, metalness: 0.4, roughness: 0.5 }),
+        new THREE.MeshStandardMaterial({
+          color: 0x0b1018,
+          emissive: col,
+          emissiveIntensity: 0.55,
+          metalness: 0.4,
+          roughness: 0.5,
+        }),
       );
       pylon.position.set(x, h / 2, z);
       this.scene.add(pylon);
@@ -499,14 +510,25 @@ export class MazeScene {
       const w = 2.2 + seededRand(i + 3) * 2.6;
       const tower = new THREE.Mesh(
         new THREE.BoxGeometry(w, h, w),
-        new THREE.MeshStandardMaterial({ color: 0x080d15, emissive: col, emissiveIntensity: 0.18, metalness: 0.5, roughness: 0.6 }),
+        new THREE.MeshStandardMaterial({
+          color: 0x080d15,
+          emissive: col,
+          emissiveIntensity: 0.18,
+          metalness: 0.5,
+          roughness: 0.6,
+        }),
       );
       tower.position.set(x, h / 2, z);
       this.scene.add(tower);
       // a glowing window strip near the top
       const strip = new THREE.Mesh(
         new THREE.BoxGeometry(w * 1.02, 0.5, w * 1.02),
-        new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.7, toneMapped: true }),
+        new THREE.MeshBasicMaterial({
+          color: col,
+          transparent: true,
+          opacity: 0.7,
+          toneMapped: true,
+        }),
       );
       strip.position.set(x, h - 1.5, z);
       this.scene.add(strip);
@@ -517,7 +539,12 @@ export class MazeScene {
       const col = colors[i % colors.length];
       const ring = new THREE.Mesh(
         new THREE.TorusGeometry(2.2 + seededRand(i) * 2.5, 0.12, 8, 32),
-        new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.5, toneMapped: true }),
+        new THREE.MeshBasicMaterial({
+          color: col,
+          transparent: true,
+          opacity: 0.5,
+          toneMapped: true,
+        }),
       );
       const a = (i / 6) * Math.PI * 2;
       ring.position.set(Math.cos(a) * R * 1.1, 16 + seededRand(i + 5) * 14, Math.sin(a) * R * 0.9);
@@ -727,7 +754,7 @@ export class MazeScene {
     this.gateGroups = {};
     GATE_ORDER.forEach((key, index) => {
       const g = GATES[key];
-      const group = this._makeStation(PROJECT_COLORS[key], STATION_LABEL[key], index);
+      const group = this._makeStation(PROJECT_COLORS[key], STATION_LABELS[key], index);
       group.position.copy(cellCenter(g.c, g.r));
       group.userData.key = key;
       this.scene.add(group);
@@ -788,7 +815,12 @@ export class MazeScene {
   _spawnBurst(pos, color, scale = 1) {
     const ring = new THREE.Mesh(
       new THREE.RingGeometry(0.2, 0.34, 28),
-      new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9, side: THREE.DoubleSide }),
+      new THREE.MeshBasicMaterial({
+        color,
+        transparent: true,
+        opacity: 0.9,
+        side: THREE.DoubleSide,
+      }),
     );
     ring.rotation.x = -Math.PI / 2;
     ring.position.set(pos.x, 0.35, pos.z);
@@ -1118,9 +1150,7 @@ export class MazeScene {
       const px = this.player.position.x;
       const pz = this.player.position.z;
       const laneInit = this._lanePx == null;
-      const movedLane =
-        laneInit ||
-        Math.hypot(px - this._lanePx, pz - this._lanePz) > 0.35;
+      const movedLane = laneInit || Math.hypot(px - this._lanePx, pz - this._lanePz) > 0.35;
       if (movedLane) {
         this._lanePx = px;
         this._lanePz = pz;
@@ -1164,8 +1194,8 @@ export class MazeScene {
 
       const exitD = this.exitGroup.position.distanceTo(this.player.position);
       this.nearExitProximity = exitD < EXIT_RADIUS;
-      this.nearExit = this.nearExitProximity && this.visited.size >= 4;
-      const ready = this.visited.size >= 4;
+      this.nearExit = this.nearExitProximity && this.visited.size >= PROJECT_COUNT;
+      const ready = this.visited.size >= PROJECT_COUNT;
       const arch = this.exitGroup.children.find((c) => c.userData?.isExitArch);
       const exitBeam = this.exitGroup.children.find((c) => c.userData?.isExitBeam);
       const ep = 0.5 + Math.sin(this.pulse * 2.5) * 0.5;

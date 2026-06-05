@@ -1,11 +1,15 @@
 import * as THREE from "three";
-import { PROJECT_COLORS, PROJECT_KEYS } from "./i18n.js";
+import { PROJECT_COLORS, PROJECT_KEYS } from "./config.js";
 import { buildProjectModel, tickProceduralAnimation } from "./models.js";
 
 const NODE_POSITIONS = PROJECT_KEYS.map((_, i) => {
   const angle = (i / (PROJECT_KEYS.length - 1)) * Math.PI * 0.85 - Math.PI * 0.425;
   const r = 12;
-  return new THREE.Vector3(Math.sin(angle) * r, 1.5 + Math.sin(i * 1.2) * 1.2, Math.cos(angle) * r * 0.55);
+  return new THREE.Vector3(
+    Math.sin(angle) * r,
+    1.5 + Math.sin(i * 1.2) * 1.2,
+    Math.cos(angle) * r * 0.55,
+  );
 });
 
 export class OrbitScene {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -6,11 +6,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1"
     />
-    <title id="page-title">이정우 — Physical AI Portfolio</title>
-    <meta
-      name="description"
-      content="Interactive Three.js portfolio — Gesto, Smart Parking, ShopPinkki, pingdergarten"
-    />
+    <title id="page-title"></title>
+    <meta name="description" content="" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -33,7 +30,7 @@
       }
     </script>
   </head>
-  <body class="intro" data-project="dl">
+  <body class="intro">
     <div class="ambient" aria-hidden="true">
       <div class="ambient__mesh"></div>
       <div class="ambient__grid"></div>
@@ -50,8 +47,12 @@
         <div class="intro-lang" role="group" aria-labelledby="intro-lang-label">
           <p class="intro-lang__label" id="intro-lang-label"></p>
           <div class="intro-lang__options">
-            <button type="button" class="intro-lang__btn" data-lang="en" id="intro-lang-en">English</button>
-            <button type="button" class="intro-lang__btn" data-lang="ko" id="intro-lang-ko">한국어</button>
+            <button type="button" class="intro-lang__btn" data-lang="en" id="intro-lang-en">
+              English
+            </button>
+            <button type="button" class="intro-lang__btn" data-lang="ko" id="intro-lang-ko">
+              한국어
+            </button>
           </div>
         </div>
         <p class="intro-card__eyebrow" id="intro-eyebrow"></p>
@@ -92,12 +93,18 @@
         <h3 id="about-gallery-title" class="about-card__gallery-title hidden"></h3>
         <div id="about-gallery" class="about-gallery hidden" role="list"></div>
         <p class="about-card__contact">
-          <a id="about-phone" href="tel:+8210999898403"></a>
+          <a id="about-phone" href="#"></a>
         </p>
         <p class="about-card__thanks" id="about-thanks"></p>
         <div id="about-art-block" class="about-card__art hidden">
           <p id="about-art-intro" class="about-card__art-intro"></p>
-          <a id="about-art-link" class="about-card__link" href="#" target="_blank" rel="noopener noreferrer"></a>
+          <a
+            id="about-art-link"
+            class="about-card__link"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+          ></a>
         </div>
         <button type="button" id="about-close" class="btn btn--primary"></button>
       </div>
@@ -108,7 +115,7 @@
         <div class="top-bar__row">
           <div class="brand">
             <span class="brand__mark">◈</span>
-            <span class="brand__text">Physical AI · 2025–2026</span>
+            <span class="brand__text"></span>
           </div>
           <div class="top-bar__status" id="top-status" aria-live="polite">
             <span class="top-bar__status-num" id="top-station-num">01</span>
@@ -116,7 +123,13 @@
             <span class="top-bar__status-progress" id="top-quest-progress"></span>
           </div>
           <div class="top-bar__tools">
-            <button type="button" id="sound-btn" class="icon-btn" aria-label="Toggle sound" aria-pressed="false">
+            <button
+              type="button"
+              id="sound-btn"
+              class="icon-btn"
+              aria-label="Toggle sound"
+              aria-pressed="false"
+            >
               <span class="icon-btn__glyph" id="sound-glyph">♪</span>
             </button>
             <button type="button" id="lang-btn" class="lang-btn" aria-label="Switch language">
@@ -140,9 +153,9 @@
 
       <section class="hero">
         <div class="hero__panel">
-          <p class="hero__eyebrow" id="hero-eyebrow">PORTFOLIO · 04 PROJECTS</p>
-          <h1 id="hero-name">이정우</h1>
-          <span class="hero__alias" id="hero-sub">Joey Lee</span>
+          <p class="hero__eyebrow" id="hero-eyebrow"></p>
+          <h1 id="hero-name"></h1>
+          <span class="hero__alias" id="hero-sub"></span>
           <p class="hero__role" id="hero-role"></p>
           <p class="hero__tagline" id="hero-tagline"></p>
           <div class="hero__rule" aria-hidden="true"></div>
@@ -170,10 +183,23 @@
 
       <aside id="ui-drawer" class="ui-drawer" aria-hidden="true">
         <div id="ui-drawer-backdrop" class="ui-drawer__backdrop" tabindex="-1" hidden></div>
-        <div id="ui-drawer-panel" class="ui-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="ui-drawer-title">
+        <div
+          id="ui-drawer-panel"
+          class="ui-drawer__panel"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="ui-drawer-title"
+        >
           <header class="ui-drawer__head">
             <h2 id="ui-drawer-title" class="ui-drawer__title">Projects</h2>
-            <button type="button" id="ui-drawer-close" class="icon-btn ui-drawer__close" aria-label="Close menu">✕</button>
+            <button
+              type="button"
+              id="ui-drawer-close"
+              class="icon-btn ui-drawer__close"
+              aria-label="Close menu"
+            >
+              ✕
+            </button>
           </header>
           <div id="ui-drawer-meta" class="ui-drawer__meta" aria-live="polite"></div>
           <nav id="timeline" class="timeline" aria-label="Project timeline"></nav>
@@ -181,10 +207,10 @@
             <a
               id="footer-github"
               class="dock__link"
-              href="https://github.com/joey114132"
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
-            >GitHub · joey114132</a>
+            ></a>
             <p id="nav-hint" class="dock__hint" hidden></p>
           </footer>
         </div>
@@ -200,7 +226,13 @@
           <span class="detail-back__arrow">←</span>
           <span id="detail-back-label">궤도</span>
         </button>
-        <button type="button" id="detail-3d-toggle" class="detail-3d-toggle" aria-expanded="true" hidden>
+        <button
+          type="button"
+          id="detail-3d-toggle"
+          class="detail-3d-toggle"
+          aria-expanded="true"
+          hidden
+        >
           3D
         </button>
         <div class="detail-meta">
@@ -218,67 +250,69 @@
           <p class="detail-visual__caption" id="detail-visual-caption">3D artifact · interactive</p>
         </div>
         <div class="detail-content-wrap">
-          <div
-            id="detail-scroll-progress"
-            class="detail-scroll-progress"
-            aria-hidden="true"
-          ></div>
+          <div id="detail-scroll-progress" class="detail-scroll-progress" aria-hidden="true"></div>
           <p id="detail-scroll-hint" class="detail-scroll-hint" aria-hidden="true"></p>
           <div id="detail-content" class="detail-content" tabindex="-1">
-          <p id="detail-team" class="detail-team"></p>
-          <p id="detail-meta-line" class="detail-meta-line"></p>
-          <div id="detail-highlights" class="detail-highlights" hidden></div>
-          <p id="detail-summary" class="detail-summary"></p>
+            <p id="detail-team" class="detail-team"></p>
+            <p id="detail-meta-line" class="detail-meta-line"></p>
+            <div id="detail-highlights" class="detail-highlights" hidden></div>
+            <p id="detail-summary" class="detail-summary"></p>
 
-          <section class="detail-section">
-            <h2 id="detail-role-title"></h2>
-            <ul id="detail-role" class="detail-bullets detail-bullets--role"></ul>
-          </section>
+            <section class="detail-section">
+              <h2 id="detail-role-title"></h2>
+              <ul id="detail-role" class="detail-bullets detail-bullets--role"></ul>
+            </section>
 
-          <section class="detail-section">
-            <h2 id="detail-contrib-title"></h2>
-            <ul id="detail-contributions" class="detail-list"></ul>
-          </section>
+            <section class="detail-section">
+              <h2 id="detail-contrib-title"></h2>
+              <ul id="detail-contributions" class="detail-list"></ul>
+            </section>
 
-          <section class="detail-section">
-            <h2 id="detail-skills-title"></h2>
-            <div id="detail-skills" class="skill-grid"></div>
-          </section>
+            <section class="detail-section">
+              <h2 id="detail-skills-title"></h2>
+              <div id="detail-skills" class="skill-grid"></div>
+            </section>
 
-          <section class="detail-section">
-            <h2 id="detail-tech-title"></h2>
-            <ul id="detail-techniques" class="detail-list detail-list--dense"></ul>
-          </section>
+            <section class="detail-section">
+              <h2 id="detail-tech-title"></h2>
+              <ul id="detail-techniques" class="detail-list detail-list--dense"></ul>
+            </section>
 
-          <section class="detail-section">
-            <h2 id="detail-obstacles-title"></h2>
-            <div id="detail-obstacles" class="obstacle-grid"></div>
-          </section>
+            <section class="detail-section">
+              <h2 id="detail-obstacles-title"></h2>
+              <div id="detail-obstacles" class="obstacle-grid"></div>
+            </section>
 
-          <section class="detail-section">
-            <h2 id="detail-outcomes-title"></h2>
-            <ul id="detail-outcomes" class="detail-list"></ul>
-          </section>
+            <section class="detail-section">
+              <h2 id="detail-outcomes-title"></h2>
+              <ul id="detail-outcomes" class="detail-list"></ul>
+            </section>
 
-          <section class="detail-section">
-            <h2 id="detail-aids-title"></h2>
-            <div id="detail-aids" class="visual-aids"></div>
-          </section>
+            <section class="detail-section">
+              <h2 id="detail-aids-title"></h2>
+              <div id="detail-aids" class="visual-aids"></div>
+            </section>
 
-          <section class="detail-section">
-            <h2 id="detail-stack-title"></h2>
-            <div id="detail-tags" class="tags"></div>
-          </section>
+            <section class="detail-section">
+              <h2 id="detail-stack-title"></h2>
+              <div id="detail-tags" class="tags"></div>
+            </section>
 
-          <section id="detail-repo-section" class="detail-section detail-section--repo">
-            <h2 id="detail-repo-title"></h2>
-            <a id="detail-repo" class="panel-repo" href="#" target="_blank" rel="noopener noreferrer"></a>
-          </section>
+            <section id="detail-repo-section" class="detail-section detail-section--repo">
+              <h2 id="detail-repo-title"></h2>
+              <a
+                id="detail-repo"
+                class="panel-repo"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+              ></a>
+            </section>
 
-          <section class="detail-section detail-section--gallery">
-            <h2 id="detail-gallery-title"></h2>
-            <div id="detail-gallery" class="gallery"></div>
-          </section>
+            <section class="detail-section detail-section--gallery">
+              <h2 id="detail-gallery-title"></h2>
+              <div id="detail-gallery" class="gallery"></div>
+            </section>
           </div>
         </div>
       </div>
@@ -313,18 +347,24 @@
               class="mobile-sprint-icon__runner"
               d="M12.6 7.5 9.8 11.8l-2.7 1.1.9 2.1 3.1-.8 1.9 5.1h2.2l-1.1-5.7 2.4-1-.7-1.8-2.7.1 1.6-2.9 2.3-2.2-1.6-1.4 1.2Z"
             />
-            <path
-              class="mobile-sprint-icon__motion"
-              d="M3.4 17.2h2.6M2.3 14h2.1M4.5 19.8h2.2"
-            />
+            <path class="mobile-sprint-icon__motion" d="M3.4 17.2h2.6M2.3 14h2.1M4.5 19.8h2.2" />
           </svg>
         </button>
-        <button type="button" id="mobile-interact" class="mobile-btn mobile-btn--interact" aria-label="Open">E</button>
+        <button
+          type="button"
+          id="mobile-interact"
+          class="mobile-btn mobile-btn--interact"
+          aria-label="Open"
+        >
+          E
+        </button>
       </div>
     </div>
 
     <div id="lightbox" class="lightbox" hidden aria-hidden="true" role="dialog" aria-modal="true">
-      <button type="button" class="lightbox__close" id="lightbox-close" aria-label="Close">✕</button>
+      <button type="button" class="lightbox__close" id="lightbox-close" aria-label="Close">
+        ✕
+      </button>
       <div class="lightbox__stage" id="lightbox-stage"></div>
       <p class="lightbox__caption" id="lightbox-caption"></p>
     </div>

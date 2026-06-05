@@ -1,22 +1,30 @@
 import {
+  SITE,
+  BREAKPOINTS,
+  PROJECT_COUNT,
+  displayName,
+  fullName,
+  githubProfileUrl,
+  getRepoSlug,
+  siteCopyVars,
+  matchMediaMax,
+  isTouchViewport,
+} from "./config.js";
+import {
   STRINGS,
   PROJECT_KEYS,
   REPO_URLS,
+  PHASE_SHORT,
   detectLanguage,
   setLanguage,
   getProject,
   prioritizeMedia,
+  interpolateCopy,
 } from "./i18n.js";
 import { MazeScene, getMazeLayout } from "./maze-scene.js";
 import { DetailScene } from "./detail-scene.js";
 import { AudioEngine } from "./audio.js";
 import { detectPerfTier, applyPerfClass } from "./perf.js";
-
-const PHASE_SHORT = { dl: "DL", iot: "IOT", ros: "ROS", pai: "PAI" };
-
-function isTouchDevice() {
-  return window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
-}
 
 function escapeHtml(text) {
   return String(text)
@@ -147,6 +155,7 @@ const els = {
   uiDrawerClose: document.getElementById("ui-drawer-close"),
   uiDrawerTitle: document.getElementById("ui-drawer-title"),
   uiDrawerMeta: document.getElementById("ui-drawer-meta"),
+  brandText: document.querySelector(".brand__text"),
   topBar: document.querySelector(".top-bar"),
   topBarRow: document.querySelector(".top-bar__row"),
   topBarTools: document.querySelector(".top-bar__tools"),
@@ -156,7 +165,7 @@ const els = {
 
 let drawerQuickTools = null;
 
-const MAZE_MENU_MQ = window.matchMedia("(max-width: 719px)");
+const MAZE_MENU_MQ = matchMediaMax(BREAKPOINTS.mazeMenu);
 
 function usesMazeMenu() {
   return document.body.classList.contains("maze-mode") && MAZE_MENU_MQ.matches;
@@ -189,8 +198,17 @@ function ensureDrawerQuickTools() {
 }
 
 function layoutMazeChrome() {
-  const { topBar, topBarRow, topBarTools, topStatus, questBanner, soundBtn, langBtn, uiMenuBtn, uiDrawerMeta } =
-    els;
+  const {
+    topBar,
+    topBarRow,
+    topBarTools,
+    topStatus,
+    questBanner,
+    soundBtn,
+    langBtn,
+    uiMenuBtn,
+    uiDrawerMeta,
+  } = els;
   if (!topBar || !topBarRow || !topBarTools || !uiDrawerMeta) return;
 
   const useDrawer = usesMazeMenu();
@@ -400,13 +418,13 @@ function setQuestBanner(text) {
 
 function questCopy(key, vars = {}) {
   const s = STRINGS[lang].nav;
-  const useShort = isTouchDevice() && window.innerWidth < 720 && !document.body.classList.contains("maze-menu-chrome");
+  const useShort =
+    isTouchViewport() &&
+    window.innerWidth < BREAKPOINTS.mazeMenu + 1 &&
+    !document.body.classList.contains("maze-menu-chrome");
   const shortKey = `${key}Short`;
   const template = (useShort && s[shortKey]) || s[key] || "";
-  return Object.entries(vars).reduce(
-    (text, [k, v]) => text.replaceAll(`{${k}}`, String(v)),
-    template,
-  );
+  return interpolateCopy(template, { ...siteCopyVars(), ...vars });
 }
 
 function updateQuestBanner() {
@@ -414,8 +432,8 @@ function updateQuestBanner() {
   const s = STRINGS[lang];
   if (mode !== "maze") return;
 
-  if (maze?.nearExitProximity && maze.visitCount < 4) {
-    setQuestBanner(s.nav.questExitLocked);
+  if (maze?.nearExitProximity && maze.visitCount < PROJECT_COUNT) {
+    setQuestBanner(questCopy("questExitLocked"));
     els.questBanner.classList.add("quest-banner--active");
     return;
   }
@@ -433,7 +451,7 @@ function updateQuestBanner() {
       setQuestBanner(questCopy("questNext", { order: stationOrder(next), title: p.title }));
       els.questBanner.classList.add("quest-banner--active");
     } else {
-      setQuestBanner(s.nav.questIdle);
+      setQuestBanner(questCopy("questIdle"));
       els.questBanner.classList.remove("quest-banner--active");
     }
     return;
@@ -458,10 +476,10 @@ function updateQuestBanner() {
 function updateProgress() {
   if (!maze) return;
   const n = maze.visitCount ?? 0;
-  const progressKey = isTouchDevice() ? "questProgressShort" : "questProgress";
-  const progressText = (STRINGS[lang].nav[progressKey] ?? STRINGS[lang].nav.questProgress).replace(
-    "{n}",
-    String(n),
+  const progressKey = isTouchViewport() ? "questProgressShort" : "questProgress";
+  const progressText = interpolateCopy(
+    STRINGS[lang].nav[progressKey] ?? STRINGS[lang].nav.questProgress,
+    { ...siteCopyVars(), n },
   );
   if (els.questProgress) els.questProgress.textContent = progressText;
   if (els.topQuestProgress) els.topQuestProgress.textContent = progressText;
@@ -537,7 +555,7 @@ function drawMinimap() {
   const exit = route?.[route.length - 1];
   if (exit) {
     const [ec, er] = exit;
-    ctx.fillStyle = maze?.visitCount >= 4 ? "#ffd166" : "#554422";
+    ctx.fillStyle = maze?.visitCount >= PROJECT_COUNT ? "#ffd166" : "#554422";
     ctx.fillRect(ec * cellW + 1, er * cellH + 1, cellW - 2, cellH - 2);
   }
 
@@ -578,21 +596,22 @@ function renderIntro() {
   const i = STRINGS[lang].intro;
   if (els.introLangLabel) els.introLangLabel.textContent = i.languageLabel ?? "Language";
   syncIntroLangPicker();
-  els.introEyebrow.textContent = i.eyebrow;
-  els.introTitle.textContent = i.title;
-  els.introAlias.textContent = i.nameKo;
+  const copy = siteCopyVars();
+  els.introEyebrow.textContent = interpolateCopy(i.eyebrow, copy);
+  els.introTitle.textContent = displayName(lang);
+  els.introAlias.textContent = displayName(lang, "alias");
   els.introRole.textContent = i.role;
-  els.introLead.innerHTML = formatConceptHtml(i.lead);
+  els.introLead.innerHTML = formatConceptHtml(interpolateCopy(i.lead, copy));
   els.introEdu.textContent = i.edu;
   if (els.introControls && i.controls) {
     const rows = i.controls
       .map(
         (row) =>
-          `<div class="intro-controls__row"><kbd class="intro-controls__keys">${row.keys}</kbd><span class="intro-controls__label">${row.label}</span></div>`,
+          `<div class="intro-controls__row"><kbd class="intro-controls__keys">${interpolateCopy(row.keys, copy)}</kbd><span class="intro-controls__label">${row.label}</span></div>`,
       )
       .join("");
     const touchNote =
-      isTouchDevice() && i.touchNote
+      isTouchViewport() && i.touchNote
         ? `<p class="intro-controls__touch">${formatConceptHtml(i.touchNote)}</p>`
         : "";
     els.introControls.innerHTML = `<p class="intro-controls__title">${i.controlsTitle ?? ""}</p>${rows}${touchNote}`;
@@ -605,14 +624,16 @@ async function renderAbout() {
   const a = STRINGS[lang].about;
   if (els.aboutPhoto) {
     if (a.profileImage) els.aboutPhoto.src = a.profileImage;
-    els.aboutPhoto.alt = a.profileAlt ?? a.title;
+    els.aboutPhoto.alt = fullName();
     els.aboutPhoto.hidden = !a.profileImage;
   }
   els.aboutEyebrow.textContent = a.eyebrow;
-  els.aboutTitle.textContent = a.title;
+  els.aboutTitle.textContent = fullName();
   els.aboutRole.textContent = a.role;
   els.aboutBio.innerHTML = formatConceptHtml(a.bio);
-  els.aboutStrengths.innerHTML = a.strengths.map((s) => `<li>${formatConceptHtml(s)}</li>`).join("");
+  els.aboutStrengths.innerHTML = a.strengths
+    .map((s) => `<li>${formatConceptHtml(s)}</li>`)
+    .join("");
   const aboutMedia = a.media ? prioritizeMedia(a.media) : [];
   if (aboutMedia.length && els.aboutGallery && els.aboutGalleryTitle) {
     const reachable = await filterReachableMedia(aboutMedia);
@@ -626,11 +647,11 @@ async function renderAbout() {
     els.aboutGallery.classList.add("hidden");
     els.aboutGallery.innerHTML = "";
   }
-  els.aboutPhone.textContent = a.contact;
-  els.aboutPhone.href = `tel:${a.contact.replace(/[^\d+]/g, "")}`;
+  els.aboutPhone.textContent = SITE.contact.display;
+  els.aboutPhone.href = `tel:${SITE.contact.tel}`;
   els.aboutThanks.textContent = a.finish;
   if (els.aboutArtBlock && els.aboutArtLink) {
-    const showArt = Boolean(a.artLinkUrl && a.artLinkLabel);
+    const showArt = Boolean(SITE.links.artPortfolio && a.artLinkLabel);
     els.aboutArtBlock.classList.toggle("hidden", !showArt);
     if (showArt) {
       if (els.aboutArtIntro) {
@@ -643,7 +664,7 @@ async function renderAbout() {
         }
       }
       els.aboutArtLink.textContent = a.artLinkLabel;
-      els.aboutArtLink.href = a.artLinkUrl;
+      els.aboutArtLink.href = SITE.links.artPortfolio;
     }
   }
   els.aboutClose.textContent = a.close;
@@ -753,12 +774,13 @@ async function renderDetailContent(key) {
   const media = await filterReachableMedia(p.media);
   const ui = STRINGS[lang].panel;
   const nav = STRINGS[lang].nav;
+  const copy = siteCopyVars({ repo: getRepoSlug(key) });
 
   els.detailPhase.textContent = p.phase;
   els.detailTitle.textContent = p.title;
   els.detailSubtitle.innerHTML = formatConceptHtml(p.subtitle);
-  els.detailTeam.innerHTML = formatConceptHtml(p.team);
-  els.detailMetaLine.innerHTML = formatConceptHtml(p.metaLine ?? "");
+  els.detailTeam.innerHTML = formatConceptHtml(interpolateCopy(p.team, copy));
+  els.detailMetaLine.innerHTML = formatConceptHtml(interpolateCopy(p.metaLine ?? "", copy));
   els.detailSummary.innerHTML = formatConceptHtml(p.summary);
 
   const highlights = p.highlights ?? [];
@@ -784,9 +806,11 @@ async function renderDetailContent(key) {
   els.detailStackTitle.textContent = ui.stack;
   els.detailGalleryTitle.textContent = ui.gallery;
   els.detailBackLabel.textContent = nav.back;
-  els.detailVisualCaption.textContent = isTouchDevice() ? (nav.visualCaptionTouch ?? nav.visualCaption) : nav.visualCaption;
+  els.detailVisualCaption.textContent = isTouchViewport()
+    ? (nav.visualCaptionTouch ?? nav.visualCaption)
+    : nav.visualCaption;
   els.detailRepoTitle.textContent = ui.repo;
-  const repoSlug = REPO_URLS[key]?.split("/").pop() ?? "";
+  const repoSlug = getRepoSlug(key);
   els.detailRepo.textContent = repoSlug ? `${ui.repo} · ${repoSlug} →` : `${ui.repo} →`;
   els.detailRepo.href = REPO_URLS[key];
   els.detailRepo.setAttribute("aria-label", `${ui.repo}: ${repoSlug}`);
@@ -830,7 +854,7 @@ function syncMobileControls() {
   const show =
     introDone &&
     mode === "maze" &&
-    isTouchDevice() &&
+    isTouchViewport() &&
     !document.body.classList.contains("cutscene-mode");
   els.mobileControls.hidden = !show;
   if (!show) {
@@ -1098,31 +1122,45 @@ function startMaze() {
   updateProgress();
 }
 
+function applySiteConfig() {
+  document.body.dataset.project = SITE.defaultProject;
+  if (els.brandText) els.brandText.textContent = SITE.cohort;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute("content", SITE.metaDescription);
+  if (els.footerGithub) {
+    els.footerGithub.textContent = `GitHub · ${SITE.github.username}`;
+    els.footerGithub.href = githubProfileUrl();
+  }
+}
+
 function applyLanguage() {
   const s = STRINGS[lang];
+  const copy = siteCopyVars();
   document.documentElement.lang = lang;
-  document.title = s.meta.title;
-  els.title.textContent = s.meta.title;
-  els.heroEyebrow.textContent = s.hero.eyebrow;
-  els.heroName.textContent = s.hero.name;
-  els.heroSub.textContent = s.hero.nameKo;
+  const pageTitle = `${displayName(lang)} — ${s.meta.titleSuffix}`;
+  document.title = pageTitle;
+  els.title.textContent = pageTitle;
+  els.heroEyebrow.textContent = interpolateCopy(s.hero.eyebrow, copy);
+  els.heroName.textContent = displayName(lang);
+  els.heroSub.textContent = displayName(lang, "alias");
   els.heroRole.textContent = s.hero.role;
-  els.heroTagline.innerHTML = formatConceptHtml(s.hero.tagline);
+  els.heroTagline.innerHTML = formatConceptHtml(interpolateCopy(s.hero.tagline, copy));
   if (els.langLabel) els.langLabel.textContent = s.nav.lang;
-  els.footerGithub.textContent = `GitHub · ${s.footer.github}`;
-  els.footerGithub.href = `https://github.com/${s.footer.github}`;
   if (els.detailScrollHint) {
-    els.detailScrollHint.textContent = isTouchDevice() ? (s.nav.scrollHintTouch ?? s.nav.scrollHint) : s.nav.scrollHint;
+    els.detailScrollHint.textContent = isTouchViewport()
+      ? (s.nav.scrollHintTouch ?? s.nav.scrollHint)
+      : s.nav.scrollHint;
   }
   if (els.mobileInteract) {
-    els.mobileInteract.textContent = isTouchDevice() ? "E" : (s.nav.mobileInteract ?? "E");
+    els.mobileInteract.textContent = isTouchViewport() ? "E" : (s.nav.mobileInteract ?? "E");
     els.mobileInteract.setAttribute("aria-label", s.nav.mobileInteract ?? "Open");
   }
   if (els.mobileSprint) {
     els.mobileSprint.setAttribute("aria-label", s.nav.mobileSprint ?? "Sprint");
   }
   if (els.hint) {
-    els.hint.textContent = isTouchDevice() ? (s.nav.hintTouch ?? s.nav.hint) : s.nav.hint;
+    const hintTemplate = isTouchViewport() ? (s.nav.hintTouch ?? s.nav.hint) : s.nav.hint;
+    els.hint.textContent = interpolateCopy(hintTemplate, copy);
     els.hint.hidden = false;
   }
   if (els.uiDrawerTitle) els.uiDrawerTitle.textContent = s.nav.menuTitle;
@@ -1153,11 +1191,7 @@ function applyLanguage() {
 }
 
 function setupCursorGlow() {
-  if (
-    !els.cursorGlow ||
-    !window.matchMedia("(hover: hover)").matches ||
-    perfTier === "low"
-  ) {
+  if (!els.cursorGlow || !window.matchMedia("(hover: hover)").matches || perfTier === "low") {
     return;
   }
   window.addEventListener("pointermove", (e) => {
@@ -1289,7 +1323,7 @@ document.addEventListener("keydown", (e) => {
     else if (mode === "about") hideAbout();
   }
   const n = Number.parseInt(e.key, 10);
-  if (mode === "maze" && !maze?.paused && n >= 1 && n <= 4) {
+  if (mode === "maze" && !maze?.paused && n >= 1 && n <= PROJECT_COUNT) {
     const key = PROJECT_KEYS[n - 1];
     if (maze?.canActivateGate?.(key) || maze?.visited?.has(key)) {
       maze?.teleportToGate(key);
@@ -1319,7 +1353,8 @@ function showBootError(message) {
 
 function init() {
   try {
-    if (isTouchDevice()) document.body.classList.add("touch-ui");
+    applySiteConfig();
+    if (isTouchViewport()) document.body.classList.add("touch-ui");
     perfTier = applyPerfClass(detectPerfTier());
     applyLanguage();
     setupCursorGlow();
@@ -1390,7 +1425,11 @@ function init() {
     }
   } catch (err) {
     console.error("[portfolio] init failed", err);
-    showBootError(lang === "ko" ? "3D 뷰를 불러오지 못했습니다. 새로고침해 주세요." : "Could not load 3D view. Please refresh.");
+    showBootError(
+      lang === "ko"
+        ? "3D 뷰를 불러오지 못했습니다. 새로고침해 주세요."
+        : "Could not load 3D view. Please refresh.",
+    );
   }
 }
 
