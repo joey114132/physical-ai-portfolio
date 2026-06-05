@@ -58,7 +58,6 @@ python3 -m http.server 8766
 - **Three.js** 0.170 (CDN import map)
 - **urdf-loader** (저장소 내 URDF는 참고용, 브라우저 프리뷰는 절차적 저폴리 메시)
 - 바닐라 JavaScript (모듈), CSS
-- **Netlify** 정적 배포 (`netlify.toml`)
 
 성능 등급 감지(`js/perf.js`), Web Audio 효과음(`js/audio.js`), 한·영 i18n이 포함되어 있습니다.
 
@@ -78,12 +77,12 @@ portfolio/
 ├── assets/
 │   ├── about/          # 소개·클립
 │   └── models/         # URDF/메시 (참고용)
-└── netlify.toml
+└── README.md
 ```
 
 ## 배포
 
-`publish = "."` 로 루트 전체를 배포합니다. `main` 브랜치에 푸시하면 Netlify가 자동으로 갱신합니다.
+빌드 단계 없이 저장소 루트를 정적 사이트 publish 디렉터리로 지정하면 됩니다.
 
 ## 3D 모델
 
