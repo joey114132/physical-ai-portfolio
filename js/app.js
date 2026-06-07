@@ -194,6 +194,10 @@ function setUiMenuOpen(open) {
   els.uiMenuBtn?.setAttribute("aria-label", open ? nav.menuClose : nav.menuOpen);
   els.uiDrawer?.setAttribute("aria-hidden", String(!open));
   if (els.uiDrawerBackdrop) els.uiDrawerBackdrop.hidden = !open;
+  if (mode === "maze") {
+    if (open) maze?.setPaused(true);
+    else if (introDone) maze?.setPaused(false);
+  }
   if (open) {
     resetMobileJoystick();
     resetMobileSprint();
@@ -1428,7 +1432,9 @@ function init() {
         return;
       }
       if (mode === "detail") detail3d?.start();
-      else if (mode === "maze" && introDone) maze?.setPaused(false);
+      else if (mode === "maze" && introDone && !document.body.classList.contains("ui-menu-open")) {
+        maze?.setPaused(false);
+      }
     });
 
     updateQuestBanner();

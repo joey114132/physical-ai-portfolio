@@ -337,18 +337,30 @@ export class MazeScene {
   }
 
   setVirtualStick(x, z) {
+    if (document.body.classList.contains("ui-menu-open")) {
+      this.stickX = 0;
+      this.stickZ = 0;
+      return;
+    }
     this.stickX = x;
     this.stickZ = z;
   }
 
   setVirtualKey(key, down) {
+    if (document.body.classList.contains("ui-menu-open")) return;
     if (!this.keys) return;
     const k = String(key).toLowerCase();
     if (k in this.keys) this.keys[k] = down;
   }
 
   tryInteract() {
-    if (this.paused || document.body.classList.contains("cutscene-mode")) return;
+    if (
+      this.paused ||
+      document.body.classList.contains("cutscene-mode") ||
+      document.body.classList.contains("ui-menu-open")
+    ) {
+      return;
+    }
     if (this.nearExit) {
       if (this.visited.size >= PROJECT_COUNT && this.onReachExit) this.onReachExit();
       else if (this.onGateLocked) this.onGateLocked("exit");
@@ -877,7 +889,8 @@ export class MazeScene {
     if (
       this.paused ||
       document.body.classList.contains("detail-mode") ||
-      document.body.classList.contains("cutscene-mode")
+      document.body.classList.contains("cutscene-mode") ||
+      document.body.classList.contains("ui-menu-open")
     ) {
       return;
     }
@@ -1091,7 +1104,9 @@ export class MazeScene {
 
   _loop() {
     requestAnimationFrame(() => this._loop());
-    if (this.paused || document.hidden) return;
+    if (this.paused || document.hidden || document.body.classList.contains("ui-menu-open")) {
+      return;
+    }
 
     this._frame += 1;
     const dt = Math.min(this.clock.getDelta(), 0.05);
