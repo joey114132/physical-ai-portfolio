@@ -41,7 +41,7 @@
       }
     </script>
   </head>
-  <body class="intro">
+  <body class="intro easy-read">
     <div class="ambient" aria-hidden="true">
       <div class="ambient__mesh"></div>
       <div class="ambient__grid"></div>
@@ -87,91 +87,104 @@
           <div class="journey-card__glow"></div>
           <div class="journey-card__scan"></div>
         </div>
-        <p class="journey-card__scroll-hint hidden" id="journey-scroll-hint" aria-hidden="true"></p>
         <div class="journey-card__scroll" id="journey-scroll" tabindex="-1">
-          <header class="journey-card__header">
+          <header class="journey-exit__masthead">
             <p class="journey-card__eyebrow" id="journey-eyebrow"></p>
-            <h2 class="journey-card__title" id="journey-title"></h2>
+            <p
+              class="journey-card__scroll-hint hidden"
+              id="journey-scroll-hint"
+              aria-hidden="true"
+            ></p>
+          </header>
+
+          <section
+            class="journey-exit__block journey-section journey-section--about"
+            id="journey-about-section"
+            aria-labelledby="journey-about-title"
+          >
+            <h2 class="journey-exit__block-title" id="journey-about-title"></h2>
+            <div class="journey-about">
+              <div class="journey-about__header about-card__header">
+                <img
+                  id="about-photo"
+                  class="about-card__photo"
+                  src="assets/about/profile.jpg"
+                  alt=""
+                  width="128"
+                  height="158"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="about-card__identity">
+                  <h3 class="about-card__title" id="about-title"></h3>
+                  <p class="about-card__role" id="about-role"></p>
+                </div>
+              </div>
+              <p class="about-card__bio" id="about-bio"></p>
+              <ul id="about-strengths" class="about-card__list"></ul>
+              <h4 id="about-gallery-title" class="about-card__gallery-title hidden"></h4>
+              <div id="about-gallery" class="about-gallery hidden" role="list"></div>
+              <p class="about-card__contact">
+                <a id="about-phone" href="#"></a>
+              </p>
+              <p class="about-card__thanks" id="about-thanks"></p>
+              <div id="about-art-block" class="about-card__art hidden">
+                <p id="about-art-intro" class="about-card__art-intro"></p>
+                <a
+                  id="about-art-link"
+                  class="about-card__link"
+                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                ></a>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="journey-exit__block journey-section journey-section--log"
+            id="journey-log-section"
+            aria-labelledby="journey-title"
+          >
+            <h2 class="journey-exit__block-title" id="journey-title"></h2>
             <p class="journey-card__subtitle" id="journey-subtitle"></p>
             <p class="journey-card__bootcamp hidden" id="journey-bootcamp"></p>
             <blockquote class="journey-card__manifesto" id="journey-manifesto"></blockquote>
-          </header>
 
-          <section class="journey-section journey-section--timeline">
-            <h3 class="journey-section__title" id="journey-milestones-title"></h3>
-            <ol class="journey-timeline" id="journey-milestones"></ol>
-          </section>
-
-          <section class="journey-section journey-section--learned">
-            <h3 class="journey-section__title" id="journey-learned-title"></h3>
-            <ul class="journey-chips" id="journey-learned"></ul>
-          </section>
-
-          <div class="journey-horizon">
-            <section class="journey-horizon__col journey-horizon__col--present">
-              <h3 class="journey-horizon__title" id="journey-present-title"></h3>
-              <ul class="journey-horizon__list" id="journey-present"></ul>
+            <section class="journey-section journey-section--timeline">
+              <h3 class="journey-section__title" id="journey-milestones-title"></h3>
+              <ol class="journey-timeline" id="journey-milestones"></ol>
             </section>
-            <section class="journey-horizon__col journey-horizon__col--future">
-              <h3 class="journey-horizon__title" id="journey-future-title"></h3>
-              <ul class="journey-horizon__list" id="journey-future"></ul>
-            </section>
-          </div>
 
-          <section
-            class="journey-section journey-section--sources hidden"
-            id="journey-sources-section"
-          >
-            <h3 class="journey-section__title" id="journey-sources-title"></h3>
-            <ul class="journey-sources" id="journey-sources"></ul>
+            <section class="journey-section journey-section--learned">
+              <h3 class="journey-section__title" id="journey-learned-title"></h3>
+              <ul class="journey-chips" id="journey-learned"></ul>
+            </section>
+
+            <div class="journey-horizon">
+              <section class="journey-horizon__col journey-horizon__col--present">
+                <h3 class="journey-horizon__title" id="journey-present-title"></h3>
+                <ul class="journey-horizon__list" id="journey-present"></ul>
+              </section>
+              <section class="journey-horizon__col journey-horizon__col--future">
+                <h3 class="journey-horizon__title" id="journey-future-title"></h3>
+                <ul class="journey-horizon__list" id="journey-future"></ul>
+              </section>
+            </div>
+
+            <section
+              class="journey-section journey-section--sources hidden"
+              id="journey-sources-section"
+            >
+              <h3 class="journey-section__title" id="journey-sources-title"></h3>
+              <ul class="journey-sources" id="journey-sources"></ul>
+            </section>
           </section>
         </div>
 
         <footer class="journey-card__actions">
-          <button type="button" id="journey-about" class="btn btn--primary"></button>
-          <button type="button" id="journey-close" class="btn btn--ghost"></button>
+          <button type="button" id="journey-close" class="btn btn--primary"></button>
         </footer>
-      </div>
-    </section>
-
-    <section id="about-overlay" class="overlay about-overlay hidden" aria-modal="true" hidden>
-      <div class="overlay__card about-card">
-        <div class="about-card__header">
-          <img
-            id="about-photo"
-            class="about-card__photo"
-            src="assets/about/profile.jpg"
-            alt=""
-            width="108"
-            height="134"
-            loading="lazy"
-            decoding="async"
-          />
-          <div class="about-card__identity">
-            <p class="about-card__eyebrow" id="about-eyebrow"></p>
-            <h2 class="about-card__title" id="about-title"></h2>
-            <p class="about-card__role" id="about-role"></p>
-          </div>
-        </div>
-        <p class="about-card__bio" id="about-bio"></p>
-        <ul id="about-strengths" class="about-card__list"></ul>
-        <h3 id="about-gallery-title" class="about-card__gallery-title hidden"></h3>
-        <div id="about-gallery" class="about-gallery hidden" role="list"></div>
-        <p class="about-card__contact">
-          <a id="about-phone" href="#"></a>
-        </p>
-        <p class="about-card__thanks" id="about-thanks"></p>
-        <div id="about-art-block" class="about-card__art hidden">
-          <p id="about-art-intro" class="about-card__art-intro"></p>
-          <a
-            id="about-art-link"
-            class="about-card__link"
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-          ></a>
-        </div>
-        <button type="button" id="about-close" class="btn btn--primary"></button>
       </div>
     </section>
 

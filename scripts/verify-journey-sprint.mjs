@@ -58,6 +58,25 @@ try {
     throw new Error(`expected 4 milestone learned blocks, got ${journey.learnedCount}`);
   }
 
+  const aboutInline = await page.evaluate(() => {
+    const about = document.getElementById("journey-about-section");
+    const log = document.getElementById("journey-log-section");
+    return {
+      section: Boolean(about),
+      beforeLog: Boolean(
+        about && log && about.compareDocumentPosition(log) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ),
+      name: document.getElementById("about-title")?.textContent?.trim() ?? "",
+      bio: document.getElementById("about-bio")?.textContent?.trim() ?? "",
+    };
+  });
+  if (!aboutInline.section || !aboutInline.name || aboutInline.bio.length < 20) {
+    throw new Error(`about not embedded in journey: ${JSON.stringify(aboutInline)}`);
+  }
+  if (!aboutInline.beforeLog) {
+    throw new Error(`about must appear before journey log: ${JSON.stringify(aboutInline)}`);
+  }
+
   const scroll = await page.evaluate(() => {
     const el = document.getElementById("journey-scroll");
     if (!el) return { ok: false, reason: "missing #journey-scroll" };

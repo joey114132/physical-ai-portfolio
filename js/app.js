@@ -139,16 +139,14 @@ const els = {
   journeyPresent: document.getElementById("journey-present"),
   journeyFutureTitle: document.getElementById("journey-future-title"),
   journeyFuture: document.getElementById("journey-future"),
-  journeyAbout: document.getElementById("journey-about"),
+  journeyAboutTitle: document.getElementById("journey-about-title"),
   journeyClose: document.getElementById("journey-close"),
   journeyScroll: document.getElementById("journey-scroll"),
   journeyScrollHint: document.getElementById("journey-scroll-hint"),
   journeySourcesSection: document.getElementById("journey-sources-section"),
   journeySourcesTitle: document.getElementById("journey-sources-title"),
   journeySources: document.getElementById("journey-sources"),
-  aboutOverlay: document.getElementById("about-overlay"),
   aboutPhoto: document.getElementById("about-photo"),
-  aboutEyebrow: document.getElementById("about-eyebrow"),
   aboutTitle: document.getElementById("about-title"),
   aboutRole: document.getElementById("about-role"),
   aboutBio: document.getElementById("about-bio"),
@@ -158,7 +156,6 @@ const els = {
   aboutArtIntro: document.getElementById("about-art-intro"),
   aboutArtLink: document.getElementById("about-art-link"),
   aboutThanks: document.getElementById("about-thanks"),
-  aboutClose: document.getElementById("about-close"),
   aboutGalleryTitle: document.getElementById("about-gallery-title"),
   aboutGallery: document.getElementById("about-gallery"),
   minimapCanvas: document.getElementById("minimap-canvas"),
@@ -316,9 +313,6 @@ function getScrollContainer() {
   if (mode === "journey" && els.journeyScroll) {
     return els.journeyScroll;
   }
-  if (mode === "about" && els.aboutOverlay) {
-    return els.aboutOverlay.querySelector(".overlay__card");
-  }
   if (mode === "intro" && els.introOverlay && !els.introOverlay.classList.contains("hidden")) {
     return els.introOverlay.querySelector(".overlay__card");
   }
@@ -367,7 +361,7 @@ function startScrollLoop() {
 }
 
 function handlePanelScrollKey(e, down) {
-  if (mode !== "detail" && mode !== "about" && mode !== "intro" && mode !== "journey") return false;
+  if (mode !== "detail" && mode !== "intro" && mode !== "journey") return false;
   if (els.lightbox && !els.lightbox.hidden) return false;
   const k = e.key.toLowerCase();
   let handled = false;
@@ -788,12 +782,15 @@ function renderIntro() {
 
 async function renderAbout() {
   const a = STRINGS[lang].about;
+  const j = STRINGS[lang].journey;
+  if (els.journeyAboutTitle) {
+    els.journeyAboutTitle.textContent = j.aboutSectionTitle ?? a.sectionTitle ?? "";
+  }
   if (els.aboutPhoto) {
     if (a.profileImage) els.aboutPhoto.src = a.profileImage;
     els.aboutPhoto.alt = fullName();
     els.aboutPhoto.hidden = !a.profileImage;
   }
-  els.aboutEyebrow.textContent = a.eyebrow;
   els.aboutTitle.textContent = fullName();
   els.aboutRole.textContent = a.role;
   els.aboutBio.innerHTML = formatConceptHtml(a.bio);
@@ -833,7 +830,6 @@ async function renderAbout() {
       els.aboutArtLink.href = SITE.links.artPortfolio;
     }
   }
-  els.aboutClose.textContent = a.close;
 }
 
 function renderJourney() {
@@ -943,7 +939,6 @@ function renderJourney() {
       els.journeyScrollHint.classList.add("hidden");
     }
   }
-  if (els.journeyAbout) els.journeyAbout.textContent = j.aboutCta;
   if (els.journeyClose) els.journeyClose.textContent = j.close;
 }
 
@@ -1310,13 +1305,14 @@ function closeLightbox() {
   els.lightbox.setAttribute("aria-hidden", "true");
 }
 
-function showJourney() {
+async function showJourney() {
   setUiMenuOpen(false);
   syncMobileControls();
   mode = "journey";
   stopLabNotesRotation();
   maze?.setPaused(true);
   renderJourney();
+  await renderAbout();
   if (els.journeyScroll) els.journeyScroll.scrollTop = 0;
   els.journeyOverlay?.classList.remove("hidden");
   if (els.journeyOverlay) {
@@ -1327,7 +1323,7 @@ function showJourney() {
   document.body.classList.add("journey-mode");
   els.gameUi?.classList.add("hidden");
   requestAnimationFrame(() => {
-    els.journeyAbout?.focus({ preventScroll: true });
+    els.journeyClose?.focus({ preventScroll: true });
   });
 }
 
@@ -1344,52 +1340,6 @@ function hideJourney() {
     els.journeyOverlay.setAttribute("aria-hidden", "true");
   }
   document.body.classList.remove("journey-mode");
-  document.body.classList.add("maze-mode");
-  layoutMazeChrome();
-  els.gameUi.classList.remove("hidden");
-  maze?.setPaused(false);
-  syncMobileControls();
-  updateQuestBanner();
-  startLabNotesRotation();
-  requestAnimationFrame(() => {
-    maze?._resize?.();
-    drawMinimap();
-  });
-}
-
-function openAboutFromJourney() {
-  els.journeyOverlay?.classList.add("hidden");
-  if (els.journeyOverlay) els.journeyOverlay.hidden = true;
-  document.body.classList.remove("journey-mode");
-  showAbout();
-}
-
-function showAbout() {
-  setUiMenuOpen(false);
-  syncMobileControls();
-  els.journeyOverlay?.classList.add("hidden");
-  if (els.journeyOverlay) els.journeyOverlay.hidden = true;
-  document.body.classList.remove("journey-mode");
-  mode = "about";
-  stopLabNotesRotation();
-  maze?.setPaused(true);
-  renderAbout();
-  els.aboutOverlay.classList.remove("hidden");
-  els.aboutOverlay.hidden = false;
-  document.body.classList.remove("maze-mode");
-  document.body.classList.add("about-mode");
-}
-
-function hideAbout() {
-  resetViewOverlays();
-  stopScrollLoop();
-  scrollKeys.up = false;
-  scrollKeys.down = false;
-  exitFlowActive = false;
-  mode = "maze";
-  els.aboutOverlay.classList.add("hidden");
-  els.aboutOverlay.hidden = true;
-  document.body.classList.remove("about-mode");
   document.body.classList.add("maze-mode");
   layoutMazeChrome();
   els.gameUi.classList.remove("hidden");
@@ -1587,9 +1537,7 @@ els.introLangKo?.addEventListener("click", () => setIntroLanguage("ko"));
 els.detailBack.addEventListener("click", closeDetail);
 els.introStart.addEventListener("click", startMaze);
 els.introSkip.addEventListener("click", startMaze);
-els.journeyAbout?.addEventListener("click", openAboutFromJourney);
 els.journeyClose?.addEventListener("click", hideJourney);
-els.aboutClose.addEventListener("click", hideAbout);
 els.soundBtn?.addEventListener("click", () => {
   audio.toggleMute();
   updateSoundBtn();
@@ -1626,7 +1574,6 @@ document.addEventListener("keydown", (e) => {
     }
     if (mode === "detail") closeDetail();
     else if (mode === "journey") hideJourney();
-    else if (mode === "about") hideAbout();
   }
   const n = Number.parseInt(e.key, 10);
   if (mode === "maze" && !maze?.paused && n >= 1 && n <= PROJECT_COUNT) {
@@ -1731,7 +1678,6 @@ function init() {
         enterExit,
         showJourney,
         hideJourney,
-        openAboutFromJourney,
         startMaze,
         unlockAllGates() {
           PROJECT_KEYS.forEach((k) => maze?.visited?.add(k));

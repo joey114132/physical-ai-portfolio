@@ -3739,16 +3739,31 @@ body.maze-mode.touch-ui .top-bar__status-progress {
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 70%);
 }
 
+.journey-exit__masthead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  margin: 0 0 1rem;
+  padding: 0.65rem 0 0.85rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--copper) 18%, var(--border));
+  background: color-mix(in srgb, rgba(12, 16, 26, 0.98) 92%, transparent);
+  backdrop-filter: blur(8px);
+}
+
 .journey-card__scroll-hint {
   position: relative;
   z-index: 1;
   flex: none;
-  margin: 0;
-  padding: 0.45rem clamp(1.5rem, 3.5vw, 2.35rem) 0;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.06em;
-  color: var(--muted);
+  margin: 0.55rem 0 0;
+  padding: 0.65rem 0.9rem;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  color: rgba(246, 240, 232, 0.95);
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--copper) 28%, var(--border));
+  background: color-mix(in srgb, var(--copper) 10%, rgba(8, 12, 20, 0.75));
 }
 
 .journey-card__scroll {
@@ -4089,6 +4104,63 @@ body.maze-mode.touch-ui .top-bar__status-progress {
   text-decoration: underline;
 }
 
+.journey-exit__block {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid color-mix(in srgb, var(--copper) 22%, var(--border));
+}
+
+.journey-exit__block:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.journey-exit__block-title {
+  margin: 0 0 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 5vw, 2.15rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+.journey-section--about {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.journey-section--log {
+  padding-top: 0.25rem;
+}
+
+.journey-about .about-card__title {
+  font-size: clamp(1.45rem, 4.5vw, 2rem);
+}
+
+.journey-about .about-card__gallery-title {
+  margin: 1rem 0 0.65rem;
+  font-family: var(--font-game);
+  font-size: var(--text-sm);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--copper) 70%, var(--text));
+}
+
+body.journey-mode .journey-exit__masthead {
+  animation-delay: 0s;
+}
+
+body.journey-mode .journey-section--about {
+  animation-delay: 0.06s;
+}
+
+body.journey-mode .journey-section--log {
+  animation-delay: 0.14s;
+}
+
 .journey-card__actions {
   position: relative;
   z-index: 2;
@@ -4096,14 +4168,19 @@ body.maze-mode.touch-ui .top-bar__status-progress {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
-  justify-content: flex-end;
+  justify-content: stretch;
   padding: 0.85rem clamp(1.5rem, 3.5vw, 2.35rem) clamp(1.1rem, 2.5vw, 1.35rem);
   border-top: 1px solid color-mix(in srgb, var(--copper) 14%, var(--border));
   background: color-mix(in srgb, rgba(12, 16, 26, 0.98) 88%, transparent);
 }
 
 .journey-card__actions .btn--primary {
-  min-width: 10rem;
+  flex: 1 1 100%;
+  min-width: 100%;
+  min-height: 3.25rem;
+  font-size: var(--text-md);
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 body.journey-mode .journey-card > * {
@@ -4111,16 +4188,16 @@ body.journey-mode .journey-card > * {
 }
 
 body.journey-mode .journey-section--timeline {
-  animation-delay: 0.08s;
+  animation-delay: 0.18s;
 }
 body.journey-mode .journey-section--learned {
-  animation-delay: 0.16s;
+  animation-delay: 0.22s;
 }
 body.journey-mode .journey-horizon {
-  animation-delay: 0.24s;
+  animation-delay: 0.26s;
 }
 body.journey-mode .journey-card__actions {
-  animation-delay: 0.32s;
+  animation-delay: 0.3s;
 }
 
 @keyframes journey-reveal {
@@ -4157,4 +4234,101 @@ body.journey-mode .journey-card__actions {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ── Easy-read mode (senior-friendly typography & touch) ── */
+body.easy-read {
+  --line-relaxed: 1.75;
+}
+
+body.easy-read .intro-controls__title {
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+}
+
+body.easy-read .intro-controls__keys {
+  min-width: 5.5rem;
+  padding: 0.45rem 0.7rem;
+  font-size: var(--text-sm);
+}
+
+body.easy-read .intro-controls__label {
+  font-size: var(--text-md);
+  line-height: var(--line-relaxed);
+}
+
+body.easy-read .intro-controls__row {
+  padding: 0.55rem 0;
+}
+
+body.easy-read .intro-card__lead,
+body.easy-read .intro-card__touch {
+  font-size: var(--text-md);
+  line-height: var(--line-relaxed);
+}
+
+body.easy-read .btn {
+  min-height: 3.1rem;
+  font-size: var(--text-md);
+}
+
+body.easy-read .btn--primary {
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+body.easy-read.maze-mode .quest-banner {
+  font-size: var(--text-md);
+  line-height: 1.55;
+  padding: 1rem 1.35rem;
+  max-width: min(94vw, 32rem);
+}
+
+body.easy-read.journey-mode .journey-card__eyebrow {
+  font-size: var(--text-md);
+  letter-spacing: 0.1em;
+}
+
+body.easy-read.journey-mode .journey-card__scroll-hint {
+  font-size: var(--text-md);
+  padding: 0.85rem 1rem;
+}
+
+body.easy-read.journey-mode .journey-exit__block-title {
+  font-size: clamp(1.75rem, 5.5vw, 2.35rem);
+}
+
+body.easy-read.journey-mode .journey-card__subtitle,
+body.easy-read.journey-mode .journey-card__bootcamp,
+body.easy-read.journey-mode .journey-timeline__summary,
+body.easy-read.journey-mode .journey-chips li,
+body.easy-read.journey-mode .journey-horizon__list li,
+body.easy-read.journey-mode .about-card__bio,
+body.easy-read.journey-mode .about-card__list {
+  font-size: var(--text-md);
+  line-height: var(--line-relaxed);
+}
+
+body.easy-read.journey-mode .journey-section__title,
+body.easy-read.journey-mode .journey-horizon__title {
+  font-size: var(--text-md);
+  letter-spacing: 0.08em;
+}
+
+body.easy-read.journey-mode .journey-timeline__name {
+  font-size: clamp(1.15rem, 3.5vw, 1.35rem);
+}
+
+body.easy-read.journey-mode .journey-about .about-card__photo {
+  width: 128px;
+  height: 158px;
+}
+
+body.easy-read.journey-mode .journey-about .about-card__title {
+  font-size: clamp(1.55rem, 4.5vw, 2.1rem);
+}
+
+body.easy-read.journey-mode .journey-card__actions .btn--primary {
+  min-height: 3.5rem;
+  font-size: 1.125rem;
 }

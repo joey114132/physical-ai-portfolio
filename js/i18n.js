@@ -115,20 +115,20 @@ export const STRINGS = {
       returnWelcome: "Welcome back. The corridor remembers you — pick up where you left off.",
       touchNote: "Mobile: **joystick** · **E** to open · **menu (≡)** for status & projects",
       edu: "B.S. Game Design, University of Utah — 2024",
-      controlsTitle: "How to explore",
+      controlsTitle: "How to explore (simple)",
       controls: [
-        { keys: "W A S D", label: "Move through the lab" },
-        { keys: "E", label: "Open a station or the exit arch" },
-        { keys: "1 – {projectLast}", label: "Jump to a project (after unlocked)" },
-        { keys: "Esc", label: "Close panels and return to the maze" },
+        { keys: "W A S D", label: "Walk — hold keys to move" },
+        { keys: "E", label: "Open doors, projects, and the exit" },
+        { keys: "1 – {projectLast}", label: "Jump to a project (after you unlock it)" },
+        { keys: "Esc", label: "Close any panel and go back to the maze" },
       ],
-      cta: "Enter lab",
+      cta: "Start walking",
       skip: "Skip intro",
       languageLabel: "Language",
     },
     about: {
       profileImage: "assets/about/profile.jpg",
-      eyebrow: "EXIT · ABOUT ME",
+      sectionTitle: "About me",
       role: "Physical AI · robotics · vision-UI",
       bio: "Game school at **Utah (2024)**. These days it's **Physical AI** — robots, vision, UI. I hook cameras into **PyQt** or a browser, run **sim** first when I can, then move to hardware. **3D** spatial sense still shows up in **teleop** layout.",
       strengths: [
@@ -141,17 +141,17 @@ export const STRINGS = {
       media: [
         {
           type: "video",
-          src: "assets/about/hifive-demo.mp4",
+          src: "assets/about/high-five-demo.mp4",
           caption: "EduPing — real high-five on OpenArm",
         },
         {
           type: "video",
           src: "assets/about/hri-lab.webm",
-          caption: "HiFive robot — interaction test in the lab",
+          caption: "High-five robot — interaction test in the lab",
         },
         {
           type: "video",
-          src: "assets/about/hifive-sim.webm",
+          src: "assets/about/high-five-sim.webm",
           caption: "Browser IK sim — blue/red target balls",
         },
         { type: "gif", src: "PRISMIC_HIFIVE", caption: "High-five demo (depth + arm)" },
@@ -163,18 +163,18 @@ export const STRINGS = {
         },
       ],
       artLinkLabel: "3D art portfolio (game school work)",
-      close: "Back to lab",
       finish: "Thanks for walking through",
     },
     journey: {
-      eyebrow: "EXIT · JOURNEY LOG",
-      title: "What I learned",
+      eyebrow: "EXIT · ABOUT & JOURNEY",
+      title: "2 · What I learned",
+      aboutSectionTitle: "1 · About me",
       subtitle:
-        "Addinedu **Physical AI** bootcamp (2025–2026) — four team sprints, **my commits & deck slides** only",
+        "Read **about me** above first — below is the **journey log** from Addinedu **Physical AI** (2025–2026)",
       bootcamp:
         "**Jan→Jun 2026** at **Addinedu**: DL **Gesto** (threaded **PyQt6 + MediaPipe/LSTM**), IoT **Wizard of Parking** (**ESP32 UDP/TCP** + operator UI), ROS **ShopPinkki** (**YOLOv8/ByteTrack/ReID** on **Nav2**), PAI **pingdergarten** (**Vue/Three.js** + **D435→TRAC-IK→FK** on **OpenArm**). Team decks & GitHub repos are linked below — numbers come from our **PPTX/PDF** metrics and my org-repo commits.",
-      scrollHint: "Scroll · **W** ↑ · **S** ↓ · wheel",
-      scrollHintTouch: "Swipe to read the full log",
+      scrollHint: "Scroll down for more · keyboard **W** up · **S** down · mouse wheel",
+      scrollHintTouch: "Swipe up or down to read everything",
       myRoleLabel: "My role",
       deckLabel: "Team deck",
       sourcesTitle: "Sources",
@@ -260,12 +260,11 @@ export const STRINGS = {
       ],
       manifesto:
         "I am not a portfolio agency. This is a **lab log** you walk — bugs, team credit, and the ugly **sim→real** bits included.",
-      aboutCta: "About me →",
-      close: "Back to lab",
+      close: "Return to maze",
     },
     exit: {
       cutscenePhase: "EXIT ARCH",
-      cutsceneTitle: "Journey log",
+      cutsceneTitle: "About & journey",
       labelSub: "JOURNEY LOG",
     },
     hero: {
@@ -985,20 +984,20 @@ export const STRINGS = {
       returnWelcome: "다시 오셨군요. 복도가 기억합니다 — 이어서 걸어 주세요.",
       touchNote: "모바일: **조이스틱** · **E**로 열기 · **메뉴(≡)** 에서 상태·프로젝트",
       edu: "유타대학교 게임학 학사 · 2024",
-      controlsTitle: "조작 방법",
+      controlsTitle: "조작 방법 (쉬운 설명)",
       controls: [
-        { keys: "W A S D", label: "랩 안에서 이동" },
-        { keys: "E", label: "스테이션·출구 아치에서 열기" },
+        { keys: "W A S D", label: "걷기 — 키를 누르고 있으면 이동" },
+        { keys: "E", label: "문·프로젝트·출구 열기" },
         { keys: "1 – {projectLast}", label: "프로젝트로 바로 이동 (해금 후)" },
         { keys: "Esc", label: "패널 닫고 미로로 돌아가기" },
       ],
-      cta: "랩 입장하기",
+      cta: "걷기 시작",
       skip: "소개 건너뛰기",
       languageLabel: "언어",
     },
     about: {
       profileImage: "assets/about/profile.jpg",
-      eyebrow: "출구 · 소개",
+      sectionTitle: "자기소개",
       role: "Physical AI · 로봇 · 비전-UI",
       bio: "**유타대** 게임 전공(2024)입니다. 현재 **Physical AI** — **로봇·비전·UI** 관련 작업을 하고 있습니다. 카메라는 **PyQt**나 **브라우저 UI**에 연결하고, **시뮬**에서 먼저 확인할 수 있으면 그렇게 한 뒤 실물로 옮깁니다. **3D** 작업 때 익힌 공간 감각은 **teleop**과 UI 배치에 아직도 사용하고 있습니다.",
       strengths: [
@@ -1010,17 +1009,17 @@ export const STRINGS = {
       media: [
         {
           type: "video",
-          src: "assets/about/hifive-demo.mp4",
+          src: "assets/about/high-five-demo.mp4",
           caption: "EduPing — OpenArm 실물 하이파이브",
         },
         {
           type: "video",
           src: "assets/about/hri-lab.webm",
-          caption: "HiFive 로봇 — 실험실 상호작용 테스트",
+          caption: "하이파이브 로봇 — 실험실 상호작용 테스트",
         },
         {
           type: "video",
-          src: "assets/about/hifive-sim.webm",
+          src: "assets/about/high-five-sim.webm",
           caption: "브라우저 IK 시뮬 — 파란/빨간 볼",
         },
         { type: "gif", src: "PRISMIC_HIFIVE", caption: "하이파이브 (뎁스 + 암)" },
@@ -1030,18 +1029,18 @@ export const STRINGS = {
       artLinkIntro:
         "예전 **게임·3D** 아트 작업은 따로 모아 두었습니다. 아래 링크에서 보실 수 있습니다.",
       artLinkLabel: "3D 아트 포트폴리오",
-      close: "랩으로 돌아가기",
       finish: "둘러봐 주셔서 감사합니다",
     },
     journey: {
-      eyebrow: "출구 · 여정 기록",
-      title: "배운 것들",
+      eyebrow: "출구 · 소개 & 여정",
+      title: "2 · 배운 것들",
+      aboutSectionTitle: "1 · 자기소개",
       subtitle:
-        "애디닝 **Physical AI** 부트캠프 (2025–2026) — 네 팀 스프린트, **제 커밋·발표 슬라이드** 기준",
+        "위에서 **자기소개**를 먼저 읽어 주세요 — 아래는 애디닝 **Physical AI** 부트캠프 **여정 기록**입니다",
       bootcamp:
         "**2026.01→06 애디닝**: DL **Gesto**(스레드 **PyQt6+MediaPipe/LSTM**), IoT **오주의 마법사**(**ESP32 UDP/TCP**+관제 UI), ROS **쑈삥끼**(**YOLOv8/ByteTrack/ReID**+**Nav2**), PAI **pingdergarten**(**Vue/Three.js**+**D435→TRAC-IK→FK**). 아래 **GitHub·팀 덱** 링크 — 수치는 **PPTX/PDF** 지표와 조직 저장소 **제 커밋**에서 가져왔습니다.",
-      scrollHint: "스크롤 · **W** 위 · **S** 아래 · 휠",
-      scrollHintTouch: "스와이프로 전체 기록 읽기",
+      scrollHint: "아래로 스크롤 · 키보드 **W** 위 · **S** 아래 · 마우스 휠",
+      scrollHintTouch: "위아래로 스와이프해 전체를 읽어 주세요",
       myRoleLabel: "제 역할",
       deckLabel: "팀 발표",
       sourcesTitle: "출처",
@@ -1127,12 +1126,11 @@ export const STRINGS = {
       ],
       manifesto:
         "포트폴리오 대행이 아닙니다. 걸어 다니는 **랩 기록** — 버그, 팀 크레딧, 지저분한 **sim→real**까지 그대로.",
-      aboutCta: "소개 보기 →",
-      close: "랩으로 돌아가기",
+      close: "미로로 돌아가기",
     },
     exit: {
       cutscenePhase: "출구 아치",
-      cutsceneTitle: "여정 기록",
+      cutsceneTitle: "소개 & 여정",
       labelSub: "여정 기록",
     },
     hero: {

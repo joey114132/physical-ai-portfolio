@@ -1,5 +1,5 @@
 /**
- * Headless check: exit arch → cutscene → journey → about → back to maze.
+ * Headless check: exit arch → cutscene → combined journey+about → back to maze.
  * Run: node scripts/test-exit-flow.mjs
  * Needs: server on PORTFOLIO_URL (default http://127.0.0.1:8766/?debug=1)
  */
@@ -17,12 +17,19 @@ async function readState(page) {
   return page.evaluate(() => {
     const p = window.__portfolio;
     const journey = document.getElementById("journey-overlay");
-    const about = document.getElementById("about-overlay");
     return {
       ok: Boolean(p?.maze),
       mode: p?.mode,
       journeyOpen: journey && !journey.hidden,
-      aboutOpen: about && !about.hidden,
+      aboutInJourney: Boolean(document.getElementById("journey-about-section")),
+      aboutBeforeLog: (() => {
+        const about = document.getElementById("journey-about-section");
+        const log = document.getElementById("journey-log-section");
+        return Boolean(
+          about && log && about.compareDocumentPosition(log) & Node.DOCUMENT_POSITION_FOLLOWING,
+        );
+      })(),
+      aboutTitle: document.getElementById("about-title")?.textContent?.trim() ?? "",
       journeyTitle: document.getElementById("journey-title")?.textContent?.trim() ?? "",
       cutscene: document.body.classList.contains("cutscene-mode"),
       journeyMode: document.body.classList.contains("journey-mode"),
@@ -62,12 +69,11 @@ try {
     p.maze.tryInteract();
   });
 
-  await sleep(400);
+  await page.waitForSelector("#journey-overlay:not([hidden])", { timeout: 12000 });
+  await page.waitForFunction(() => document.body.classList.contains("journey-mode"), null, {
+    timeout: 5000,
+  });
   let s = await readState(page);
-  if (s.cutscene && !s.journeyOpen) {
-    await sleep(900);
-    s = await readState(page);
-  }
 
   if (!s.journeyOpen || !s.journeyMode) {
     throw new Error(`expected journey overlay after exit E: ${JSON.stringify(s)}`);
@@ -75,22 +81,21 @@ try {
   if (!s.journeyTitle) {
     throw new Error(`journey title empty: ${JSON.stringify(s)}`);
   }
-
-  await page.click("#journey-about");
-  await sleep(300);
-  s = await readState(page);
-  if (!s.aboutOpen || s.journeyOpen) {
-    throw new Error(`expected about after journey CTA: ${JSON.stringify(s)}`);
+  if (!s.aboutInJourney || !s.aboutTitle) {
+    throw new Error(`expected about section inside journey: ${JSON.stringify(s)}`);
+  }
+  if (!s.aboutBeforeLog) {
+    throw new Error(`expected about section before journey log: ${JSON.stringify(s)}`);
   }
 
-  await page.click("#about-close");
+  await page.click("#journey-close");
   await sleep(300);
   s = await readState(page);
-  if (s.mode !== "maze" || s.aboutOpen || s.journeyOpen) {
-    throw new Error(`expected maze after about close: ${JSON.stringify(s)}`);
+  if (s.mode !== "maze" || s.journeyOpen) {
+    throw new Error(`expected maze after journey close: ${JSON.stringify(s)}`);
   }
 
-  console.log("OK exit flow:", s.journeyTitle, "→ about → maze");
+  console.log("OK exit flow: about first,", s.aboutTitle, "→", s.journeyTitle, "→ maze");
 } finally {
   await browser.close();
 }
