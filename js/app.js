@@ -171,6 +171,21 @@ function usesMazeMenu() {
   return document.body.classList.contains("maze-mode") && MAZE_MENU_MQ.matches;
 }
 
+function syncMobileControlsDrawer() {
+  const el = els.mobileControls;
+  if (!el) return;
+  const suppress =
+    document.body.classList.contains("ui-menu-open") && usesMazeMenu() && !el.hidden;
+  el.classList.toggle("mobile-controls--suppressed", suppress);
+  if (suppress) {
+    el.setAttribute("inert", "");
+    el.setAttribute("aria-hidden", "true");
+  } else if (!el.hidden) {
+    el.removeAttribute("inert");
+    el.setAttribute("aria-hidden", "false");
+  }
+}
+
 function setUiMenuOpen(open) {
   if (!usesMazeMenu() && open) return;
   document.body.classList.toggle("ui-menu-open", open);
@@ -180,10 +195,13 @@ function setUiMenuOpen(open) {
   els.uiDrawer?.setAttribute("aria-hidden", String(!open));
   if (els.uiDrawerBackdrop) els.uiDrawerBackdrop.hidden = !open;
   if (open) {
+    resetMobileJoystick();
+    resetMobileSprint();
     els.uiDrawerClose?.focus({ preventScroll: true });
   } else if (document.activeElement?.closest?.(".ui-drawer__panel")) {
     els.uiMenuBtn?.focus({ preventScroll: true });
   }
+  syncMobileControlsDrawer();
 }
 
 function syncUiMenuMode() {
@@ -858,8 +876,13 @@ function syncMobileControls() {
     !document.body.classList.contains("cutscene-mode");
   els.mobileControls.hidden = !show;
   if (!show) {
+    els.mobileControls.classList.remove("mobile-controls--suppressed");
+    els.mobileControls.removeAttribute("inert");
+    els.mobileControls.setAttribute("aria-hidden", "true");
     resetMobileJoystick();
     resetMobileSprint();
+  } else {
+    syncMobileControlsDrawer();
   }
 }
 
@@ -931,6 +954,7 @@ function bindMobileJoystick() {
   };
 
   root.addEventListener("pointerdown", (e) => {
+    if (els.mobileControls?.classList.contains("mobile-controls--suppressed")) return;
     if (activePointer !== null) return;
     e.preventDefault();
     activePointer = e.pointerId;
@@ -961,6 +985,7 @@ function bindMobileSprint() {
   if (!btn) return;
 
   const down = (e) => {
+    if (els.mobileControls?.classList.contains("mobile-controls--suppressed")) return;
     e.preventDefault();
     btn.setPointerCapture(e.pointerId);
     btn.classList.add("mobile-btn--sprint-active");
@@ -989,7 +1014,10 @@ function initMobileControls() {
   if (!els.mobileControls) return;
   bindMobileJoystick();
   bindMobileSprint();
-  els.mobileInteract?.addEventListener("click", () => maze?.tryInteract?.());
+  els.mobileInteract?.addEventListener("click", () => {
+    if (els.mobileControls?.classList.contains("mobile-controls--suppressed")) return;
+    maze?.tryInteract?.();
+  });
   window.addEventListener(
     "resize",
     () => {
