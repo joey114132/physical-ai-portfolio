@@ -8,6 +8,15 @@
     />
     <title id="page-title"></title>
     <meta name="description" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="" id="meta-og-title" />
+    <meta property="og:description" content="" id="meta-og-desc" />
+    <meta property="og:url" content="" id="meta-og-url" />
+    <meta property="og:image" content="" id="meta-og-image" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="" id="meta-tw-title" />
+    <meta name="twitter:description" content="" id="meta-tw-desc" />
+    <meta name="twitter:image" content="" id="meta-tw-image" />
     <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
     <link rel="alternate icon" href="/assets/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -62,12 +71,66 @@
         <p class="intro-card__alias" id="intro-alias"></p>
         <p class="intro-card__role" id="intro-role"></p>
         <p class="intro-card__lead" id="intro-lead"></p>
+        <p class="intro-card__return hidden" id="intro-return"></p>
         <p class="intro-card__edu" id="intro-edu"></p>
         <div class="intro-card__controls" id="intro-controls" aria-label="How to play"></div>
         <div class="intro-card__actions">
           <button type="button" id="intro-start" class="btn btn--primary"></button>
           <button type="button" id="intro-skip" class="btn btn--ghost"></button>
         </div>
+      </div>
+    </section>
+
+    <section id="journey-overlay" class="overlay journey-overlay hidden" aria-modal="true" hidden>
+      <div class="journey-card overlay__card">
+        <div class="journey-card__fx" aria-hidden="true">
+          <div class="journey-card__glow"></div>
+          <div class="journey-card__scan"></div>
+        </div>
+        <p class="journey-card__scroll-hint hidden" id="journey-scroll-hint" aria-hidden="true"></p>
+        <div class="journey-card__scroll" id="journey-scroll" tabindex="-1">
+          <header class="journey-card__header">
+            <p class="journey-card__eyebrow" id="journey-eyebrow"></p>
+            <h2 class="journey-card__title" id="journey-title"></h2>
+            <p class="journey-card__subtitle" id="journey-subtitle"></p>
+            <p class="journey-card__bootcamp hidden" id="journey-bootcamp"></p>
+            <blockquote class="journey-card__manifesto" id="journey-manifesto"></blockquote>
+          </header>
+
+          <section class="journey-section journey-section--timeline">
+            <h3 class="journey-section__title" id="journey-milestones-title"></h3>
+            <ol class="journey-timeline" id="journey-milestones"></ol>
+          </section>
+
+          <section class="journey-section journey-section--learned">
+            <h3 class="journey-section__title" id="journey-learned-title"></h3>
+            <ul class="journey-chips" id="journey-learned"></ul>
+          </section>
+
+          <div class="journey-horizon">
+            <section class="journey-horizon__col journey-horizon__col--present">
+              <h3 class="journey-horizon__title" id="journey-present-title"></h3>
+              <ul class="journey-horizon__list" id="journey-present"></ul>
+            </section>
+            <section class="journey-horizon__col journey-horizon__col--future">
+              <h3 class="journey-horizon__title" id="journey-future-title"></h3>
+              <ul class="journey-horizon__list" id="journey-future"></ul>
+            </section>
+          </div>
+
+          <section
+            class="journey-section journey-section--sources hidden"
+            id="journey-sources-section"
+          >
+            <h3 class="journey-section__title" id="journey-sources-title"></h3>
+            <ul class="journey-sources" id="journey-sources"></ul>
+          </section>
+        </div>
+
+        <footer class="journey-card__actions">
+          <button type="button" id="journey-about" class="btn btn--primary"></button>
+          <button type="button" id="journey-close" class="btn btn--ghost"></button>
+        </footer>
       </div>
     </section>
 
@@ -160,6 +223,7 @@
           <span class="hero__alias" id="hero-sub"></span>
           <p class="hero__role" id="hero-role"></p>
           <p class="hero__tagline" id="hero-tagline"></p>
+          <p class="hero__lab-notes" id="hero-lab-notes" aria-live="polite"></p>
           <div class="hero__rule" aria-hidden="true"></div>
         </div>
       </section>
@@ -339,9 +403,11 @@
         <button
           type="button"
           id="mobile-sprint"
-          class="mobile-btn mobile-btn--sprint"
+          class="mobile-btn mobile-btn--sprint hidden"
+          hidden
           aria-pressed="false"
           aria-label="Sprint"
+          tabindex="-1"
         >
           <svg class="mobile-sprint-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <circle class="mobile-sprint-icon__head" cx="14.2" cy="5.1" r="1.85" />

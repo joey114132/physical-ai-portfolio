@@ -76,15 +76,20 @@ export const PRISMIC = {
 
 export const STRINGS = {
   en: {
-    meta: { titleSuffix: "Physical AI Portfolio" },
+    meta: {
+      titleSuffix: "Physical AI Lab",
+      ogTitle: "Joey Lee · walk the Physical AI lab",
+      ogDescription:
+        "A 3D maze with four stations I actually built — gestures, IoT, ROS vision, real robot high-five. Not a PDF resume.",
+    },
     nav: {
-      hint: "WASD move · Shift sprint · E at gates & exit · 1–{projectLast} open a project · Esc back",
+      hint: "WASD move · E at gates & exit · 1–{projectLast} open a project · Esc back",
       hudLabel: "LAB",
       questIdle: "Follow the lit corridor — stations {stationFirst}→{stationLast} in order",
       questNext: "Head to Station {order}: {title}",
       questNextShort: "Station {order} · {title}",
       questNear: "Press E — Station {order}: {title}",
-      questExit: "All clear · E — about me",
+      questExit: "All clear · E — journey log",
       questLocked: "Complete station {order} first ({title})",
       questExitLocked: "Visit all {projectCount} stations before the exit",
       questProgress: "Stations cleared {n}/{projectCount}",
@@ -94,9 +99,8 @@ export const STRINGS = {
       visualCaption: "3D · drag to orbit · W/S scroll the panel",
       scrollHint: "W ↑ · S ↓ · scroll for more",
       scrollHintTouch: "Swipe to scroll",
-      hintTouch: "Joystick · hold sprint · E · menu (≡)",
+      hintTouch: "Joystick · E · menu (≡)",
       mobileInteract: "Open",
-      mobileSprint: "Sprint",
       visualCaptionTouch: "3D · drag to orbit · swipe to scroll",
       menuOpen: "Open menu",
       menuClose: "Close menu",
@@ -105,16 +109,15 @@ export const STRINGS = {
       detail3dHide: "Hide 3D",
     },
     intro: {
-      eyebrow: "SOFTWARE DEVELOPER PORTFOLIO",
+      eyebrow: "FIELD LAB · NOT A PDF",
       role: "Physical AI · robotics · vision-UI",
-      lead: "Walk the **3D lab** and open stations **{stationFirst}→{stationLast}**. I only put in what I actually built — team projects, my parts.",
-      touchNote:
-        "Mobile: **joystick** · hold **sprint** · **E** to open · **menu (≡)** for status & projects",
+      lead: "You are inside a **3D maze** I built because resumes cannot show **IK tuning** or a **high-five on hardware**. Walk stations **{stationFirst}→{stationLast}** — team work, **my parts only**.",
+      returnWelcome: "Welcome back. The corridor remembers you — pick up where you left off.",
+      touchNote: "Mobile: **joystick** · **E** to open · **menu (≡)** for status & projects",
       edu: "B.S. Game Design, University of Utah — 2024",
       controlsTitle: "How to explore",
       controls: [
         { keys: "W A S D", label: "Move through the lab" },
-        { keys: "Shift", label: "Sprint" },
         { keys: "E", label: "Open a station or the exit arch" },
         { keys: "1 – {projectLast}", label: "Jump to a project (after unlocked)" },
         { keys: "Esc", label: "Close panels and return to the maze" },
@@ -163,11 +166,120 @@ export const STRINGS = {
       close: "Back to lab",
       finish: "Thanks for walking through",
     },
+    journey: {
+      eyebrow: "EXIT · JOURNEY LOG",
+      title: "What I learned",
+      subtitle:
+        "Addinedu **Physical AI** bootcamp (2025–2026) — four team sprints, **my commits & deck slides** only",
+      bootcamp:
+        "**Jan→Jun 2026** at **Addinedu**: DL **Gesto** (threaded **PyQt6 + MediaPipe/LSTM**), IoT **Wizard of Parking** (**ESP32 UDP/TCP** + operator UI), ROS **ShopPinkki** (**YOLOv8/ByteTrack/ReID** on **Nav2**), PAI **pingdergarten** (**Vue/Three.js** + **D435→TRAC-IK→FK** on **OpenArm**). Team decks & GitHub repos are linked below — numbers come from our **PPTX/PDF** metrics and my org-repo commits.",
+      scrollHint: "Scroll · **W** ↑ · **S** ↓ · wheel",
+      scrollHintTouch: "Swipe to read the full log",
+      myRoleLabel: "My role",
+      deckLabel: "Team deck",
+      sourcesTitle: "Sources",
+      sources: [
+        {
+          label: "GitHub · **joey114132**",
+          url: `https://github.com/${SITE.github.username}`,
+        },
+        {
+          label: "ShopPinkki team deck (삥끼랩 PPTX → web)",
+          url: SITE.links.shopPinkkiDeck,
+        },
+        {
+          label: "pingdergarten final slides (EduPing team)",
+          url: SITE.links.pingdergartenDeck,
+        },
+      ],
+      milestonesTitle: "Milestones",
+      milestones: [
+        {
+          key: "dl",
+          date: "Jan 2026 · DL Team 4",
+          summary:
+            "**Gesto** — webcam **MediaPipe→LSTM→pynput** for **PPT/YouTube**; I owned the **PyQt6** shell and dataset tooling",
+          myRole:
+            "**PyQt6 UI** (~1,600+ lines), **MediaPipe→LSTM** wiring, **LSTM dataset** + partial training, **Rat Labyrinth** mode — **14 commits** on `deeplearning-repo-4`",
+          learned:
+            "Worker threads for **camera/trigger/detection**; **6,276** `.npy` sequences (**30×21×3**); team deck **~74% avg F1**, **Swipe Left ~0.89** after **LSTM v1→v4**",
+        },
+        {
+          key: "iot",
+          date: "Feb 2026 · IoT Team 2",
+          summary:
+            "**오주의 마법사** — **ESP32-CAM** rotary tower lot, gates, and a **PyQt6** control room I kept alive on demo day",
+          myRole:
+            "**ESP32** parking-guide firmware (**UDP/TCP**, **33-byte** packets), then final-week **PyQt** operator UI — multi-cam, **PaddleOCR LPR** dialogs, webcam recovery",
+          learned:
+            "Merged tower + gate + LPR into one timeline; manual LPR override when angles fail; team deck **~94.3%** plate read, **TC all pass**, **±2 mm** lift",
+        },
+        {
+          key: "ros",
+          date: "Mar–Apr 2026 · ROS Team 2 (삥끼랩)",
+          summary:
+            "**ShopPinkki** — **Pinky Pro** mart cart: **YOLOv8 → ByteTrack → ReID** follow mode on **ROS 2 Jazzy** + **Nav2**",
+          myRole:
+            "Owner-tracking **perception stack** — detect/track/**ReID**, **Safe-ID** lock, **NCNN** export tests; **9 commits** on `ros-repo-2`",
+          deck: SITE.links.shopPinkkiDeck,
+          learned:
+            "**5-frame Safe-ID** after lock; **OSNet→MobileNetV3** + HSV fallback when people cross; E2E latency tuned on mart recordings (deck slides)",
+        },
+        {
+          key: "pai",
+          date: "Apr–Jun 2026 · Team EduPing",
+          summary:
+            "**pingdergarten / EduPing** — kindergarten assistant robot: browser teleop, depth high-five, attendance flows",
+          myRole:
+            "Final deck: **commute + high-five**, **Mugunghwa**, **daily report** pages; **robot-web** UX, **D435** stream, **TRAC-IK/FK** loop — **37 commits** on `physical-ai-repo-2`",
+          deck: SITE.links.pingdergartenDeck,
+          learned:
+            "**D435 zstd WS → browser point cloud → TRAC-IK → FK residual**; miss **~28 cm → ~2 cm** on **OpenArm**; **MuJoCo** twin before hardware",
+        },
+      ],
+      learnedTitle: "Skills I took away",
+      learned: [
+        "**PyQt6 + worker threads** — keep vision inference off the UI thread (Gesto, IoT control room)",
+        "**Gesture & LSTM pipelines** — **MediaPipe 21-pt → 30-frame window**, dataset tooling, **pynput** action mapping",
+        "**Embedded comms** — **ESP32 UDP/TCP**, device packets, gate/tower integration in one operator timeline",
+        "**ROS 2 perception** — **YOLO + ByteTrack + ReID**, topic timing, mart-footage latency profiling",
+        "**Sim→real teleop** — **RealSense in browser**, **TRAC-IK/FK** residual tuning, **URDF** in **Three.js**",
+        "**3D spatial sense** from game school → maze layout, robot panels, teleop UX",
+      ],
+      presentTitle: "Now",
+      present: [
+        "Polish **live demos** and this **interactive portfolio**",
+        "Keep iterating **EduPing** — depth UX, dance playback, attendance flows",
+        "Write down **sim→real** patterns while the capstone is fresh",
+      ],
+      futureTitle: "Next",
+      future: [
+        "Ship **full-stack robot products** with thoughtful **HRI** and operator UX",
+        "Contribute to **open-source robotics** — MoveIt, ROS, reproducible sim stacks",
+        "Grow into **Physical AI** industry or research roles that blend vision + motion",
+      ],
+      manifesto:
+        "I am not a portfolio agency. This is a **lab log** you walk — bugs, team credit, and the ugly **sim→real** bits included.",
+      aboutCta: "About me →",
+      close: "Back to lab",
+    },
+    exit: {
+      cutscenePhase: "EXIT ARCH",
+      cutsceneTitle: "Journey log",
+      labelSub: "JOURNEY LOG",
+    },
     hero: {
-      eyebrow: "PORTFOLIO · {projectCount} PROJECTS",
+      eyebrow: "LAB LOG · {projectCount} STATIONS",
       role: "Physical AI · robotics · vision-UI",
       tagline:
-        "**{projectCount}** projects · **{stationFirst}→{stationLast}** in order · exit for about me",
+        "**{projectCount}** stations · **{stationFirst}→{stationLast}** in order · exit for the journey log",
+      labNotes: [
+        "FIELD NOTE · if the maze stutters, your GPU is doing honest work",
+        "FIELD NOTE · sim first, robot second — still my religion",
+        "FIELD NOTE · every panel is something I touched, not the whole team deck",
+        "FIELD NOTE · exit arch unlocks after all four gates — no speedrun skips",
+        "FIELD NOTE · game-school spatial sense → teleop layout, still",
+      ],
     },
     panel: {
       role: "My role",
@@ -834,15 +946,20 @@ export const STRINGS = {
     },
   },
   ko: {
-    meta: { titleSuffix: "Physical AI 포트폴리오" },
+    meta: {
+      titleSuffix: "Physical AI 랩",
+      ogTitle: "이정우 · 3D Physical AI 랩",
+      ogDescription:
+        "직접 만진 네 스테이션을 돌아다니는 3D 미로 — 제스처, IoT, ROS 비전, 실물 로봇 하이파이브. PDF 이력서가 아닙니다.",
+    },
     nav: {
-      hint: "WASD 이동 · Shift 달리기 · E로 게이트·출구 · 1–{projectLast} 프로젝트 · Esc 뒤로",
+      hint: "WASD 이동 · E로 게이트·출구 · 1–{projectLast} 프로젝트 · Esc 뒤로",
       hudLabel: "랩",
       questIdle: "스테이션 **{stationFirst}→{stationLast}**를 순서대로 방문해 주세요",
       questNext: "다음 — 스테이션 {order} · {title}",
       questNextShort: "스테이션 {order} · {title}",
       questNear: "E — 스테이션 {order} · {title}",
-      questExit: "네 스테이션을 다 보셨다면 E — 소개",
+      questExit: "네 스테이션 완료 · E — 여정 기록",
       questLocked: "먼저 스테이션 {order} · {title}을(를) 완료해 주세요",
       questExitLocked: "네 스테이션을 모두 방문하신 뒤 출구로 가 주세요",
       questProgress: "스테이션 {n}/{projectCount} 완료",
@@ -852,9 +969,8 @@ export const STRINGS = {
       visualCaption: "3D · 드래그 회전 · W/S로 패널 스크롤",
       scrollHint: "W 위 · S 아래 · 더 읽으려면 스크롤",
       scrollHintTouch: "스와이프로 스크롤",
-      hintTouch: "조이스틱 · 달리기 길게 누르기 · E · 메뉴(≡)",
+      hintTouch: "조이스틱 · E · 메뉴(≡)",
       mobileInteract: "열기",
-      mobileSprint: "달리기",
       visualCaptionTouch: "3D · 드래그 회전 · 스와이프로 스크롤",
       menuOpen: "메뉴 열기",
       menuClose: "메뉴 닫기",
@@ -863,16 +979,15 @@ export const STRINGS = {
       detail3dHide: "3D 숨기기",
     },
     intro: {
-      eyebrow: "{nameKo} · 포트폴리오",
+      eyebrow: "현장 랩 · PDF 아님",
       role: "Physical AI · 로봇 · 비전-UI",
-      lead: "**3D 랩**을 돌아다니시며 스테이션 **{stationFirst}→{stationLast}**를 열어보시면 됩니다. 팀 프로젝트 중 제가 손댄 부분만 골라 담았습니다.",
-      touchNote:
-        "모바일: **조이스틱** · **달리기** 길게 누르기 · **E**로 열기 · **메뉴(≡)** 에서 상태·프로젝트",
+      lead: "이력서 PDF로는 **IK 튜닝**이나 **실물 하이파이브**가 안 보여서 **3D 미로**를 만들었습니다. 스테이션 **{stationFirst}→{stationLast}** — 팀 프로젝트 중 **제가 손댄 부분만** 담았습니다.",
+      returnWelcome: "다시 오셨군요. 복도가 기억합니다 — 이어서 걸어 주세요.",
+      touchNote: "모바일: **조이스틱** · **E**로 열기 · **메뉴(≡)** 에서 상태·프로젝트",
       edu: "유타대학교 게임학 학사 · 2024",
       controlsTitle: "조작 방법",
       controls: [
         { keys: "W A S D", label: "랩 안에서 이동" },
-        { keys: "Shift", label: "달리기" },
         { keys: "E", label: "스테이션·출구 아치에서 열기" },
         { keys: "1 – {projectLast}", label: "프로젝트로 바로 이동 (해금 후)" },
         { keys: "Esc", label: "패널 닫고 미로로 돌아가기" },
@@ -918,10 +1033,120 @@ export const STRINGS = {
       close: "랩으로 돌아가기",
       finish: "둘러봐 주셔서 감사합니다",
     },
+    journey: {
+      eyebrow: "출구 · 여정 기록",
+      title: "배운 것들",
+      subtitle:
+        "애디닝 **Physical AI** 부트캠프 (2025–2026) — 네 팀 스프린트, **제 커밋·발표 슬라이드** 기준",
+      bootcamp:
+        "**2026.01→06 애디닝**: DL **Gesto**(스레드 **PyQt6+MediaPipe/LSTM**), IoT **오주의 마법사**(**ESP32 UDP/TCP**+관제 UI), ROS **쑈삥끼**(**YOLOv8/ByteTrack/ReID**+**Nav2**), PAI **pingdergarten**(**Vue/Three.js**+**D435→TRAC-IK→FK**). 아래 **GitHub·팀 덱** 링크 — 수치는 **PPTX/PDF** 지표와 조직 저장소 **제 커밋**에서 가져왔습니다.",
+      scrollHint: "스크롤 · **W** 위 · **S** 아래 · 휠",
+      scrollHintTouch: "스와이프로 전체 기록 읽기",
+      myRoleLabel: "제 역할",
+      deckLabel: "팀 발표",
+      sourcesTitle: "출처",
+      sources: [
+        {
+          label: "GitHub · **joey114132**",
+          url: `https://github.com/${SITE.github.username}`,
+        },
+        {
+          label: "쑈삥끼 팀 덱 (삥끼랩 PPTX → 웹)",
+          url: SITE.links.shopPinkkiDeck,
+        },
+        {
+          label: "pingdergarten 최종 슬라이드 (EduPing 팀)",
+          url: SITE.links.pingdergartenDeck,
+        },
+      ],
+      milestonesTitle: "마일스톤",
+      milestones: [
+        {
+          key: "dl",
+          date: "2026.01 · DL 4조",
+          summary:
+            "**Gesto** — 웹캠 **MediaPipe→LSTM→pynput**로 **PPT/YouTube**; **PyQt6** 셸·데이터셋 도구 담당",
+          myRole:
+            "**PyQt6 UI** (~1,600+ 라인), **MediaPipe→LSTM** 연동, **LSTM 데이터셋**+일부 학습, **Rat Labyrinth** — `deeplearning-repo-4` **14 commits**",
+          learned:
+            "**카메라·트리거·인식** 워커 스레드; **6,276** `.npy` 시퀀스(**30×21×3**); 팀 덱 **평균 F1 ~74%**, **Swipe Left ~0.89** (**LSTM v1→v4**)",
+        },
+        {
+          key: "iot",
+          date: "2026.02 · IoT 2조",
+          summary:
+            "**오주의 마법사** — **ESP32-CAM** 회전 타워·게이트 미니 주차장 + 데모 날 살린 **PyQt6** 관제실",
+          myRole:
+            "**ESP32** 주차 안내 펌웨어(**UDP/TCP**, **33바이트** 패킷), 최종 주 **PyQt** 관제 UI — 멀티캠, **PaddleOCR LPR**, 웹캠 복구",
+          learned:
+            "타워+게이트+LPR 한 타임라인; 각도 나쁠 때 수동 LPR; 팀 덱 **번호판 ~94.3%**, **TC 전부 통과**, 리프트 **±2mm**",
+        },
+        {
+          key: "ros",
+          date: "2026.03–04 · ROS 2조 (삥끼랩)",
+          summary:
+            "**쑈삥끼** — **Pinky Pro** 매장 카트: **YOLOv8→ByteTrack→ReID** 팔로우 모드 (**ROS 2 Jazzy** + **Nav2**)",
+          myRole:
+            "주인 추적 **인식 스택** — detect/track/**ReID**, **Safe-ID**, **NCNN**보내기; `ros-repo-2` **9 commits**",
+          deck: SITE.links.shopPinkkiDeck,
+          learned:
+            "락 후 **5프레임 Safe-ID**; 사람 교차 시 **OSNet→MobileNetV3**+HSV 폴백; 매장 녹화본 E2E 지연 튜닝(덱 슬라이드)",
+        },
+        {
+          key: "pai",
+          date: "2026.04–06 · 팀 EduPing",
+          summary:
+            "**pingdergarten / EduPing** — 유치원 보조 로봇: 브라우저 teleop, 뎁스 하이파이브, 출석 플로우",
+          myRole:
+            "최종 발표: **등하원·하이파이브**, **무궁화꽃**, **일과 보고서**; **robot-web** UX, **D435** 스트림, **TRAC-IK/FK** — `physical-ai-repo-2` **37 commits**",
+          deck: SITE.links.pingdergartenDeck,
+          learned:
+            "**D435 zstd WS → 브라우저 포인트클라우드 → TRAC-IK → FK 잔차**; **OpenArm** 오차 **~28cm→~2cm**; 하드웨어 전 **MuJoCo** 트윈",
+        },
+      ],
+      learnedTitle: "가져간 역량",
+      learned: [
+        "**PyQt6 + 워커 스레드** — 비전 추론을 UI 밖으로 (Gesto, IoT 관제실)",
+        "**제스처·LSTM 파이프라인** — **MediaPipe 21점→30프레임**, 데이터셋 도구, **pynput** 액션 매핑",
+        "**임베디드 통신** — **ESP32 UDP/TCP**, 디바이스 패킷, 게이트·타워를 한 타임라인에",
+        "**ROS 2 인식** — **YOLO+ByteTrack+ReID**, 토픽 타이밍, 매장 영상 지연 프로파일링",
+        "**sim→real teleop** — 브라우저 **RealSense**, **TRAC-IK/FK** 잔차 튜닝, **Three.js URDF**",
+        "게임학교 **3D 공간 감각** → 미로 배치, 로봇 패널, teleop UX",
+      ],
+      presentTitle: "지금",
+      present: [
+        "**라이브 데모**와 이 **인터랙티브 포트폴리오** 다듬기",
+        "**EduPing** 반복 개선 — 뎁스 UX, 댄스 재생, 출석 플로우",
+        "캡스톤이 생생할 때 **sim→real** 패턴 문서화",
+      ],
+      futureTitle: "앞으로",
+      future: [
+        "**HRI**와 조작 UX를 신경 쓰는 **풀스택 로봇 제품** 출시",
+        "**오픈소스 로보틱스** 기여 — MoveIt, ROS, 재현 가능한 sim 스택",
+        "비전 + 모션을 아우르는 **Physical AI** 산업·연구 역할로 성장",
+      ],
+      manifesto:
+        "포트폴리오 대행이 아닙니다. 걸어 다니는 **랩 기록** — 버그, 팀 크레딧, 지저분한 **sim→real**까지 그대로.",
+      aboutCta: "소개 보기 →",
+      close: "랩으로 돌아가기",
+    },
+    exit: {
+      cutscenePhase: "출구 아치",
+      cutsceneTitle: "여정 기록",
+      labelSub: "여정 기록",
+    },
     hero: {
-      eyebrow: "포트폴리오 · {projectCount}개",
+      eyebrow: "랩 기록 · 스테이션 {projectCount}개",
       role: "Physical AI · 로봇 · 비전-UI",
-      tagline: "프로젝트 **{projectCount}**개 · **{stationFirst}→{stationLast}** · 출구에서 소개",
+      tagline:
+        "스테이션 **{projectCount}**개 · **{stationFirst}→{stationLast}** 순서 · 출구에서 여정 기록",
+      labNotes: [
+        "현장 메모 · 미로가 버벅이면 GPU가 정직하게 일하는 중",
+        "현장 메모 · 시뮬 먼저, 로봇 나중 — 아직도 제 신조",
+        "현장 메모 · 패널마다 제가 손댄 부분만, 팀 전체 슬라이드 아님",
+        "현장 메모 · 네 게이트 후 출구 — 스피드런 스킵 없음",
+        "현장 메모 · 게임학교 공간 감각 → teleop 배치에 아직도 씀",
+      ],
     },
     panel: {
       role: "담당 역할",

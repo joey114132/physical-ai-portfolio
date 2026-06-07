@@ -46,7 +46,11 @@ let detail3d = null;
 let mode = "intro";
 let introDone = false;
 let perfTier = "medium";
+let labNotesIndex = 0;
+let labNotesTimer = null;
+let exitFlowActive = false;
 const audio = new AudioEngine();
+const LAB_NOTES_MS = 7200;
 
 const els = {
   title: document.getElementById("page-title"),
@@ -55,6 +59,7 @@ const els = {
   heroSub: document.getElementById("hero-sub"),
   heroRole: document.getElementById("hero-role"),
   heroTagline: document.getElementById("hero-tagline"),
+  heroLabNotes: document.getElementById("hero-lab-notes"),
   hint: document.getElementById("nav-hint"),
   questBanner: document.getElementById("quest-banner"),
   questProgress: document.getElementById("quest-progress"),
@@ -112,6 +117,7 @@ const els = {
   introAlias: document.getElementById("intro-alias"),
   introRole: document.getElementById("intro-role"),
   introLead: document.getElementById("intro-lead"),
+  introReturn: document.getElementById("intro-return"),
   introEdu: document.getElementById("intro-edu"),
   introStart: document.getElementById("intro-start"),
   introSkip: document.getElementById("intro-skip"),
@@ -119,6 +125,27 @@ const els = {
   introLangLabel: document.getElementById("intro-lang-label"),
   introLangEn: document.getElementById("intro-lang-en"),
   introLangKo: document.getElementById("intro-lang-ko"),
+  journeyOverlay: document.getElementById("journey-overlay"),
+  journeyEyebrow: document.getElementById("journey-eyebrow"),
+  journeyTitle: document.getElementById("journey-title"),
+  journeySubtitle: document.getElementById("journey-subtitle"),
+  journeyBootcamp: document.getElementById("journey-bootcamp"),
+  journeyManifesto: document.getElementById("journey-manifesto"),
+  journeyMilestonesTitle: document.getElementById("journey-milestones-title"),
+  journeyMilestones: document.getElementById("journey-milestones"),
+  journeyLearnedTitle: document.getElementById("journey-learned-title"),
+  journeyLearned: document.getElementById("journey-learned"),
+  journeyPresentTitle: document.getElementById("journey-present-title"),
+  journeyPresent: document.getElementById("journey-present"),
+  journeyFutureTitle: document.getElementById("journey-future-title"),
+  journeyFuture: document.getElementById("journey-future"),
+  journeyAbout: document.getElementById("journey-about"),
+  journeyClose: document.getElementById("journey-close"),
+  journeyScroll: document.getElementById("journey-scroll"),
+  journeyScrollHint: document.getElementById("journey-scroll-hint"),
+  journeySourcesSection: document.getElementById("journey-sources-section"),
+  journeySourcesTitle: document.getElementById("journey-sources-title"),
+  journeySources: document.getElementById("journey-sources"),
   aboutOverlay: document.getElementById("about-overlay"),
   aboutPhoto: document.getElementById("about-photo"),
   aboutEyebrow: document.getElementById("about-eyebrow"),
@@ -143,7 +170,6 @@ const els = {
   mobileControls: document.getElementById("mobile-controls"),
   mobileJoystick: document.getElementById("mobile-joystick"),
   mobileJoystickThumb: document.getElementById("mobile-joystick-thumb"),
-  mobileSprint: document.getElementById("mobile-sprint"),
   mobileInteract: document.getElementById("mobile-interact"),
   cutscene: document.getElementById("cutscene"),
   cutscenePhase: document.getElementById("cutscene-phase"),
@@ -174,8 +200,7 @@ function usesMazeMenu() {
 function syncMobileControlsDrawer() {
   const el = els.mobileControls;
   if (!el) return;
-  const suppress =
-    document.body.classList.contains("ui-menu-open") && usesMazeMenu() && !el.hidden;
+  const suppress = document.body.classList.contains("ui-menu-open") && usesMazeMenu() && !el.hidden;
   el.classList.toggle("mobile-controls--suppressed", suppress);
   if (suppress) {
     el.setAttribute("inert", "");
@@ -200,7 +225,6 @@ function setUiMenuOpen(open) {
   }
   if (open) {
     resetMobileJoystick();
-    resetMobileSprint();
     els.uiDrawerClose?.focus({ preventScroll: true });
   } else if (document.activeElement?.closest?.(".ui-drawer__panel")) {
     els.uiMenuBtn?.focus({ preventScroll: true });
@@ -289,6 +313,9 @@ const SCROLL_STEP_PX = 88;
 
 function getScrollContainer() {
   if (mode === "detail" && els.detailContent) return els.detailContent;
+  if (mode === "journey" && els.journeyScroll) {
+    return els.journeyScroll;
+  }
   if (mode === "about" && els.aboutOverlay) {
     return els.aboutOverlay.querySelector(".overlay__card");
   }
@@ -340,7 +367,7 @@ function startScrollLoop() {
 }
 
 function handlePanelScrollKey(e, down) {
-  if (mode !== "detail" && mode !== "about" && mode !== "intro") return false;
+  if (mode !== "detail" && mode !== "about" && mode !== "intro" && mode !== "journey") return false;
   if (els.lightbox && !els.lightbox.hidden) return false;
   const k = e.key.toLowerCase();
   let handled = false;
@@ -401,6 +428,50 @@ function enterProject(key) {
       document.body.classList.remove("cutscene-mode");
     }, 360);
   }, 820);
+}
+
+function enterExit() {
+  if (exitFlowActive || mode !== "maze") return;
+  exitFlowActive = true;
+  const gen = ++cutsceneGen;
+  maze?.setPaused(true);
+  stopScrollLoop();
+  clearCutsceneTimers();
+  setUiMenuOpen(false);
+  syncMobileControls();
+
+  const cs = els.cutscene;
+  const ex = STRINGS[lang].exit ?? {};
+  const openJourney = () => {
+    if (gen !== cutsceneGen) return;
+    showJourney();
+    if (!cs) return;
+    cs.classList.remove("cutscene--in");
+    cs.classList.add("cutscene--out");
+    cutsceneOutTimer = setTimeout(() => {
+      if (gen !== cutsceneGen) return;
+      cs.hidden = true;
+      cs.setAttribute("aria-hidden", "true");
+      cs.classList.remove("cutscene--out");
+      document.body.classList.remove("cutscene-mode");
+    }, 360);
+  };
+
+  if (!cs) {
+    openJourney();
+    return;
+  }
+
+  document.body.classList.add("cutscene-mode");
+  els.cutscenePhase.textContent = ex.cutscenePhase ?? STRINGS[lang].journey?.eyebrow ?? "EXIT";
+  els.cutsceneTitle.textContent = ex.cutsceneTitle ?? STRINGS[lang].journey?.title ?? "";
+  cs.hidden = false;
+  cs.setAttribute("aria-hidden", "false");
+  cs.classList.remove("cutscene--out");
+  void cs.offsetWidth;
+  cs.classList.add("cutscene--in");
+  audio.arrive();
+  cutsceneTimer = setTimeout(openJourney, 820);
 }
 
 function updateSoundBtn() {
@@ -614,6 +685,74 @@ function setIntroLanguage(next) {
   applyLanguage();
 }
 
+function getLabVisitCount() {
+  try {
+    return Number.parseInt(localStorage.getItem(SITE.storage.visits) ?? "0", 10) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+function bumpLabVisit() {
+  try {
+    const n = getLabVisitCount() + 1;
+    localStorage.setItem(SITE.storage.visits, String(n));
+    return n;
+  } catch {
+    return 0;
+  }
+}
+
+function applyShareMeta(s) {
+  const title = s.meta?.ogTitle ?? document.title;
+  const desc = s.meta?.ogDescription ?? SITE.metaDescription;
+  const url = SITE.links.live ?? "";
+  const image = url ? `${url.replace(/\/$/, "")}/assets/og-lab.svg` : "/assets/og-lab.svg";
+  const set = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.setAttribute("content", value);
+  };
+  set("meta-og-title", title);
+  set("meta-og-desc", desc);
+  set("meta-og-url", url);
+  set("meta-og-image", image);
+  set("meta-tw-title", title);
+  set("meta-tw-desc", desc);
+  set("meta-tw-image", image);
+}
+
+function stopLabNotesRotation() {
+  if (labNotesTimer != null) {
+    clearInterval(labNotesTimer);
+    labNotesTimer = null;
+  }
+}
+
+function updateLabNoteDisplay() {
+  const notes = STRINGS[lang].hero?.labNotes;
+  if (!els.heroLabNotes || !notes?.length || mode !== "maze" || !introDone) {
+    if (els.heroLabNotes) els.heroLabNotes.textContent = "";
+    return;
+  }
+  labNotesIndex = ((labNotesIndex % notes.length) + notes.length) % notes.length;
+  els.heroLabNotes.textContent = notes[labNotesIndex];
+  els.heroLabNotes.classList.add("hero__lab-notes--pulse");
+  requestAnimationFrame(() => {
+    els.heroLabNotes?.classList.remove("hero__lab-notes--pulse");
+  });
+}
+
+function startLabNotesRotation() {
+  stopLabNotesRotation();
+  updateLabNoteDisplay();
+  const notes = STRINGS[lang].hero?.labNotes;
+  if (!notes?.length || mode !== "maze" || !introDone) return;
+  labNotesTimer = setInterval(() => {
+    labNotesIndex += 1;
+    updateLabNoteDisplay();
+  }, LAB_NOTES_MS);
+}
+
 function renderIntro() {
   const i = STRINGS[lang].intro;
   if (els.introLangLabel) els.introLangLabel.textContent = i.languageLabel ?? "Language";
@@ -624,6 +763,11 @@ function renderIntro() {
   els.introAlias.textContent = displayName(lang, "alias");
   els.introRole.textContent = i.role;
   els.introLead.innerHTML = formatConceptHtml(interpolateCopy(i.lead, copy));
+  if (els.introReturn) {
+    const showReturn = !introDone && getLabVisitCount() > 0 && i.returnWelcome;
+    els.introReturn.innerHTML = showReturn ? formatConceptHtml(i.returnWelcome) : "";
+    els.introReturn.classList.toggle("hidden", !showReturn);
+  }
   els.introEdu.textContent = i.edu;
   if (els.introControls && i.controls) {
     const rows = i.controls
@@ -690,6 +834,117 @@ async function renderAbout() {
     }
   }
   els.aboutClose.textContent = a.close;
+}
+
+function renderJourney() {
+  const j = STRINGS[lang].journey;
+  if (!j || !els.journeyMilestones) return;
+  els.journeyEyebrow.textContent = j.eyebrow;
+  els.journeyTitle.textContent = j.title;
+  els.journeySubtitle.textContent = j.subtitle;
+  if (els.journeyBootcamp) {
+    if (j.bootcamp) {
+      els.journeyBootcamp.innerHTML = formatConceptHtml(j.bootcamp);
+      els.journeyBootcamp.classList.remove("hidden");
+    } else {
+      els.journeyBootcamp.textContent = "";
+      els.journeyBootcamp.classList.add("hidden");
+    }
+  }
+  if (els.journeyManifesto) {
+    if (j.manifesto) {
+      els.journeyManifesto.innerHTML = formatConceptHtml(j.manifesto);
+      els.journeyManifesto.classList.remove("hidden");
+    } else {
+      els.journeyManifesto.textContent = "";
+      els.journeyManifesto.classList.add("hidden");
+    }
+  }
+  els.journeyMilestonesTitle.textContent = j.milestonesTitle;
+  els.journeyLearnedTitle.textContent = j.learnedTitle;
+  els.journeyPresentTitle.textContent = j.presentTitle;
+  els.journeyFutureTitle.textContent = j.futureTitle;
+  els.journeyMilestones.innerHTML = (j.milestones ?? [])
+    .map((m) => {
+      const p = STRINGS[lang].projects[m.key];
+      const title = p?.title ?? m.key;
+      const phase = p?.phase ?? m.key;
+      const repoUrl = REPO_URLS[m.key];
+      const deckUrl = m.deck;
+      const links = [];
+      if (m.myRole) {
+        links.push(
+          `<p class="journey-timeline__role"><span class="journey-timeline__learned-label">${j.myRoleLabel}</span> ${formatConceptHtml(m.myRole)}</p>`,
+        );
+      }
+      if (repoUrl || deckUrl) {
+        const parts = [];
+        if (repoUrl) {
+          parts.push(
+            `<a class="journey-timeline__link" href="${repoUrl}" target="_blank" rel="noopener noreferrer">GitHub</a>`,
+          );
+        }
+        if (deckUrl) {
+          parts.push(
+            `<a class="journey-timeline__link" href="${deckUrl}" target="_blank" rel="noopener noreferrer">${j.deckLabel}</a>`,
+          );
+        }
+        links.push(`<p class="journey-timeline__links">${parts.join(" · ")}</p>`);
+      }
+      return `<li class="journey-timeline__item" data-project="${m.key}">
+        <span class="journey-timeline__node" aria-hidden="true"></span>
+        <div class="journey-timeline__body">
+          <span class="journey-timeline__phase">${phase}</span>
+          <h4 class="journey-timeline__name">${title}</h4>
+          <time class="journey-timeline__date">${m.date}</time>
+          <p class="journey-timeline__summary">${formatConceptHtml(m.summary)}</p>
+          ${links.join("")}
+          ${
+            m.learned
+              ? `<p class="journey-timeline__learned"><span class="journey-timeline__learned-label">${j.learnedTitle}</span> ${formatConceptHtml(m.learned)}</p>`
+              : ""
+          }
+        </div>
+      </li>`;
+    })
+    .join("");
+  els.journeyLearned.innerHTML = (j.learned ?? [])
+    .map((item) => `<li>${formatConceptHtml(item)}</li>`)
+    .join("");
+  els.journeyPresent.innerHTML = (j.present ?? [])
+    .map((item) => `<li>${formatConceptHtml(item)}</li>`)
+    .join("");
+  els.journeyFuture.innerHTML = (j.future ?? [])
+    .map((item) => `<li>${formatConceptHtml(item)}</li>`)
+    .join("");
+  if (els.journeySourcesSection && els.journeySources) {
+    const sources = j.sources ?? [];
+    if (sources.length) {
+      els.journeySourcesTitle.textContent = j.sourcesTitle ?? "";
+      els.journeySources.innerHTML = sources
+        .map(
+          (s) =>
+            `<li><a class="journey-sources__link" href="${s.url}" target="_blank" rel="noopener noreferrer">${formatConceptHtml(s.label)}</a></li>`,
+        )
+        .join("");
+      els.journeySourcesSection.classList.remove("hidden");
+    } else {
+      els.journeySources.innerHTML = "";
+      els.journeySourcesSection.classList.add("hidden");
+    }
+  }
+  if (els.journeyScrollHint) {
+    const hint = isTouchViewport() ? (j.scrollHintTouch ?? j.scrollHint) : j.scrollHint;
+    if (hint) {
+      els.journeyScrollHint.innerHTML = formatConceptHtml(hint);
+      els.journeyScrollHint.classList.remove("hidden");
+    } else {
+      els.journeyScrollHint.textContent = "";
+      els.journeyScrollHint.classList.add("hidden");
+    }
+  }
+  if (els.journeyAbout) els.journeyAbout.textContent = j.aboutCta;
+  if (els.journeyClose) els.journeyClose.textContent = j.close;
 }
 
 function renderTimeline() {
@@ -884,29 +1139,9 @@ function syncMobileControls() {
     els.mobileControls.removeAttribute("inert");
     els.mobileControls.setAttribute("aria-hidden", "true");
     resetMobileJoystick();
-    resetMobileSprint();
   } else {
     syncMobileControlsDrawer();
   }
-}
-
-function isMobileSprintHeld() {
-  return els.mobileSprint?.classList.contains("mobile-btn--sprint-active") ?? false;
-}
-
-function mobileStickPower() {
-  return Math.hypot(maze?.stickX ?? 0, maze?.stickZ ?? 0);
-}
-
-function syncMobileSprintKey(power) {
-  const p = power ?? mobileStickPower();
-  maze?.setVirtualKey?.("shift", isMobileSprintHeld() || p >= 0.9);
-}
-
-function resetMobileSprint() {
-  els.mobileSprint?.classList.remove("mobile-btn--sprint-active");
-  els.mobileSprint?.setAttribute("aria-pressed", "false");
-  maze?.setVirtualKey?.("shift", false);
 }
 
 function resetMobileJoystick() {
@@ -915,7 +1150,6 @@ function resetMobileJoystick() {
     els.mobileJoystickThumb.style.transform = "translate(-50%, -50%)";
   }
   els.mobileJoystick?.classList.remove("mobile-joystick--active");
-  if (!isMobileSprintHeld()) maze?.setVirtualKey?.("shift", false);
 }
 
 function bindMobileJoystick() {
@@ -944,12 +1178,10 @@ function bindMobileJoystick() {
     const norm = Math.hypot(dx, dy);
     if (norm < DEADZONE * maxR) {
       maze?.setVirtualStick?.(0, 0);
-      syncMobileSprintKey(0);
       return;
     }
     const power = Math.min(1, (norm - DEADZONE * maxR) / (maxR - DEADZONE * maxR));
     maze?.setVirtualStick?.((dx / norm) * power, (dy / norm) * power);
-    syncMobileSprintKey(power);
   };
 
   const endStick = () => {
@@ -984,40 +1216,9 @@ function bindMobileJoystick() {
   root.addEventListener("lostpointercapture", endStick);
 }
 
-function bindMobileSprint() {
-  const btn = els.mobileSprint;
-  if (!btn) return;
-
-  const down = (e) => {
-    if (els.mobileControls?.classList.contains("mobile-controls--suppressed")) return;
-    e.preventDefault();
-    btn.setPointerCapture(e.pointerId);
-    btn.classList.add("mobile-btn--sprint-active");
-    btn.setAttribute("aria-pressed", "true");
-    maze?.setVirtualKey?.("shift", true);
-  };
-
-  const up = (e) => {
-    if (btn.hasPointerCapture(e.pointerId)) btn.releasePointerCapture(e.pointerId);
-    btn.classList.remove("mobile-btn--sprint-active");
-    btn.setAttribute("aria-pressed", "false");
-    syncMobileSprintKey();
-  };
-
-  btn.addEventListener("pointerdown", down);
-  btn.addEventListener("pointerup", up);
-  btn.addEventListener("pointercancel", up);
-  btn.addEventListener("lostpointercapture", () => {
-    btn.classList.remove("mobile-btn--sprint-active");
-    btn.setAttribute("aria-pressed", "false");
-    syncMobileSprintKey();
-  });
-}
-
 function initMobileControls() {
   if (!els.mobileControls) return;
   bindMobileJoystick();
-  bindMobileSprint();
   els.mobileInteract?.addEventListener("click", () => {
     if (els.mobileControls?.classList.contains("mobile-controls--suppressed")) return;
     maze?.tryInteract?.();
@@ -1038,6 +1239,7 @@ async function openDetail(key) {
   syncMobileControls();
   document.body.classList.remove("detail-hide-3d");
   mode = "detail";
+  stopLabNotesRotation();
   maze?.setPaused(true);
   maze?.visited?.add(key);
   updateProgress();
@@ -1083,6 +1285,7 @@ function closeDetail() {
   setActiveTimeline(maze?.nearZone ?? maze?.getNextGate?.() ?? "dl");
   updateQuestBanner();
   updateProgress();
+  startLabNotesRotation();
   requestAnimationFrame(() => {
     maze?._resize?.();
     drawMinimap();
@@ -1107,14 +1310,73 @@ function closeLightbox() {
   els.lightbox.setAttribute("aria-hidden", "true");
 }
 
+function showJourney() {
+  setUiMenuOpen(false);
+  syncMobileControls();
+  mode = "journey";
+  stopLabNotesRotation();
+  maze?.setPaused(true);
+  renderJourney();
+  if (els.journeyScroll) els.journeyScroll.scrollTop = 0;
+  els.journeyOverlay?.classList.remove("hidden");
+  if (els.journeyOverlay) {
+    els.journeyOverlay.hidden = false;
+    els.journeyOverlay.setAttribute("aria-hidden", "false");
+  }
+  document.body.classList.remove("maze-mode", "about-mode", "cutscene-mode");
+  document.body.classList.add("journey-mode");
+  els.gameUi?.classList.add("hidden");
+  requestAnimationFrame(() => {
+    els.journeyAbout?.focus({ preventScroll: true });
+  });
+}
+
+function hideJourney() {
+  resetViewOverlays();
+  stopScrollLoop();
+  scrollKeys.up = false;
+  scrollKeys.down = false;
+  exitFlowActive = false;
+  mode = "maze";
+  els.journeyOverlay?.classList.add("hidden");
+  if (els.journeyOverlay) {
+    els.journeyOverlay.hidden = true;
+    els.journeyOverlay.setAttribute("aria-hidden", "true");
+  }
+  document.body.classList.remove("journey-mode");
+  document.body.classList.add("maze-mode");
+  layoutMazeChrome();
+  els.gameUi.classList.remove("hidden");
+  maze?.setPaused(false);
+  syncMobileControls();
+  updateQuestBanner();
+  startLabNotesRotation();
+  requestAnimationFrame(() => {
+    maze?._resize?.();
+    drawMinimap();
+  });
+}
+
+function openAboutFromJourney() {
+  els.journeyOverlay?.classList.add("hidden");
+  if (els.journeyOverlay) els.journeyOverlay.hidden = true;
+  document.body.classList.remove("journey-mode");
+  showAbout();
+}
+
 function showAbout() {
   setUiMenuOpen(false);
   syncMobileControls();
+  els.journeyOverlay?.classList.add("hidden");
+  if (els.journeyOverlay) els.journeyOverlay.hidden = true;
+  document.body.classList.remove("journey-mode");
   mode = "about";
+  stopLabNotesRotation();
   maze?.setPaused(true);
   renderAbout();
   els.aboutOverlay.classList.remove("hidden");
   els.aboutOverlay.hidden = false;
+  document.body.classList.remove("maze-mode");
   document.body.classList.add("about-mode");
 }
 
@@ -1123,6 +1385,7 @@ function hideAbout() {
   stopScrollLoop();
   scrollKeys.up = false;
   scrollKeys.down = false;
+  exitFlowActive = false;
   mode = "maze";
   els.aboutOverlay.classList.add("hidden");
   els.aboutOverlay.hidden = true;
@@ -1133,6 +1396,7 @@ function hideAbout() {
   maze?.setPaused(false);
   syncMobileControls();
   updateQuestBanner();
+  startLabNotesRotation();
   requestAnimationFrame(() => {
     maze?._resize?.();
     drawMinimap();
@@ -1143,6 +1407,7 @@ function startMaze() {
   if (introDone) return;
   stopScrollLoop();
   introDone = true;
+  bumpLabVisit();
   audio.init();
   mode = "maze";
   els.introOverlay.classList.add("hidden");
@@ -1154,6 +1419,7 @@ function startMaze() {
   syncMobileControls();
   updateQuestBanner();
   updateProgress();
+  startLabNotesRotation();
 }
 
 function applySiteConfig() {
@@ -1161,6 +1427,7 @@ function applySiteConfig() {
   if (els.brandText) els.brandText.textContent = SITE.cohort;
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute("content", SITE.metaDescription);
+  applyShareMeta(STRINGS[lang]);
   if (els.footerGithub) {
     els.footerGithub.textContent = `GitHub · ${SITE.github.username}`;
     els.footerGithub.href = githubProfileUrl();
@@ -1179,6 +1446,10 @@ function applyLanguage() {
   els.heroSub.textContent = displayName(lang, "alias");
   els.heroRole.textContent = s.hero.role;
   els.heroTagline.innerHTML = formatConceptHtml(interpolateCopy(s.hero.tagline, copy));
+  applyShareMeta(s);
+  if (mode === "maze" && introDone) startLabNotesRotation();
+  else stopLabNotesRotation();
+  maze?.setExitLabel?.(s.exit?.labelSub ?? "");
   if (els.langLabel) els.langLabel.textContent = s.nav.lang;
   if (els.detailScrollHint) {
     els.detailScrollHint.textContent = isTouchViewport()
@@ -1188,9 +1459,6 @@ function applyLanguage() {
   if (els.mobileInteract) {
     els.mobileInteract.textContent = isTouchViewport() ? "E" : (s.nav.mobileInteract ?? "E");
     els.mobileInteract.setAttribute("aria-label", s.nav.mobileInteract ?? "Open");
-  }
-  if (els.mobileSprint) {
-    els.mobileSprint.setAttribute("aria-label", s.nav.mobileSprint ?? "Sprint");
   }
   if (els.hint) {
     const hintTemplate = isTouchViewport() ? (s.nav.hintTouch ?? s.nav.hint) : s.nav.hint;
@@ -1213,6 +1481,7 @@ function applyLanguage() {
   const hudLabel = document.getElementById("hud-label");
   if (hudLabel) hudLabel.textContent = s.nav.hudLabel;
   renderIntro();
+  renderJourney();
   renderAbout();
   renderTimeline();
   if (mode === "detail" && els.detailView.dataset.key) {
@@ -1318,6 +1587,8 @@ els.introLangKo?.addEventListener("click", () => setIntroLanguage("ko"));
 els.detailBack.addEventListener("click", closeDetail);
 els.introStart.addEventListener("click", startMaze);
 els.introSkip.addEventListener("click", startMaze);
+els.journeyAbout?.addEventListener("click", openAboutFromJourney);
+els.journeyClose?.addEventListener("click", hideJourney);
 els.aboutClose.addEventListener("click", hideAbout);
 els.soundBtn?.addEventListener("click", () => {
   audio.toggleMute();
@@ -1354,6 +1625,7 @@ document.addEventListener("keydown", (e) => {
       return;
     }
     if (mode === "detail") closeDetail();
+    else if (mode === "journey") hideJourney();
     else if (mode === "about") hideAbout();
   }
   const n = Number.parseInt(e.key, 10);
@@ -1418,7 +1690,7 @@ function init() {
     };
 
     maze.onZoneActivate = (key) => enterProject(key);
-    maze.onReachExit = () => showAbout();
+    maze.onReachExit = () => enterExit();
     maze.onGateLocked = () => updateQuestBanner();
     maze.onStep = (sprint) => audio.step(sprint);
     maze.onArrive = () => audio.arrive();
@@ -1456,7 +1728,16 @@ function init() {
         closeDetail,
         openDetail,
         enterProject,
+        enterExit,
+        showJourney,
+        hideJourney,
+        openAboutFromJourney,
         startMaze,
+        unlockAllGates() {
+          PROJECT_KEYS.forEach((k) => maze?.visited?.add(k));
+          updateProgress();
+          updateQuestBanner();
+        },
       };
     }
   } catch (err) {

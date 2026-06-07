@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Joey Lee Physical AI lab portfolio">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0c14"/>
+      <stop offset="100%" stop-color="#12182a"/>
+    </linearGradient>
+    <linearGradient id="copper" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e8a849"/>
+      <stop offset="100%" stop-color="#ffd56a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g opacity="0.12" stroke="#f6f0e8" stroke-width="1">
+    <path d="M0 80H1200M0 160H1200M0 240H1200M0 320H1200M0 400H1200M0 480H1200M0 560H1200"/>
+    <path d="M120 0V630M240 0V630M360 0V630M480 0V630M600 0V630M720 0V630M840 0V630M960 0V630M1080 0V630"/>
+  </g>
+  <rect x="64" y="64" width="1072" height="502" rx="18" fill="none" stroke="url(#copper)" stroke-width="2" opacity="0.55"/>
+  <text x="96" y="148" fill="#e8a849" font-family="ui-monospace, monospace" font-size="28" letter-spacing="6">FIELD LAB · WALK THE MAZE</text>
+  <text x="96" y="248" fill="#f6f0e8" font-family="system-ui, sans-serif" font-size="72" font-weight="800">Joey Lee</text>
+  <text x="96" y="312" fill="#9b7bff" font-family="ui-monospace, monospace" font-size="32">t° · Physical AI · vision-UI</text>
+  <text x="96" y="400" fill="rgba(246,240,232,0.82)" font-family="system-ui, sans-serif" font-size="30">4 stations · sim’real · not a PDF resume</text>
+  <circle cx="1040" cy="480" r="88" fill="none" stroke="#2dffb3" stroke-width="3" opacity="0.5"/>
+  <circle cx="1040" cy="480" r="12" fill="#ff7555"/>
+</svg>

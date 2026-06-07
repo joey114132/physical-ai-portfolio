@@ -71,7 +71,10 @@ try {
 
   s = await readState(page);
   const moved = Math.hypot(s.x - x0, s.z - z0) > 0.4;
-  if (!moved) throw new Error(`player did not move after close: ${JSON.stringify({ before: { x0, z0 }, after: s })}`);
+  if (!moved)
+    throw new Error(
+      `player did not move after close: ${JSON.stringify({ before: { x0, z0 }, after: s })}`,
+    );
 
   // Wait several seconds at portal edge (repro for old flicker bug)
   await holdKey(page, "s", 800);
@@ -97,7 +100,9 @@ try {
   const afterPortal = await readState(page);
   const portalMoved = Math.hypot(afterPortal.x - atPortal.x, afterPortal.z - atPortal.z) > 0.35;
   if (!portalMoved) {
-    throw new Error(`should move through portal zone: ${JSON.stringify({ atPortal, afterPortal })}`);
+    throw new Error(
+      `should move through portal zone: ${JSON.stringify({ atPortal, afterPortal })}`,
+    );
   }
 
   console.log("PASS: movement works immediately and after 4s dwell at portal");

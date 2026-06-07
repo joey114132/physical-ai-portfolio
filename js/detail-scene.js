@@ -96,7 +96,6 @@ export class DetailScene {
   async setProject(key) {
     this.key = key;
     const token = ++this.loadToken;
-    const color = PROJECT_COLORS[key];
 
     if (this.model) {
       this.scene.remove(this.model);
@@ -168,14 +167,4 @@ function fitPlaceholder(model) {
   const center = box.getCenter(new THREE.Vector3());
   model.position.sub(center);
   model.userData.baseY = model.position.y;
-}
-
-function disposeObject(root) {
-  root.traverse((c) => {
-    if (c.geometry) c.geometry.dispose();
-    if (c.material) {
-      const mats = Array.isArray(c.material) ? c.material : [c.material];
-      mats.forEach((m) => m?.dispose?.());
-    }
-  });
 }

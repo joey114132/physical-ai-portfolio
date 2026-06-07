@@ -29,14 +29,19 @@ export const SITE = Object.freeze({
   }),
   links: Object.freeze({
     artPortfolio: "https://joeyjeongwooleeportfolio.netlify.app/",
+    live: "https://joeyleeportfolio.netlify.app/",
+    shopPinkkiDeck: "https://shoppinkki-presentation.netlify.app/",
+    pingdergartenDeck:
+      "https://github.com/addinedu-physicalai-1st/physical-ai-repo-2/tree/dev/presentation/final-v3",
   }),
   cohort: "Physical AI · 2025–2026",
   defaultProject: /** @type {ProjectKey} */ ("dl"),
   metaDescription:
-    "Interactive Three.js portfolio — Gesto, Smart Parking, ShopPinkki, pingdergarten",
+    "Walk a 3D lab maze — four Physical AI projects I actually built. Not a PDF resume.",
   storage: Object.freeze({
     lang: "portfolio-lang",
     langManual: "portfolio-lang-manual",
+    visits: "portfolio-lab-visits",
   }),
 });
 

@@ -254,7 +254,7 @@ export class MazeScene {
     this.bursts = [];
     this._stuckTime = 0;
 
-    this.keys = { w: false, a: false, s: false, d: false, shift: false };
+    this.keys = { w: false, a: false, s: false, d: false };
     this.stickX = 0;
     this.stickZ = 0;
     this.facing = 0;
@@ -327,7 +327,7 @@ export class MazeScene {
   setPaused(p) {
     this.paused = p;
     if (p) {
-      this.keys = { w: false, a: false, s: false, d: false, shift: false };
+      this.keys = { w: false, a: false, s: false, d: false };
       this.stickX = 0;
       this.stickZ = 0;
       this.velX = 0;
@@ -820,8 +820,33 @@ export class MazeScene {
     this.exitLight.position.y = 2.6;
     this.exitGroup.add(this.exitLight);
 
-    this.exitGroup.add(makeLabelSprite("EXIT", COL_EXIT, "ABOUT ME"));
+    this.exitLabelSprite = makeLabelSprite("EXIT", COL_EXIT, "JOURNEY LOG");
+    this.exitGroup.add(this.exitLabelSprite);
     this.scene.add(this.exitGroup);
+  }
+
+  /** @param {string} sub */
+  setExitLabel(sub = "") {
+    if (!this.exitLabelSprite || !this.exitGroup) return;
+    const prev = this.exitLabelSprite;
+    const next = makeLabelSprite("EXIT", COL_EXIT, sub);
+    next.position.copy(prev.position);
+    next.scale.copy(prev.scale);
+    this.exitGroup.remove(prev);
+    prev.material?.map?.dispose();
+    prev.material?.dispose();
+    this.exitGroup.add(next);
+    this.exitLabelSprite = next;
+  }
+
+  teleportToExit() {
+    const { exit } = MAZE;
+    this._snapToFreePosition(cellCenter(exit.c, exit.r));
+    this.velX = 0;
+    this.velZ = 0;
+    this._stuckTime = 0;
+    this.nearExitProximity = true;
+    this.nearExit = this.visited.size >= PROJECT_COUNT;
   }
 
   _spawnBurst(pos, color, scale = 1) {
@@ -899,7 +924,6 @@ export class MazeScene {
     if (k === "s" || k === "arrowdown") this.keys.s = down;
     if (k === "a" || k === "arrowleft") this.keys.a = down;
     if (k === "d" || k === "arrowright") this.keys.d = down;
-    if (k === "shift") this.keys.shift = down;
   }
 
   _collides(px, pz) {
@@ -1113,8 +1137,8 @@ export class MazeScene {
     this.pulse += dt;
 
     {
-      const sprint = this.keys.shift;
-      const speed = sprint ? 16 : 10;
+      const sprint = true;
+      const speed = 16;
       let mx = this.stickX;
       let mz = this.stickZ;
       const stickMag = Math.hypot(mx, mz);
@@ -1144,7 +1168,7 @@ export class MazeScene {
 
       if (Math.hypot(this.velX, this.velZ) > 1.5) {
         this._stepT += dt;
-        const interval = sprint ? 0.25 : 0.35;
+        const interval = 0.25;
         if (this._stepT >= interval) {
           this._stepT = 0;
           if (this.onStep) this.onStep(sprint);
@@ -1263,7 +1287,7 @@ export class MazeScene {
 
     // Top-down follow cam (slight tilt) — zoomed out so much more of the map reads.
     // Fixed orientation: W is always up-screen; heading shows as the robot's top.
-    const camH = 32 + (this.keys.shift ? 3 : 0);
+    const camH = 35;
     const camPos = new THREE.Vector3(target.x, camH, target.z + 5);
     this.camera.position.lerp(camPos, 0.1);
     const look = new THREE.Vector3(target.x, 0.5, target.z);
