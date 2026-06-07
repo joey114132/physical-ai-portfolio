@@ -1047,6 +1047,7 @@ async function openDetail(key) {
   els.gameUi.classList.add("hidden");
   els.detailView.classList.add("open");
   els.detailView.dataset.key = key;
+  els.detailView.setAttribute("aria-hidden", "false");
   document.body.classList.add("detail-mode");
   document.body.classList.remove("maze-mode");
   layoutMazeChrome();
@@ -1074,6 +1075,7 @@ function closeDetail() {
   syncMobileControls();
   els.detailView.classList.remove("open");
   els.detailView.dataset.key = "";
+  els.detailView.setAttribute("aria-hidden", "true");
   els.gameUi.classList.remove("hidden");
   document.body.classList.add("maze-mode");
   layoutMazeChrome();
