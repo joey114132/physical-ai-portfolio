@@ -42,6 +42,7 @@ export const SITE = Object.freeze({
     lang: "portfolio-lang",
     langManual: "portfolio-lang-manual",
     visits: "portfolio-lab-visits",
+    progress: "portfolio-lab-progress",
   }),
 });
 

@@ -1,0 +1,28 @@
+---
+description: Korean copy and line-break rules for portfolio i18n and CSS
+globs: portfolio/js/i18n.js,portfolio/css/style.css,portfolio/scripts/lint-korean-copy.mjs
+alwaysApply: false
+---
+
+# Korean typography (portfolio)
+
+## Line breaks
+
+- CSS must keep `:lang(ko) { word-break: keep-all; }` on body copy — never split syllables mid-word (실|물, 됩니|다).
+- `.key-concept` highlights use `word-break: keep-all` so marked phrases stay intact.
+- Set `document.documentElement.lang` when locale changes (already in `applyLanguage()`).
+
+## i18n `**highlight**` markers
+
+- Put Korean particles **inside** the highlight, not after:
+  - Bad: `**실물 하이파이브**를` → Good: `**실물 하이파이브를**`
+  - Bad: `**팀 프로젝트**를` → Good: `**팀 프로젝트를**`
+- Avoid `을(를)` parenthetical josa — restructure or use `es-hangul` `josa()`.
+
+## Verification
+
+```zsh
+cd portfolio && npm run lint:ko && node scripts/test-korean-linebreak.mjs
+```
+
+`lint-korean-copy.mjs` flags orphan particles after `**` and missing CSS `keep-all`.

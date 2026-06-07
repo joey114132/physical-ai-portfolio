@@ -3,13 +3,7 @@ import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
-import {
-  PROJECT_COLORS,
-  PROJECT_KEYS,
-  GATE_CHAR,
-  STATION_LABELS,
-  PROJECT_COUNT,
-} from "./config.js";
+import { PROJECT_COLORS, PROJECT_KEYS, GATE_CHAR, PROJECTS, PROJECT_COUNT } from "./config.js";
 import { createPlayerRobot, updatePlayerRobot } from "./player-robot.js";
 import { getPixelRatio, useBloom, envCounts } from "./perf.js";
 
@@ -199,36 +193,63 @@ function lerpAngle(a, b, t) {
   return a + d * t;
 }
 
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
 function makeLabelSprite(text, color, sub = "") {
   const canvas = document.createElement("canvas");
   canvas.width = 512;
-  canvas.height = sub ? 100 : 76;
+  canvas.height = sub ? 112 : 80;
   const ctx = canvas.getContext("2d");
   const hex = typeof color === "number" ? color.toString(16).padStart(6, "0") : "2dffb3";
-  ctx.fillStyle = "rgba(5,10,18,0.82)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const pad = 8;
+  const innerW = canvas.width - pad * 2;
+  const innerH = canvas.height - pad * 2;
+
+  roundRect(ctx, pad, pad, innerW, innerH, 14);
+  ctx.fillStyle = "rgba(5,10,18,0.9)";
+  ctx.fill();
   ctx.strokeStyle = `#${hex}`;
-  ctx.lineWidth = 3;
-  ctx.strokeRect(5, 5, canvas.width - 10, canvas.height - 10);
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = `rgba(${parseInt(hex.slice(0, 2), 16)},${parseInt(hex.slice(2, 4), 16)},${parseInt(hex.slice(4, 6), 16)},0.22)`;
+  ctx.fillRect(pad + 2, pad + 2, innerW - 4, 3);
+
   ctx.shadowColor = `#${hex}`;
-  ctx.shadowBlur = 12;
-  ctx.font = "bold 27px 'JetBrains Mono', monospace";
-  ctx.fillStyle = "#eaf6ff";
+  ctx.shadowBlur = 14;
   ctx.textAlign = "center";
-  ctx.fillText(text, 256, sub ? 40 : 48);
+  ctx.font = sub
+    ? "700 30px 'Unbounded', 'JetBrains Mono', sans-serif"
+    : "bold 28px 'JetBrains Mono', monospace";
+  ctx.fillStyle = "#f4f8ff";
+  ctx.fillText(text, 256, sub ? 46 : 50);
   ctx.shadowBlur = 0;
+
   if (sub) {
-    ctx.font = "18px 'JetBrains Mono', monospace";
+    ctx.font = "600 19px 'JetBrains Mono', monospace";
     ctx.fillStyle = `#${hex}`;
-    ctx.fillText(sub, 256, 74);
+    ctx.fillText(sub, 256, 84);
   }
+
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 4;
   const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false });
   const sprite = new THREE.Sprite(mat);
-  sprite.scale.set(7.8, sub ? 1.7 : 1.25, 1);
-  sprite.position.y = 5.4;
+  sprite.scale.set(7.6, sub ? 1.85 : 1.3, 1);
+  sprite.position.y = 5.5;
+  sprite.userData.isStationLabel = true;
   return sprite;
 }
 
@@ -376,6 +397,29 @@ export class MazeScene {
         this.onGateLocked(this.nearZone);
       }
     }
+  }
+
+  restoreProgress(data) {
+    if (!data || !this.player) return false;
+    let restored = false;
+    if (Array.isArray(data.visited)) {
+      const valid = data.visited.filter((key) => GATE_ORDER.includes(key));
+      if (valid.length) {
+        this.visited = new Set(valid);
+        restored = true;
+      }
+    }
+    if (typeof data.px === "number" && typeof data.pz === "number") {
+      const pos = new THREE.Vector3(data.px, this.player.position.y, data.pz);
+      this._snapToFreePosition(pos);
+      restored = true;
+    }
+    if (typeof data.facing === "number") this.facing = data.facing;
+    this.velX = 0;
+    this.velZ = 0;
+    this._stuckTime = 0;
+    this._updateGateVisuals();
+    return restored;
   }
 
   teleportToGate(key) {
@@ -697,9 +741,10 @@ export class MazeScene {
     this.scene.add(this.player);
   }
 
-  _makeStation(color, label, index) {
+  _makeStation(color, codename, index) {
     const group = new THREE.Group();
     const order = index + 1;
+    const stationTag = `STATION ${String(order).padStart(2, "0")}`;
 
     const platform = new THREE.Mesh(
       new THREE.CylinderGeometry(2.3, 2.6, 0.38, 6),
@@ -746,12 +791,7 @@ export class MazeScene {
     pillar.position.y = 1.8;
     group.add(pillar);
 
-    const numSprite = makeLabelSprite(`0${order}`, color);
-    numSprite.position.set(0, 3.5, 1.5);
-    numSprite.scale.set(2, 1, 1);
-    group.add(numSprite);
-
-    group.add(makeLabelSprite(label, color));
+    group.add(makeLabelSprite(codename, color, stationTag));
 
     const light = new THREE.PointLight(color, 0, 16, 1.6);
     light.position.set(0, 2.4, 0);
@@ -766,7 +806,8 @@ export class MazeScene {
     this.gateGroups = {};
     GATE_ORDER.forEach((key, index) => {
       const g = GATES[key];
-      const group = this._makeStation(PROJECT_COLORS[key], STATION_LABELS[key], index);
+      const codename = PROJECTS.find((p) => p.key === key)?.stationLabel ?? key.toUpperCase();
+      const group = this._makeStation(PROJECT_COLORS[key], codename, index);
       group.position.copy(cellCenter(g.c, g.r));
       group.userData.key = key;
       this.scene.add(group);
@@ -905,6 +946,10 @@ export class MazeScene {
       }
       if (light) {
         light.intensity = isNext ? 3.2 + pulse * 2.2 : visited ? 1.4 : 0.5;
+      }
+      const label = g.children.find((c) => c.userData?.isStationLabel);
+      if (label?.material) {
+        label.material.opacity = locked ? 0.52 : visited ? 0.9 : isNext ? 1 : 0.78;
       }
       g.scale.setScalar(isNext && this.nearZone === key ? 1.07 : 1);
     });
@@ -1314,4 +1359,8 @@ export function getMazeLayout() {
     start: MAZE.start,
     exit: MAZE.exit,
   };
+}
+
+export function getMazeStartPosition() {
+  return cellCenter(MAZE.start.c, MAZE.start.r);
 }

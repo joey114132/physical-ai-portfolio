@@ -21,7 +21,7 @@ import {
   prioritizeMedia,
   interpolateCopy,
 } from "./i18n.js";
-import { MazeScene, getMazeLayout } from "./maze-scene.js";
+import { MazeScene, getMazeLayout, getMazeStartPosition } from "./maze-scene.js";
 import { DetailScene } from "./detail-scene.js";
 import { AudioEngine } from "./audio.js";
 import { detectPerfTier, applyPerfClass } from "./perf.js";
@@ -427,6 +427,7 @@ function enterProject(key) {
 function enterExit() {
   if (exitFlowActive || mode !== "maze") return;
   exitFlowActive = true;
+  clearMazeProgress();
   const gen = ++cutsceneGen;
   maze?.setPaused(true);
   stopScrollLoop();
@@ -679,6 +680,10 @@ function setIntroLanguage(next) {
   applyLanguage();
 }
 
+const PROGRESS_VERSION = 1;
+const PROGRESS_MOVE_EPS = 2.5;
+let saveProgressTimer = null;
+
 function getLabVisitCount() {
   try {
     return Number.parseInt(localStorage.getItem(SITE.storage.visits) ?? "0", 10) || 0;
@@ -694,6 +699,81 @@ function bumpLabVisit() {
     return n;
   } catch {
     return 0;
+  }
+}
+
+function loadMazeProgress() {
+  try {
+    const raw = localStorage.getItem(SITE.storage.progress);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (!data || data.v !== PROGRESS_VERSION) return null;
+    const visited = Array.isArray(data.visited)
+      ? data.visited.filter((key) => PROJECT_KEYS.includes(key))
+      : [];
+    const px = typeof data.px === "number" ? data.px : null;
+    const pz = typeof data.pz === "number" ? data.pz : null;
+    const facing = typeof data.facing === "number" ? data.facing : null;
+    if (!visited.length && px == null && pz == null) return null;
+    return { visited, px, pz, facing };
+  } catch {
+    return null;
+  }
+}
+
+function hasMovedFromStart(px, pz) {
+  if (px == null || pz == null) return false;
+  const start = getMazeStartPosition();
+  const dx = px - start.x;
+  const dz = pz - start.z;
+  return dx * dx + dz * dz > PROGRESS_MOVE_EPS * PROGRESS_MOVE_EPS;
+}
+
+function hasRestorableProgress() {
+  const saved = loadMazeProgress();
+  if (!saved) return false;
+  return saved.visited.length > 0 || hasMovedFromStart(saved.px, saved.pz);
+}
+
+function saveMazeProgress() {
+  if (!introDone || !maze?.player) return;
+  try {
+    const visited = [...(maze.visited ?? [])].filter((key) => PROJECT_KEYS.includes(key));
+    const px = maze.player.position.x;
+    const pz = maze.player.position.z;
+    if (!visited.length && !hasMovedFromStart(px, pz)) {
+      localStorage.removeItem(SITE.storage.progress);
+      return;
+    }
+    localStorage.setItem(
+      SITE.storage.progress,
+      JSON.stringify({
+        v: PROGRESS_VERSION,
+        visited,
+        px,
+        pz,
+        facing: maze.facing,
+        savedAt: Date.now(),
+      }),
+    );
+  } catch {
+    /* ignore quota / private mode */
+  }
+}
+
+function scheduleSaveMazeProgress() {
+  if (saveProgressTimer != null) return;
+  saveProgressTimer = window.setTimeout(() => {
+    saveProgressTimer = null;
+    saveMazeProgress();
+  }, 280);
+}
+
+function clearMazeProgress() {
+  try {
+    localStorage.removeItem(SITE.storage.progress);
+  } catch {
+    /* ignore */
   }
 }
 
@@ -758,9 +838,10 @@ function renderIntro() {
   els.introRole.textContent = i.role;
   els.introLead.innerHTML = formatConceptHtml(interpolateCopy(i.lead, copy));
   if (els.introReturn) {
-    const showReturn = !introDone && getLabVisitCount() > 0 && i.returnWelcome;
+    const showReturn = !introDone && hasRestorableProgress() && i.returnWelcome;
     els.introReturn.innerHTML = showReturn ? formatConceptHtml(i.returnWelcome) : "";
     els.introReturn.classList.toggle("hidden", !showReturn);
+    els.introReturn.hidden = !showReturn;
   }
   els.introEdu.textContent = i.edu;
   if (els.introControls && i.controls) {
@@ -950,8 +1031,9 @@ function renderTimeline() {
     btn.type = "button";
     btn.className = "timeline-btn";
     btn.dataset.key = key;
-    btn.dataset.num = String(i + 1).padStart(2, "0");
-    btn.innerHTML = `<span class="phase">${p.phase}</span><span class="title">${p.title}</span>`;
+    const order = String(i + 1).padStart(2, "0");
+    btn.dataset.num = order;
+    btn.innerHTML = `<span class="phase"><span class="phase__order">${order}</span><span class="phase__tag">${p.phase}</span></span><span class="title">${p.title}</span>`;
     btn.addEventListener("click", () => {
       maze?.teleportToGate(key);
       setUiMenuOpen(false);
@@ -1238,6 +1320,7 @@ async function openDetail(key) {
   maze?.setPaused(true);
   maze?.visited?.add(key);
   updateProgress();
+  scheduleSaveMazeProgress();
   await renderDetailContent(key);
   setActiveTimeline(key);
   detail3d.setProject(key).then(() => detail3d.start());
@@ -1284,6 +1367,7 @@ function closeDetail() {
   requestAnimationFrame(() => {
     maze?._resize?.();
     drawMinimap();
+    scheduleSaveMazeProgress();
   });
 }
 
@@ -1365,10 +1449,13 @@ function startMaze() {
   document.body.classList.remove("intro");
   document.body.classList.add("maze-mode");
   layoutMazeChrome();
+  const saved = loadMazeProgress();
+  if (saved) maze?.restoreProgress(saved);
   maze?.setPaused(false);
   syncMobileControls();
   updateQuestBanner();
   updateProgress();
+  drawMinimap();
   startLabNotesRotation();
 }
 
@@ -1639,15 +1726,21 @@ function init() {
     maze.onZoneActivate = (key) => enterProject(key);
     maze.onReachExit = () => enterExit();
     maze.onGateLocked = () => updateQuestBanner();
-    maze.onStep = (sprint) => audio.step(sprint);
+    maze.onStep = (sprint) => {
+      audio.step(sprint);
+      if (introDone && mode === "maze") scheduleSaveMazeProgress();
+    };
     maze.onArrive = () => audio.arrive();
 
     setInterval(() => {
       if (mode === "maze" && !document.hidden) drawMinimap();
     }, 400);
 
+    window.addEventListener("pagehide", saveMazeProgress);
+
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
+        saveMazeProgress();
         detail3d?.stop();
         if (mode === "maze") maze?.setPaused(true);
         return;

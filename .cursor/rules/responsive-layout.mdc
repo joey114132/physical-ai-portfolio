@@ -1,0 +1,30 @@
+---
+description: Responsive layout for maze chrome, quest mission banner, and breakpoints
+globs: portfolio/css/style.css,portfolio/index.html,portfolio/js/config.js
+alwaysApply: false
+---
+
+# Responsive layout (portfolio)
+
+Breakpoints (see `js/config.js` → `BREAKPOINTS`):
+- **719px** — maze compact / drawer chrome
+- **720px+** — desktop maze; mission banner centered
+- **1280px+** — sidebar rail + narrower mission pill
+
+## Quest mission (`#quest-banner`)
+
+- In **maze mode** on **≥720px**: centered pill (`margin-inline: auto`, `width: fit-content`, `text-align: center`).
+- Mobile **≤719px**: full-width bar, ellipsis OK.
+- Never use `position: fixed` + off-center transforms in maze top-bar context.
+- Korean copy: inherit `:lang(ko) { word-break: keep-all }`.
+
+## Top bar (desktop maze)
+
+- Row grid: `1fr auto 1fr` — brand left, **status centered**, tools right.
+- `max-width: min(72rem, 100%)` on the row for ultra-wide screens.
+
+## Verification
+
+```zsh
+cd portfolio && npm run lint:layout && npm run test:layout
+```

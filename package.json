@@ -12,7 +12,11 @@
     "check": "npm run lint && npm run lint:css && npm run format:check",
     "test:e2e": "node scripts/test-exit-flow.mjs",
     "test:verify": "node scripts/verify-journey-sprint.mjs",
-    "test:all": "npm run test:e2e && npm run test:verify"
+    "test:all": "npm run test:e2e && npm run test:verify",
+    "lint:ko": "node scripts/lint-korean-copy.mjs",
+    "test:ko-linebreak": "node scripts/test-korean-linebreak.mjs",
+    "lint:layout": "node scripts/lint-responsive-layout.mjs",
+    "test:layout": "node scripts/test-responsive-layout.mjs"
   },
   "repository": {
     "type": "git",

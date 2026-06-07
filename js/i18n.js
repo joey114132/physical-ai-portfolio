@@ -111,8 +111,9 @@ export const STRINGS = {
     intro: {
       eyebrow: "FIELD LAB · NOT A PDF",
       role: "Physical AI · robotics · vision-UI",
-      lead: "You are inside a **3D maze** I built because resumes cannot show **IK tuning** or a **high-five on hardware**. Walk stations **{stationFirst}→{stationLast}** — team work, **my parts only**.",
-      returnWelcome: "Welcome back. The corridor remembers you — pick up where you left off.",
+      lead: "Four bootcamp **team projects** in a walkable **3D maze**. Open **{stationFirst}→{stationLast}** in order — **IK tuning**, a **real high-five**, and **only my contributions** at each stop.",
+      returnWelcome:
+        "Your maze position and station progress are saved — pick up where you left off.",
       touchNote: "Mobile: **joystick** · **E** to open · **menu (≡)** for status & projects",
       edu: "B.S. Game Design, University of Utah — 2024",
       controlsTitle: "How to explore (simple)",
@@ -273,7 +274,7 @@ export const STRINGS = {
       tagline:
         "**{projectCount}** stations · **{stationFirst}→{stationLast}** in order · exit for the journey log",
       labNotes: [
-        "FIELD NOTE · if the maze stutters, your GPU is doing honest work",
+        "FIELD NOTE · if the maze stutters, your GPU is actually working",
         "FIELD NOTE · sim first, robot second — still my religion",
         "FIELD NOTE · every panel is something I touched, not the whole team deck",
         "FIELD NOTE · exit arch unlocks after all four gates — no speedrun skips",
@@ -954,12 +955,12 @@ export const STRINGS = {
     nav: {
       hint: "WASD 이동 · E로 게이트·출구 · 1–{projectLast} 프로젝트 · Esc 뒤로",
       hudLabel: "랩",
-      questIdle: "스테이션 **{stationFirst}→{stationLast}**를 순서대로 방문해 주세요",
+      questIdle: "**{stationFirst}→{stationLast}** 스테이션을 순서대로 방문해 주세요",
       questNext: "다음 — 스테이션 {order} · {title}",
       questNextShort: "스테이션 {order} · {title}",
       questNear: "E — 스테이션 {order} · {title}",
       questExit: "네 스테이션 완료 · E — 여정 기록",
-      questLocked: "먼저 스테이션 {order} · {title}을(를) 완료해 주세요",
+      questLocked: "스테이션 {order}·{title}부터 완료해 주세요",
       questExitLocked: "네 스테이션을 모두 방문하신 뒤 출구로 가 주세요",
       questProgress: "스테이션 {n}/{projectCount} 완료",
       questProgressShort: "{n}/{projectCount}",
@@ -980,11 +981,12 @@ export const STRINGS = {
     intro: {
       eyebrow: "현장 랩 · PDF 아님",
       role: "Physical AI · 로봇 · 비전-UI",
-      lead: "이력서 PDF로는 **IK 튜닝**이나 **실물 하이파이브**가 안 보여서 **3D 미로**를 만들었습니다. 스테이션 **{stationFirst}→{stationLast}** — 팀 프로젝트 중 **제가 손댄 부분만** 담았습니다.",
-      returnWelcome: "다시 오셨군요. 복도가 기억합니다 — 이어서 걸어 주세요.",
-      touchNote: "모바일: **조이스틱** · **E**로 열기 · **메뉴(≡)** 에서 상태·프로젝트",
+      lead: "부트캠프 **팀 프로젝트를** **3D 미로로** 옮긴 포트폴리오입니다. **{stationFirst}→{stationLast}** 스테이션을 순서대로 열면 **IK 튜닝**과 **실물 하이파이브를** 직접 확인할 수 있고, 각 스테이션에는 **제가 기여한 작업만** 담았습니다.",
+      returnWelcome:
+        "탐색 위치와 스테이션 진행이 저장되어 있습니다. 미로에서 이어서 진행할 수 있습니다.",
+      touchNote: "모바일: **조이스틱** · **E로** 열기 · **메뉴(≡)** 에서 상태·프로젝트",
       edu: "유타대학교 게임학 학사 · 2024",
-      controlsTitle: "조작 방법 (쉬운 설명)",
+      controlsTitle: "조작 방법",
       controls: [
         { keys: "W A S D", label: "걷기 — 키를 누르고 있으면 이동" },
         { keys: "E", label: "문·프로젝트·출구 열기" },
@@ -1036,7 +1038,7 @@ export const STRINGS = {
       title: "2 · 배운 것들",
       aboutSectionTitle: "1 · 자기소개",
       subtitle:
-        "위에서 **자기소개**를 먼저 읽어 주세요 — 아래는 애디닝 **Physical AI** 부트캠프 **여정 기록**입니다",
+        "위에서 **자기소개를** 먼저 읽어 주세요 — 아래는 애디닝 **Physical AI** 부트캠프의 **여정 기록**입니다",
       bootcamp:
         "**2026.01→06 애디닝**: DL **Gesto**(스레드 **PyQt6+MediaPipe/LSTM**), IoT **오주의 마법사**(**ESP32 UDP/TCP**+관제 UI), ROS **쑈삥끼**(**YOLOv8/ByteTrack/ReID**+**Nav2**), PAI **pingdergarten**(**Vue/Three.js**+**D435→TRAC-IK→FK**). 아래 **GitHub·팀 덱** 링크 — 수치는 **PPTX/PDF** 지표와 조직 저장소 **제 커밋**에서 가져왔습니다.",
       scrollHint: "아래로 스크롤 · 키보드 **W** 위 · **S** 아래 · 마우스 휠",
@@ -1064,7 +1066,7 @@ export const STRINGS = {
           key: "dl",
           date: "2026.01 · DL 4조",
           summary:
-            "**Gesto** — 웹캠 **MediaPipe→LSTM→pynput**로 **PPT/YouTube**; **PyQt6** 셸·데이터셋 도구 담당",
+            "**Gesto** — 웹캠 **MediaPipe→LSTM→pynput로** **PPT/YouTube**; **PyQt6** 셸·데이터셋 도구 담당",
           myRole:
             "**PyQt6 UI** (~1,600+ 라인), **MediaPipe→LSTM** 연동, **LSTM 데이터셋**+일부 학습, **Rat Labyrinth** — `deeplearning-repo-4` **14 commits**",
           learned:
@@ -1103,7 +1105,7 @@ export const STRINGS = {
             "**D435 zstd WS → 브라우저 포인트클라우드 → TRAC-IK → FK 잔차**; **OpenArm** 오차 **~28cm→~2cm**; 하드웨어 전 **MuJoCo** 트윈",
         },
       ],
-      learnedTitle: "가져간 역량",
+      learnedTitle: "배워간 기술",
       learned: [
         "**PyQt6 + 워커 스레드** — 비전 추론을 UI 밖으로 (Gesto, IoT 관제실)",
         "**제스처·LSTM 파이프라인** — **MediaPipe 21점→30프레임**, 데이터셋 도구, **pynput** 액션 매핑",
@@ -1137,9 +1139,9 @@ export const STRINGS = {
       eyebrow: "랩 기록 · 스테이션 {projectCount}개",
       role: "Physical AI · 로봇 · 비전-UI",
       tagline:
-        "스테이션 **{projectCount}**개 · **{stationFirst}→{stationLast}** 순서 · 출구에서 여정 기록",
+        "스테이션 **{projectCount}**개 · **{stationFirst}→{stationLast}** 순서대로 · 출구에서 여정 기록",
       labNotes: [
-        "현장 메모 · 미로가 버벅이면 GPU가 정직하게 일하는 중",
+        "현장 메모 · 미로가 버벅이면 GPU가 제대로 일하는 증거",
         "현장 메모 · 시뮬 먼저, 로봇 나중 — 아직도 제 신조",
         "현장 메모 · 패널마다 제가 손댄 부분만, 팀 전체 슬라이드 아님",
         "현장 메모 · 네 게이트 후 출구 — 스피드런 스킵 없음",
@@ -1173,7 +1175,7 @@ export const STRINGS = {
           "최종 발표 **평균 F1 약 74%** (**LSTM v1→v4**)",
         ],
         summary:
-          "발표 시 **PPT·YouTube**를 키보드 없이 돌리는 작업을 진행했습니다. **PyQt** 셸과 **MediaPipe→LSTM→pynput** 연결, **학습 데이터** 수집, **LSTM** 일부 학습, **Rat Labyrinth**·기말 QA까지 담당했습니다.",
+          "발표 시 **PPT·YouTube를** 키보드 없이 돌리는 작업을 진행했습니다. **PyQt** 셸과 **MediaPipe→LSTM→pynput** 연결, **학습 데이터** 수집, **LSTM** 일부 학습, **Rat Labyrinth**·기말 QA까지 담당했습니다.",
         rolePoints: [
           "**PyQt6** + **MediaPipe→LSTM** 파이프라인 (트리거, 모드, 임계값)",
           "**LSTM 데이터셋** 수집 + **일부 학습**",
@@ -1182,7 +1184,7 @@ export const STRINGS = {
         contributions: [
           "**ModeController** — 인식 제스처를 **pynput** 키 입력으로 매핑.",
           "**MediaPipe + LSTM** — 트리거 on/off, 모드별 검출, 신뢰도 임계값.",
-          "**PyQt6 UI** (~1,600+ 라인): 웹캠, 모드, 게이지; **워커 스레드**로 UI 응답 유지.",
+          "**PyQt6 UI** (~1,600+ 라인): 웹캠, 모드, 게이지; **워커 스레드로** UI 응답 유지.",
           "**LSTM 데이터셋**: `.npy` (**30×21×3**), 수집 툴, 팀 매뉴얼.",
           "**LSTM v1→v4** 체크포인트 일부 직접 학습 — 팀과 공유, 실제 학습 런은 돌림.",
           "**Rat Labyrinth** 제스처 레지스트리 연동.",
