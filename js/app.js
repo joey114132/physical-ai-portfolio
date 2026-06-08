@@ -1,5 +1,6 @@
 import {
   SITE,
+  PROJECTS,
   BREAKPOINTS,
   PROJECT_COUNT,
   displayName,
@@ -118,6 +119,7 @@ const els = {
   introAlias: document.getElementById("intro-alias"),
   introRole: document.getElementById("intro-role"),
   introLead: document.getElementById("intro-lead"),
+  introStations: document.getElementById("intro-stations"),
   introReturn: document.getElementById("intro-return"),
   introEdu: document.getElementById("intro-edu"),
   introStart: document.getElementById("intro-start"),
@@ -845,6 +847,30 @@ function renderIntro() {
   els.introAlias.textContent = displayName(lang, "alias");
   els.introRole.textContent = i.role;
   els.introLead.innerHTML = formatConceptHtml(interpolateCopy(i.lead, copy));
+  if (els.introStations) {
+    const label = i.stationsLabel ?? "";
+    const chips = PROJECT_KEYS.map((key, index) => {
+      const proj = getProject(lang, key);
+      const station = PROJECTS.find((p) => p.key === key);
+      const phase = PHASE_SHORT[key] ?? station?.phase ?? key.toUpperCase();
+      const codename = station?.stationLabel ?? proj.title;
+      return `<li class="intro-station-chip" data-project="${key}" style="--chip-i:${index}">
+        <span class="intro-station-chip__index" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+        <span class="intro-station-chip__body">
+          <span class="intro-station-chip__phase">${escapeHtml(phase)}</span>
+          <span class="intro-station-chip__name">${escapeHtml(proj.title)}</span>
+          <span class="intro-station-chip__codename">${escapeHtml(codename)}</span>
+        </span>
+      </li>`;
+    }).join("");
+    if (label && chips) {
+      els.introStations.innerHTML = `<p class="intro-card__stations-label">${escapeHtml(label)}</p><ul class="intro-station-chips">${chips}</ul>`;
+      els.introStations.hidden = false;
+    } else {
+      els.introStations.innerHTML = "";
+      els.introStations.hidden = true;
+    }
+  }
   if (els.introReturn) {
     const showReturn = !introDone && hasRestorableProgress() && i.returnWelcome;
     els.introReturn.innerHTML = showReturn ? formatConceptHtml(i.returnWelcome) : "";
@@ -1607,9 +1633,15 @@ function setBootProgress(pct, messageKey) {
   if (els.bootLoader) els.bootLoader.setAttribute("aria-valuenow", String(Math.round(clamped)));
 }
 
+function revealIntroCard() {
+  const card = els.introOverlay?.querySelector(".intro-card");
+  if (card) card.classList.add("intro-card--revealed");
+}
+
 async function finishBootLoader() {
   setBootProgress(100, "ready");
   document.body.classList.remove("boot-loading");
+  requestAnimationFrame(() => requestAnimationFrame(revealIntroCard));
   els.bootLoader?.classList.add("boot-loader--out");
   await new Promise((r) => setTimeout(r, 520));
   els.bootLoader?.remove();
@@ -1965,6 +1997,7 @@ async function init() {
     } else {
       document.body.classList.remove("boot-loading");
       els.bootLoader?.remove();
+      requestAnimationFrame(() => requestAnimationFrame(revealIntroCard));
     }
 
     if (new URLSearchParams(location.search).get("debug") === "1") {

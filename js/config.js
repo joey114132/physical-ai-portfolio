@@ -31,8 +31,7 @@ export const SITE = Object.freeze({
     artPortfolio: "https://joeyjeongwooleeportfolio.netlify.app/",
     live: "https://joeyleeportfolio.netlify.app/",
     shopPinkkiDeck: "https://shoppinkki-presentation.netlify.app/",
-    pingdergartenDeck:
-      "https://github.com/addinedu-physicalai-1st/physical-ai-repo-2/tree/dev/presentation/final-v3",
+    pingdergartenDeck: "https://preso-slides-only.vercel.app/",
   }),
   cohort: "Physical AI · 2025–2026",
   cohortShort: "PAI · 25–26",

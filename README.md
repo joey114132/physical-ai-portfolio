@@ -1,5 +1,7 @@
 # Physical AI Portfolio
 
+**로컬 경로:** `~/PAIPortfolio` (이 저장소에 대한 심볼릭 링크)
+
 **이정우(Joey Lee)** 의 인터랙티브 3D 포트폴리오입니다. Three.js 미로를 걸으며 Physical AI 부트캠프에서 진행한 네 가지 팀 프로젝트를 순서대로 탐색할 수 있습니다.
 
 - **설정:** `js/config.js` — 이름, GitHub, 연락처, 프로젝트 목록, 브레이크포인트 (하드코딩 최소화)
