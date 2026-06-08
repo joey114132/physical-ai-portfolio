@@ -120,7 +120,7 @@ export const STRINGS = {
     intro: {
       eyebrow: "FIELD LAB · NOT A PDF",
       role: "Physical AI · robotics · vision-UI",
-      lead: "Four bootcamp **team projects** in a walkable **3D maze**. Open **{stationFirst}→{stationLast}** in order — **IK tuning**, a **real high-five**, and **only my contributions** at each stop.",
+      lead: "Four bootcamp **team projects** in a walkable **3D maze**. Open **{stationFirst}→{stationLast}** in order — **gestures, IoT, ROS vision, robot teleop** — with **only my contributions** at each station.",
       returnWelcome:
         "Your maze position and station progress are saved — pick up where you left off.",
       touchNote: "Mobile: **joystick** · **E** to open · **menu (≡)** for status & projects",
@@ -1000,7 +1000,7 @@ export const STRINGS = {
     intro: {
       eyebrow: "현장 랩 · PDF 아님",
       role: "Physical AI · 로봇 · 비전-UI",
-      lead: "부트캠프 **팀 프로젝트를** **3D 미로로** 옮긴 포트폴리오입니다. **{stationFirst}→{stationLast}** 스테이션을 순서대로 열면 **IK 튜닝**과 **실물 하이파이브를** 직접 확인할 수 있고, 각 스테이션에는 **제가 기여한 작업만** 담았습니다.",
+      lead: "부트캠프 **팀 프로젝트 네 건을** **3D 미로로** 옮긴 포트폴리오입니다. **{stationFirst}→{stationLast}** 스테이션을 순서대로 열면 **제스처·IoT·ROS 비전·로봇 teleop**까지 이어지며, 각 스테이션에는 **제가 기여한 작업만** 담았습니다.",
       returnWelcome:
         "탐색 위치와 스테이션 진행이 저장되어 있습니다. 미로에서 이어서 진행할 수 있습니다.",
       touchNote: "모바일: **조이스틱** · **E로** 열기 · **메뉴(≡)** 에서 상태·프로젝트",
