@@ -41,7 +41,32 @@
       }
     </script>
   </head>
-  <body class="intro easy-read">
+  <body class="intro easy-read boot-loading">
+    <div
+      id="boot-loader"
+      class="boot-loader"
+      role="progressbar"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+      aria-labelledby="boot-loader-status"
+    >
+      <div class="boot-loader__panel">
+        <p class="boot-loader__eyebrow">◈ Physical AI Lab</p>
+        <div class="boot-loader__track">
+          <div class="boot-loader__bar" id="boot-loader-bar"></div>
+        </div>
+        <p class="boot-loader__status" id="boot-loader-status"></p>
+      </div>
+    </div>
+
+    <div class="viewport-edge-fx" aria-hidden="true">
+      <span class="viewport-edge-fx__edge viewport-edge-fx__edge--top"></span>
+      <span class="viewport-edge-fx__edge viewport-edge-fx__edge--right"></span>
+      <span class="viewport-edge-fx__edge viewport-edge-fx__edge--bottom"></span>
+      <span class="viewport-edge-fx__edge viewport-edge-fx__edge--left"></span>
+    </div>
+
     <div class="ambient" aria-hidden="true">
       <div class="ambient__mesh"></div>
       <div class="ambient__grid"></div>
@@ -193,7 +218,19 @@
         <div class="top-bar__row">
           <div class="brand">
             <span class="brand__mark">◈</span>
-            <span class="brand__text"></span>
+            <span class="brand__text" id="brand-text" data-tier="short">
+              <span class="brand__label brand__label--full" id="brand-label-full"></span>
+              <span
+                class="brand__label brand__label--short"
+                id="brand-label-short"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="brand__label brand__label--micro"
+                id="brand-label-micro"
+                aria-hidden="true"
+              ></span>
+            </span>
           </div>
           <div class="top-bar__status" id="top-status" aria-live="polite">
             <span class="top-bar__status-num" id="top-station-num">01</span>

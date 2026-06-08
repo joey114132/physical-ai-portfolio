@@ -1,6 +1,11 @@
 /* Layout breakpoints: see js/config.js → BREAKPOINTS (touch 768, mazeMenu 719). */
 
 :root {
+  --text-fluid-xs: clamp(0.72rem, 0.66rem + 0.28vw, 0.8125rem);
+  --text-fluid-sm: clamp(0.84rem, 0.78rem + 0.32vw, 0.9375rem);
+  --text-fluid-base: clamp(0.95rem, 0.88rem + 0.38vw, 1.0625rem);
+  --text-fluid-md: clamp(1.05rem, 0.96rem + 0.45vw, 1.1875rem);
+  --text-fluid-lg: clamp(1.15rem, 1.02rem + 0.55vw, 1.3125rem);
   --bg: #080a10;
   --bg-elevated: #0e121c;
   --surface: rgba(14, 18, 28, 0.72);
@@ -437,10 +442,43 @@ body:not(.maze-mode) .top-bar > .quest-banner {
   align-items: center;
   gap: 0.65rem;
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  font-size: var(--text-fluid-sm);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
+  min-width: 0;
+}
+
+.brand__text {
+  display: inline-flex;
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.brand__label {
+  display: none;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.brand__text[data-tier="full"] .brand__label--full,
+.brand__text:not([data-tier]) .brand__label--short {
+  display: inline;
+}
+
+.brand__text[data-tier="short"] .brand__label--short {
+  display: inline;
+}
+
+.brand__text[data-tier="micro"] .brand__label--micro {
+  display: inline;
+}
+
+.brand__text[data-tier="short"] {
+  letter-spacing: 0.07em;
 }
 
 .brand__mark {
@@ -604,6 +642,8 @@ body:not(.maze-mode) .top-bar > .quest-banner {
   color: rgba(246, 240, 232, 0.88);
   background: color-mix(in srgb, var(--pai) 6%, rgba(8, 12, 20, 0.55));
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .hero__rule {
@@ -842,14 +882,17 @@ body.maze-mode .top-bar__row {
 
 body.maze-mode .brand {
   grid-area: brand;
+  flex-shrink: 1;
   min-width: 0;
+  max-width: 100%;
+  overflow: visible;
 }
 
 body.maze-mode .brand__text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: min(12rem, 36vw);
+  overflow: visible;
+  text-overflow: clip;
+  max-width: none;
+  min-width: 0;
 }
 
 body.maze-mode .top-bar__status {
@@ -978,6 +1021,8 @@ body.maze-mode .quest-banner--active {
 
   body.maze-mode .brand {
     justify-self: start;
+    min-width: 0;
+    max-width: 100%;
   }
 
   body.maze-mode .top-bar__status {
@@ -2363,7 +2408,8 @@ body:not(.cutscene-mode) #cutscene[hidden] {
 }
 
 .intro-card__lead,
-.about-card__bio {
+.about-card__bio,
+.about-card__list {
   margin: 0 0 1rem;
   font-size: var(--text-md);
   line-height: var(--line-relaxed);
@@ -2753,6 +2799,14 @@ body.journey-mode .minimap {
 .intro-controls__touch .key-concept,
 .hero__tagline .key-concept,
 .quest-banner .key-concept,
+.journey-card__subtitle .key-concept,
+.journey-card__bootcamp .key-concept,
+.journey-card__manifesto .key-concept,
+.journey-card__scroll-hint .key-concept,
+.journey-timeline__summary .key-concept,
+.journey-timeline__role .key-concept,
+.journey-timeline__learned .key-concept,
+.journey-chips .key-concept,
 .detail-meta-line .key-concept,
 .detail-team .key-concept,
 .detail-subtitle .key-concept,
@@ -3344,9 +3398,6 @@ body.cutscene-mode #orbit-ui {
     font-size: 16px;
   }
 
-  .brand__text {
-    display: none;
-  }
   body:not(.maze-mode) .hero {
     display: none;
   }
@@ -3888,6 +3939,8 @@ body.maze-mode.touch-ui .top-bar__status-progress {
   border-radius: var(--radius-md);
   border: 1px solid color-mix(in srgb, var(--copper) 28%, var(--border));
   background: color-mix(in srgb, var(--copper) 10%, rgba(8, 12, 20, 0.75));
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .journey-card__scroll {
@@ -3930,15 +3983,17 @@ body.maze-mode.touch-ui .top-bar__status-progress {
 
 .journey-card__subtitle {
   margin: 0.55rem 0 0;
-  max-width: 52ch;
+  max-width: min(68ch, 100%);
   font-size: var(--text-md);
   line-height: var(--line-relaxed);
   color: var(--muted);
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .journey-card__bootcamp {
   margin: 0.85rem 0 0;
-  max-width: 58ch;
+  max-width: min(72ch, 100%);
   padding: 0.75rem 0.9rem;
   font-size: var(--text-sm);
   line-height: var(--line-relaxed);
@@ -3946,6 +4001,8 @@ body.maze-mode.touch-ui .top-bar__status-progress {
   border-radius: var(--radius-md);
   border: 1px solid color-mix(in srgb, var(--copper) 22%, var(--border));
   background: color-mix(in srgb, var(--copper) 6%, rgba(10, 14, 22, 0.65));
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .journey-section {
@@ -4063,11 +4120,18 @@ body.maze-mode.touch-ui .top-bar__status-progress {
   color: var(--muted);
 }
 
-.journey-timeline__summary {
+.journey-timeline__summary,
+.journey-timeline__role {
   margin: 0;
   font-size: var(--text-sm);
   line-height: var(--line-relaxed);
   color: rgba(246, 240, 232, 0.9);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.journey-timeline__role {
+  margin-top: 0.45rem;
 }
 
 .journey-timeline__learned {
@@ -4077,6 +4141,8 @@ body.maze-mode.touch-ui .top-bar__status-progress {
   font-size: var(--text-xs);
   line-height: var(--line-relaxed);
   color: color-mix(in srgb, var(--milestone-color) 55%, var(--muted));
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .journey-timeline__learned-label {
@@ -4117,6 +4183,8 @@ body.maze-mode.touch-ui .top-bar__status-progress {
   padding: 0.7rem 0.85rem;
   border-radius: var(--radius-sm);
   border: 1px solid color-mix(in srgb, var(--copper) 16%, var(--border));
+  word-break: keep-all;
+  overflow-wrap: break-word;
   background: rgba(8, 12, 20, 0.55);
   font-size: var(--text-sm);
   line-height: var(--line-relaxed);
@@ -4455,4 +4523,178 @@ body.easy-read.journey-mode .journey-about .about-card__title {
 body.easy-read.journey-mode .journey-card__actions .btn--primary {
   min-height: 3.5rem;
   font-size: 1.125rem;
+}
+
+/* ── Boot loader ── */
+body.boot-loading #intro-overlay,
+body.boot-loading #orbit-ui {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.boot-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 0%, rgba(155, 123, 255, 0.14), transparent 58%),
+    radial-gradient(ellipse 70% 50% at 100% 100%, rgba(232, 168, 73, 0.1), transparent 55%),
+    rgba(6, 8, 12, 0.97);
+  transition:
+    opacity 0.52s var(--ease-out),
+    visibility 0.52s;
+}
+
+.boot-loader--out {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.boot-loader__panel {
+  width: min(22rem, 88vw);
+  padding: 1.35rem 1.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--copper) 28%, var(--border));
+  background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+
+.boot-loader__eyebrow {
+  margin: 0 0 1rem;
+  font-family: var(--font-game);
+  font-size: var(--text-fluid-sm);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--copper);
+  text-align: center;
+}
+
+.boot-loader__track {
+  height: 4px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.boot-loader__bar {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--dl), var(--copper), var(--iot));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--copper) 55%, transparent);
+  transition: width 0.38s var(--ease-out);
+}
+
+.boot-loader__status {
+  margin: 0.75rem 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-fluid-xs);
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: var(--muted);
+  word-break: keep-all;
+}
+
+/* ── Viewport resize edge FX ── */
+.viewport-edge-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.viewport-edge-fx__edge {
+  position: absolute;
+  opacity: 0;
+}
+
+.viewport-edge-fx__edge--top,
+.viewport-edge-fx__edge--bottom {
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.viewport-edge-fx__edge--left,
+.viewport-edge-fx__edge--right {
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.viewport-edge-fx__edge--top {
+  top: 0;
+  background: linear-gradient(90deg, transparent, var(--copper), var(--dl), transparent);
+}
+
+.viewport-edge-fx__edge--bottom {
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, var(--iot), var(--copper), transparent);
+}
+
+.viewport-edge-fx__edge--left {
+  left: 0;
+  background: linear-gradient(180deg, transparent, var(--dl), var(--copper), transparent);
+}
+
+.viewport-edge-fx__edge--right {
+  right: 0;
+  background: linear-gradient(180deg, transparent, var(--copper), var(--pai), transparent);
+}
+
+body.viewport-resize-active .viewport-edge-fx {
+  opacity: 1;
+}
+
+body.viewport-resize-active .viewport-edge-fx__edge {
+  animation: viewport-edge-sweep 0.72s var(--ease-out);
+}
+
+@keyframes viewport-edge-sweep {
+  0% {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  22% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+/* ── Fluid responsive copy (maze + overlays) ── */
+.quest-banner {
+  font-size: var(--text-fluid-sm);
+}
+
+body.maze-mode .timeline-btn .title {
+  font-size: var(--text-fluid-sm);
+}
+
+body.maze-mode .dock__hint,
+.hint {
+  font-size: var(--text-fluid-xs);
+}
+
+.intro-card__lead,
+.journey-card__bootcamp,
+.journey-timeline__summary,
+.journey-timeline__role {
+  font-size: var(--text-fluid-sm);
+}
+
+.intro-card__role,
+.journey-card__subtitle {
+  font-size: var(--text-fluid-md);
+}
+
+.top-bar__status {
+  font-size: var(--text-fluid-xs);
 }

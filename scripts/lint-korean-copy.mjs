@@ -81,6 +81,27 @@ if (!/\.key-concept[\s\S]*word-break:\s*keep-all/.test(css)) {
     sample: "",
   });
 }
+for (const sel of [
+  ".journey-card__bootcamp",
+  ".journey-timeline__summary",
+  ".journey-timeline__role",
+]) {
+  const re = new RegExp(`${sel.replace(/\./g, "\\.")}[\\s\\S]*word-break:\\s*keep-all`);
+  if (!re.test(css)) {
+    failures.push({
+      path: "css/style.css",
+      reason: `missing ${sel} { word-break: keep-all }`,
+      sample: "",
+    });
+  }
+}
+if (!/\*\*GitHub·팀 덱 링크\*\*/.test(ko.journey.bootcamp)) {
+  failures.push({
+    path: "journey.bootcamp",
+    reason: "GitHub·팀 덱 링크 should be one **highlight** chunk",
+    sample: ko.journey.bootcamp.slice(-60),
+  });
+}
 
 // es-hangul: questLocked should not need inline particle hacks when title is interpolated
 const sampleTitle = "Gesto";

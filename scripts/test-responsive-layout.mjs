@@ -40,6 +40,13 @@ try {
       const delta = Math.abs(questCenter - barCenter);
       const wb = getComputedStyle(quest).wordBreak;
       const ta = getComputedStyle(quest).textAlign;
+      const brand = document.querySelector(".brand");
+      const brandText = document.getElementById("brand-text");
+      const brandCs = brandText ? getComputedStyle(brandText) : null;
+      const brandRect = brand?.getBoundingClientRect();
+      const brandScroll = brandText?.scrollWidth ?? 0;
+      const brandClient = brandText?.clientWidth ?? 0;
+      const brandVisible = brand ? getComputedStyle(brand).display !== "none" : false;
       return {
         ok: true,
         delta,
@@ -47,6 +54,12 @@ try {
         questWidth: qr.width,
         textAlign: ta,
         wordBreak: wb,
+        brandTier: brandText?.dataset.tier ?? "",
+        brandEllipsis: brandCs?.textOverflow ?? "",
+        brandVisible,
+        brandClipped: brandVisible && brandScroll > brandClient + 1,
+        brandWidth: brandRect?.width ?? 0,
+        brandLabel: brandText?.innerText?.trim() ?? "",
       };
     });
 
@@ -63,6 +76,17 @@ try {
       }
       if (metrics.questWidth >= metrics.barWidth - 8) {
         throw new Error(`${viewport.label}: quest-banner should not span full bar width`);
+      }
+      if (metrics.brandVisible && metrics.brandEllipsis === "ellipsis") {
+        throw new Error(`${viewport.label}: brand text must not use ellipsis`);
+      }
+      if (metrics.brandVisible && metrics.brandClipped) {
+        throw new Error(
+          `${viewport.label}: brand clipped (${metrics.brandLabel}, tier=${metrics.brandTier})`,
+        );
+      }
+      if (metrics.brandVisible && !["full", "short", "micro"].includes(metrics.brandTier)) {
+        throw new Error(`${viewport.label}: brand missing data-tier`);
       }
     }
 

@@ -16,7 +16,11 @@
     "lint:ko": "node scripts/lint-korean-copy.mjs",
     "test:ko-linebreak": "node scripts/test-korean-linebreak.mjs",
     "lint:layout": "node scripts/lint-responsive-layout.mjs",
-    "test:layout": "node scripts/test-responsive-layout.mjs"
+    "test:layout": "node scripts/test-responsive-layout.mjs",
+    "serve": "python3 -m http.server 8766",
+    "verify:ui": "node scripts/with-local-serve.mjs -- node scripts/verify-ui.mjs",
+    "verify:live": "node scripts/check-live.mjs",
+    "verify:pre-finish": "npm run check && npm run verify:ui"
   },
   "repository": {
     "type": "git",

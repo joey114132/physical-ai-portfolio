@@ -20,6 +20,7 @@ import {
   getProject,
   prioritizeMedia,
   interpolateCopy,
+  collectBootAssetUrls,
 } from "./i18n.js";
 import { MazeScene, getMazeLayout, getMazeStartPosition } from "./maze-scene.js";
 import { DetailScene } from "./detail-scene.js";
@@ -178,7 +179,13 @@ const els = {
   uiDrawerClose: document.getElementById("ui-drawer-close"),
   uiDrawerTitle: document.getElementById("ui-drawer-title"),
   uiDrawerMeta: document.getElementById("ui-drawer-meta"),
-  brandText: document.querySelector(".brand__text"),
+  brandText: document.getElementById("brand-text"),
+  brandLabelFull: document.getElementById("brand-label-full"),
+  brandLabelShort: document.getElementById("brand-label-short"),
+  brandLabelMicro: document.getElementById("brand-label-micro"),
+  bootLoader: document.getElementById("boot-loader"),
+  bootLoaderBar: document.getElementById("boot-loader-bar"),
+  bootLoaderStatus: document.getElementById("boot-loader-status"),
   topBar: document.querySelector(".top-bar"),
   topBarRow: document.querySelector(".top-bar__row"),
   topBarTools: document.querySelector(".top-bar__tools"),
@@ -277,6 +284,7 @@ function layoutMazeChrome() {
 
   syncUiMenuMode();
   if (mode === "maze") updateQuestBanner();
+  syncBrandLabelTier();
 }
 
 let cutsceneTimer = null;
@@ -1457,11 +1465,177 @@ function startMaze() {
   updateProgress();
   drawMinimap();
   startLabNotesRotation();
+  syncBrandLabelTier();
+}
+
+function syncBrandLabels() {
+  const full = SITE.cohort;
+  if (els.brandLabelFull) els.brandLabelFull.textContent = full;
+  if (els.brandLabelShort) els.brandLabelShort.textContent = SITE.cohortShort;
+  if (els.brandLabelMicro) els.brandLabelMicro.textContent = SITE.cohortMicro;
+  if (els.brandText) {
+    els.brandText.setAttribute("aria-label", full);
+    els.brandText.title = full;
+  }
+  syncBrandLabelTier();
+}
+
+function syncBrandLabelTier() {
+  if (!els.brandText || !els.brand) return;
+  const brandEl = els.brand;
+  if (getComputedStyle(brandEl).display === "none") return;
+
+  const row = els.topBarRow?.getBoundingClientRect().width ?? window.innerWidth;
+  const tools = els.topBarTools?.getBoundingClientRect().width ?? 0;
+  const status = els.topStatus?.getBoundingClientRect().width ?? 0;
+  const colGap = els.topBarRow
+    ? Number.parseFloat(getComputedStyle(els.topBarRow).columnGap) || 8
+    : 8;
+  const wideBar = window.innerWidth >= 720;
+  const budget = wideBar
+    ? Math.max(40, (row - status - colGap * 2) / 2)
+    : Math.max(40, row - tools - status - 24);
+
+  let chosen = "micro";
+  for (const tier of ["full", "short", "micro"]) {
+    els.brandText.dataset.tier = tier;
+    void brandEl.offsetWidth;
+    const need = Math.max(brandEl.scrollWidth, brandEl.getBoundingClientRect().width);
+    if (need <= budget + 1) {
+      chosen = tier;
+      break;
+    }
+  }
+  els.brandText.dataset.tier = chosen;
+}
+
+const BOOT_VIDEO_RE = /\.(mp4|webm|mov)(\?|$)/i;
+const BOOT_PRELOAD_CONCURRENCY = 6;
+
+async function warmBootAsset(url) {
+  if (BOOT_VIDEO_RE.test(url)) {
+    try {
+      const res = await fetch(url, { method: "HEAD", mode: "cors" });
+      if (res.ok) return;
+    } catch {
+      /* fall through */
+    }
+    try {
+      await fetch(url, { method: "GET", headers: { Range: "bytes=0-262143" } });
+    } catch {
+      /* ignore unreachable CDN assets */
+    }
+    return;
+  }
+
+  await new Promise((resolve) => {
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = img.onerror = () => resolve();
+    img.src = url;
+  });
+}
+
+async function runBootPool(items, concurrency, worker) {
+  if (!items.length) return;
+  let index = 0;
+  const runners = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+    while (index < items.length) {
+      const item = items[index++];
+      await worker(item);
+    }
+  });
+  await Promise.all(runners);
+}
+
+async function filterReachableBootAssets(urls) {
+  const local = [];
+  const remote = [];
+  for (const url of urls) {
+    if (/^https?:\/\//i.test(url)) remote.push(url);
+    else local.push(url);
+  }
+
+  const reachableLocal = [];
+  await runBootPool(local, BOOT_PRELOAD_CONCURRENCY, async (url) => {
+    try {
+      const res = await fetch(url, { method: "HEAD" });
+      if (res.ok) reachableLocal.push(url);
+    } catch {
+      /* skip missing local files */
+    }
+  });
+  return [...reachableLocal, ...remote];
+}
+
+async function preloadBootAssets(urls, onProgress) {
+  const queue = await filterReachableBootAssets(urls);
+  const total = queue.length;
+  let done = 0;
+  const bump = () => {
+    done += 1;
+    onProgress?.(done, total);
+  };
+
+  await (document.fonts?.ready ?? Promise.resolve());
+  bump();
+
+  await runBootPool(queue, BOOT_PRELOAD_CONCURRENCY, async (url) => {
+    await warmBootAsset(url);
+    bump();
+  });
+}
+
+let brandTierObserver = null;
+
+function setupBrandLabelTier() {
+  syncBrandLabelTier();
+  if (brandTierObserver) return;
+  brandTierObserver = new ResizeObserver(() => syncBrandLabelTier());
+  if (els.topBarRow) brandTierObserver.observe(els.topBarRow);
+  if (els.topBarTools) brandTierObserver.observe(els.topBarTools);
+  if (els.topStatus) brandTierObserver.observe(els.topStatus);
+  window.addEventListener("resize", syncBrandLabelTier, { passive: true });
+}
+
+function setBootProgress(pct, messageKey) {
+  const boot = STRINGS[lang].boot ?? {};
+  const msg = boot[messageKey] ?? boot.loading ?? "";
+  const clamped = Math.min(100, Math.max(0, pct));
+  if (els.bootLoaderBar) els.bootLoaderBar.style.width = `${clamped}%`;
+  if (els.bootLoaderStatus) els.bootLoaderStatus.textContent = msg;
+  if (els.bootLoader) els.bootLoader.setAttribute("aria-valuenow", String(Math.round(clamped)));
+}
+
+async function finishBootLoader() {
+  setBootProgress(100, "ready");
+  document.body.classList.remove("boot-loading");
+  els.bootLoader?.classList.add("boot-loader--out");
+  await new Promise((r) => setTimeout(r, 520));
+  els.bootLoader?.remove();
+}
+
+let viewportFxTimer = null;
+
+function pulseViewportEdges() {
+  document.body.classList.add("viewport-resize-active");
+  clearTimeout(viewportFxTimer);
+  viewportFxTimer = setTimeout(() => document.body.classList.remove("viewport-resize-active"), 720);
+}
+
+function setupViewportFx() {
+  let debounce = null;
+  const onResize = () => {
+    clearTimeout(debounce);
+    debounce = setTimeout(pulseViewportEdges, 90);
+  };
+  window.addEventListener("resize", onResize, { passive: true });
+  window.visualViewport?.addEventListener("resize", onResize, { passive: true });
 }
 
 function applySiteConfig() {
   document.body.dataset.project = SITE.defaultProject;
-  if (els.brandText) els.brandText.textContent = SITE.cohort;
+  syncBrandLabels();
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute("content", SITE.metaDescription);
   applyShareMeta(STRINGS[lang]);
@@ -1580,7 +1754,11 @@ function setupUiMenu() {
   if (MAZE_MENU_MQ.addEventListener) MAZE_MENU_MQ.addEventListener("change", onMq);
   else MAZE_MENU_MQ.addListener(onMq);
 
-  window.addEventListener("resize", layoutMazeChrome, { passive: true });
+  const onResize = () => {
+    layoutMazeChrome();
+    syncBrandLabelTier();
+  };
+  window.addEventListener("resize", onResize, { passive: true });
 }
 
 function setupDetail3dToggle() {
@@ -1691,19 +1869,35 @@ function showBootError(message) {
   el.textContent = message;
 }
 
-function init() {
+async function init() {
+  const skipBoot = new URLSearchParams(location.search).get("noboot") === "1";
   try {
+    if (!skipBoot) {
+      document.body.classList.add("boot-loading");
+      setBootProgress(8, "loading");
+    }
+
     applySiteConfig();
+    if (!skipBoot) setBootProgress(18, "config");
     if (isTouchViewport()) document.body.classList.add("touch-ui");
     perfTier = applyPerfClass(detectPerfTier());
     applyLanguage();
+    if (!skipBoot) setBootProgress(28, "config");
     setupCursorGlow();
     setupDetailScroll();
     setupUiMenu();
     setupDetail3dToggle();
+    setupViewportFx();
+    setupBrandLabelTier();
+
+    if (!skipBoot) setBootProgress(42, "maze");
     maze = new MazeScene(document.getElementById("canvas-root"), { perf: perfTier });
     maze.setPaused(true);
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+    if (!skipBoot) setBootProgress(68, "scenes");
     detail3d = new DetailScene(els.detailCanvas, { perf: perfTier });
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
     detail3d.onCreditChange = (credit) => {
       const base = STRINGS[lang].nav.visualCaption;
       els.detailVisualCaption.textContent = credit ? `${base} · ${credit}` : base;
@@ -1756,6 +1950,22 @@ function init() {
     updateSoundBtn();
     initMobileControls();
     layoutMazeChrome();
+    maze?._resize?.();
+
+    if (!skipBoot) {
+      const resumeBoot = hasRestorableProgress();
+      setBootProgress(72, resumeBoot ? "resume" : "assets");
+      const assets = collectBootAssetUrls();
+      await preloadBootAssets(assets, (done, total) => {
+        const pct = 72 + Math.round((done / Math.max(1, total)) * 18);
+        setBootProgress(pct, resumeBoot ? "resume" : "assets");
+      });
+      setBootProgress(92, "scenes");
+      await finishBootLoader();
+    } else {
+      document.body.classList.remove("boot-loading");
+      els.bootLoader?.remove();
+    }
 
     if (new URLSearchParams(location.search).get("debug") === "1") {
       window.__portfolio = {
@@ -1781,6 +1991,8 @@ function init() {
     }
   } catch (err) {
     console.error("[portfolio] init failed", err);
+    document.body.classList.remove("boot-loading");
+    els.bootLoader?.remove();
     showBootError(
       lang === "ko"
         ? "3D 뷰를 불러오지 못했습니다. 새로고침해 주세요."

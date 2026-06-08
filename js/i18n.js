@@ -3,7 +3,7 @@
  * @module i18n
  */
 
-import { SITE } from "./config.js";
+import { SITE, PROJECT_KEYS } from "./config.js";
 
 export { PROJECT_COLORS, PROJECT_KEYS, REPO_URLS, PHASE_SHORT } from "./config.js";
 
@@ -81,6 +81,15 @@ export const STRINGS = {
       ogTitle: "Joey Lee · walk the Physical AI lab",
       ogDescription:
         "A 3D maze with four stations I actually built — gestures, IoT, ROS vision, real robot high-five. Not a PDF resume.",
+    },
+    boot: {
+      loading: "Warming up the lab…",
+      config: "Loading config…",
+      maze: "Building the maze…",
+      scenes: "Loading 3D scenes…",
+      assets: "Caching project media…",
+      resume: "Restoring your route — loading everything…",
+      ready: "Ready — step in",
     },
     nav: {
       hint: "WASD move · E at gates & exit · 1–{projectLast} open a project · Esc back",
@@ -952,6 +961,15 @@ export const STRINGS = {
       ogDescription:
         "직접 만진 네 스테이션을 돌아다니는 3D 미로 — 제스처, IoT, ROS 비전, 실물 로봇 하이파이브. PDF 이력서가 아닙니다.",
     },
+    boot: {
+      loading: "랩을 준비하는 중…",
+      config: "설정 불러오는 중…",
+      maze: "미로를 만드는 중…",
+      scenes: "3D 장면 불러오는 중…",
+      assets: "프로젝트 미디어 캐시 중…",
+      resume: "이전 경로 복원 — 전체 로딩 중…",
+      ready: "준비됐습니다 — 들어가 보세요",
+    },
     nav: {
       hint: "WASD 이동 · E로 게이트·출구 · 1–{projectLast} 프로젝트 · Esc 뒤로",
       hudLabel: "랩",
@@ -1038,9 +1056,9 @@ export const STRINGS = {
       title: "2 · 배운 것들",
       aboutSectionTitle: "1 · 자기소개",
       subtitle:
-        "위에서 **자기소개를** 먼저 읽어 주세요 — 아래는 애디닝 **Physical AI** 부트캠프의 **여정 기록**입니다",
+        "위에서 **자기소개를** 먼저 읽어 주세요 — 아래는 애디닝 **Physical AI 부트캠프 여정 기록**입니다",
       bootcamp:
-        "**2026.01→06 애디닝**: DL **Gesto**(스레드 **PyQt6+MediaPipe/LSTM**), IoT **오주의 마법사**(**ESP32 UDP/TCP**+관제 UI), ROS **쑈삥끼**(**YOLOv8/ByteTrack/ReID**+**Nav2**), PAI **pingdergarten**(**Vue/Three.js**+**D435→TRAC-IK→FK**). 아래 **GitHub·팀 덱** 링크 — 수치는 **PPTX/PDF** 지표와 조직 저장소 **제 커밋**에서 가져왔습니다.",
+        "**2026.01→06 애디닝**: DL **Gesto**(스레드 **PyQt6+MediaPipe/LSTM**), IoT **오주의 마법사**(**ESP32 UDP/TCP**+**관제 UI**), ROS **쑈삥끼**(**YOLOv8/ByteTrack/ReID**+**Nav2**), PAI **pingdergarten**(**Vue/Three.js**+**D435→TRAC-IK→FK**). 아래 **GitHub·팀 덱 링크** — 수치는 **PPTX/PDF** 지표와 조직 저장소 **제 커밋**에서 가져왔습니다.",
       scrollHint: "아래로 스크롤 · 키보드 **W** 위 · **S** 아래 · 마우스 휠",
       scrollHintTouch: "위아래로 스와이프해 전체를 읽어 주세요",
       myRoleLabel: "제 역할",
@@ -1066,9 +1084,9 @@ export const STRINGS = {
           key: "dl",
           date: "2026.01 · DL 4조",
           summary:
-            "**Gesto** — 웹캠 **MediaPipe→LSTM→pynput로** **PPT/YouTube**; **PyQt6** 셸·데이터셋 도구 담당",
+            "**Gesto** — 웹캠 **MediaPipe→LSTM→pynput로** **PPT/YouTube** 제어; **PyQt6 셸·데이터셋 도구를** 담당",
           myRole:
-            "**PyQt6 UI** (~1,600+ 라인), **MediaPipe→LSTM** 연동, **LSTM 데이터셋**+일부 학습, **Rat Labyrinth** — `deeplearning-repo-4` **14 commits**",
+            "**PyQt6 UI** (~1,600+ 라인), **MediaPipe→LSTM** 연동, **LSTM 데이터셋**·일부 학습, **Rat Labyrinth** · deeplearning-repo-4 · **14 commits**",
           learned:
             "**카메라·트리거·인식** 워커 스레드; **6,276** `.npy` 시퀀스(**30×21×3**); 팀 덱 **평균 F1 ~74%**, **Swipe Left ~0.89** (**LSTM v1→v4**)",
         },
@@ -1088,7 +1106,7 @@ export const STRINGS = {
           summary:
             "**쑈삥끼** — **Pinky Pro** 매장 카트: **YOLOv8→ByteTrack→ReID** 팔로우 모드 (**ROS 2 Jazzy** + **Nav2**)",
           myRole:
-            "주인 추적 **인식 스택** — detect/track/**ReID**, **Safe-ID**, **NCNN**보내기; `ros-repo-2` **9 commits**",
+            "주인 추적 **인식 스택** — detect/track/**ReID**, **Safe-ID**, **NCNN 보내기**; ros-repo-2 · **9 commits**",
           deck: SITE.links.shopPinkkiDeck,
           learned:
             "락 후 **5프레임 Safe-ID**; 사람 교차 시 **OSNet→MobileNetV3**+HSV 폴백; 매장 녹화본 E2E 지연 튜닝(덱 슬라이드)",
@@ -1099,7 +1117,7 @@ export const STRINGS = {
           summary:
             "**pingdergarten / EduPing** — 유치원 보조 로봇: 브라우저 teleop, 뎁스 하이파이브, 출석 플로우",
           myRole:
-            "최종 발표: **등하원·하이파이브**, **무궁화꽃**, **일과 보고서**; **robot-web** UX, **D435** 스트림, **TRAC-IK/FK** — `physical-ai-repo-2` **37 commits**",
+            "최종 발표: **등하원·하이파이브**, **무궁화꽃**, **일과 보고서**; **robot-web** UX, **D435** 스트림, **TRAC-IK/FK** · physical-ai-repo-2 · **37 commits**",
           deck: SITE.links.pingdergartenDeck,
           learned:
             "**D435 zstd WS → 브라우저 포인트클라우드 → TRAC-IK → FK 잔차**; **OpenArm** 오차 **~28cm→~2cm**; 하드웨어 전 **MuJoCo** 트윈",
@@ -1781,4 +1799,35 @@ export function getProject(lang, key) {
     return a;
   });
   return p;
+}
+
+/** Every gallery / about asset URL — used by the boot loader (resume included). */
+export function collectBootAssetUrls() {
+  const urls = new Set();
+  const add = (src) => {
+    if (!src || typeof src !== "string") return;
+    const resolved = resolveMediaSrc(src);
+    if (/^https?:\/\//i.test(resolved) || resolved.startsWith("assets/")) {
+      urls.add(resolved);
+    }
+  };
+
+  for (const loc of ["en", "ko"]) {
+    const block = STRINGS[loc];
+    add(block.about?.profileImage);
+    for (const m of block.about?.media ?? []) add(m.src);
+    for (const key of PROJECT_KEYS) {
+      const p = block.projects?.[key];
+      if (!p) continue;
+      for (const m of p.media ?? []) add(m.src);
+      for (const a of p.visualAids ?? []) {
+        if (a.type === "diagram") add(a.src);
+      }
+    }
+  }
+
+  for (const url of Object.values(PRISMIC)) add(url);
+  urls.add("assets/og-lab.svg");
+  urls.add("assets/favicon.svg");
+  return [...urls];
 }

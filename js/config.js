@@ -35,6 +35,8 @@ export const SITE = Object.freeze({
       "https://github.com/addinedu-physicalai-1st/physical-ai-repo-2/tree/dev/presentation/final-v3",
   }),
   cohort: "Physical AI · 2025–2026",
+  cohortShort: "PAI · 25–26",
+  cohortMicro: "PAI",
   defaultProject: /** @type {ProjectKey} */ ("dl"),
   metaDescription:
     "Walk a 3D lab maze — four Physical AI projects I actually built. Not a PDF resume.",
