@@ -120,11 +120,11 @@ export const STRINGS = {
     intro: {
       eyebrow: "",
       role: "Physical AI · robotics · vision-UI",
-      lead: "Four bootcamp **team projects** in a walkable **3D maze**. Open **{stationFirst}→{stationLast}** in order — **gestures, IoT, ROS vision, robot teleop** — with **only my contributions** at each station.",
+      lead: "Walk a **3D maze** through four **Addinedu Physical AI** projects — **{stationFirst}→{stationLast}** in order. Each station shows **only what I shipped**: gestures, IoT, ROS vision, and browser teleop.",
       returnWelcome:
         "Your maze position and station progress are saved — pick up where you left off.",
       touchNote: "Mobile: **joystick** · **E** to open · **menu (≡)** for status & projects",
-      edu: "B.S. Game Design, University of Utah — 2024",
+      edu: "",
       controlsTitle: "How to explore (simple)",
       controls: [
         { keys: "W A S D", label: "Walk — hold keys to move" },
@@ -141,7 +141,7 @@ export const STRINGS = {
       profileImage: "assets/about/profile.jpg",
       sectionTitle: "About me",
       role: "Physical AI · robotics · vision-UI",
-      bio: "Game school at **Utah (2024)**. These days it's **Physical AI** — robots, vision, UI. I hook cameras into **PyQt** or a browser, run **sim** first when I can, then move to hardware. **3D** spatial sense still shows up in **teleop** layout.",
+      bio: "I build **Physical AI** stacks — cameras in **PyQt** or the browser, **sim/bench** before hardware when I can. From **Gesto** gestures to **ROS 2** follow mode and **EduPing** teleop, I wire **vision → UI → robot**. **3D** layout sense still shapes how I place panels and maze stations.",
       strengths: [
         "**Sim/bench** first, then on-robot",
         "**MediaPipe**, **YOLO/ByteTrack/ReID**, **D435** in the browser",
@@ -173,7 +173,7 @@ export const STRINGS = {
           caption: "Gesto — gesture game / presenter mode",
         },
       ],
-      artLinkLabel: "3D art portfolio (game school work)",
+      artLinkLabel: "3D art portfolio",
       finish: "Thanks for walking through",
     },
     journey: {
@@ -255,7 +255,7 @@ export const STRINGS = {
         "**Embedded comms** — **ESP32 UDP/TCP**, device packets, gate/tower integration in one operator timeline",
         "**ROS 2 perception** — **YOLO + ByteTrack + ReID**, topic timing, mart-footage latency profiling",
         "**Sim→real teleop** — **RealSense in browser**, **TRAC-IK/FK** residual tuning, **URDF** in **Three.js**",
-        "**3D spatial sense** from game school → maze layout, robot panels, teleop UX",
+        "**3D spatial layout** → maze stations, robot panels, teleop UX",
       ],
       presentTitle: "Now",
       present: [
@@ -288,7 +288,7 @@ export const STRINGS = {
         "FIELD NOTE · sim first, robot second — still my religion",
         "FIELD NOTE · every panel is something I touched, not the whole team deck",
         "FIELD NOTE · exit arch unlocks after all four gates — no speedrun skips",
-        "FIELD NOTE · game-school spatial sense → teleop layout, still",
+        "FIELD NOTE · 3D layout sense → teleop panels, still",
       ],
     },
     panel: {
@@ -1000,11 +1000,11 @@ export const STRINGS = {
     intro: {
       eyebrow: "",
       role: "Physical AI · 로봇 · 비전-UI",
-      lead: "부트캠프 **팀 프로젝트 네 건을** **3D 미로로** 옮긴 포트폴리오입니다. **{stationFirst}→{stationLast}** 스테이션을 순서대로 열면 **제스처·IoT·ROS 비전·로봇 teleop**까지 이어지며, 각 스테이션에는 **제가 기여한 작업만** 담았습니다.",
+      lead: "**애드인 Physical AI** 부트캠프 **팀 프로젝트 네 건을** **3D 미로로** 옮긴 포트폴리오입니다. **{stationFirst}→{stationLast}** 순서대로 걷다 보면 **제스처·IoT·ROS 비전·브라우저 teleop이** 이어지고, 각 스테이션에는 **제가 직접 기여한 작업만** 담았습니다.",
       returnWelcome:
         "탐색 위치와 스테이션 진행이 저장되어 있습니다. 미로에서 이어서 진행할 수 있습니다.",
       touchNote: "모바일: **조이스틱** · **E로** 열기 · **메뉴(≡)** 에서 상태·프로젝트",
-      edu: "유타대학교 게임학 학사 · 2024",
+      edu: "",
       controlsTitle: "조작 방법",
       controls: [
         { keys: "W A S D", label: "걷기 — 키를 누르고 있으면 이동" },
@@ -1021,7 +1021,7 @@ export const STRINGS = {
       profileImage: "assets/about/profile.jpg",
       sectionTitle: "자기소개",
       role: "Physical AI · 로봇 · 비전-UI",
-      bio: "**유타대** 게임 전공(2024)입니다. 현재 **Physical AI** — **로봇·비전·UI** 관련 작업을 하고 있습니다. 카메라는 **PyQt**나 **브라우저 UI**에 연결하고, **시뮬**에서 먼저 확인할 수 있으면 그렇게 한 뒤 실물로 옮깁니다. **3D** 작업 때 익힌 공간 감각은 **teleop**과 UI 배치에 아직도 사용하고 있습니다.",
+      bio: "**Physical AI** 쪽에서 카메라·비전을 **PyQt**나 **브라우저**에 붙이고, 가능하면 **시뮬·벤치**에서 먼저 검증한 뒤 로봇으로 옮깁니다. **Gesto** 제스처부터 **ROS 2** 추적, **EduPing** teleop까지 **비전→UI→로봇을** 이어 붙이고, **3D** 공간 감각은 패널·미로 스테이션 배치에 그대로 씁니다.",
       strengths: [
         "**시뮬·벤치**에서 먼저 확인한 뒤 로봇에 올립니다",
         "**MediaPipe**, **YOLO/ByteTrack/ReID**, 브라우저 **D435**",
@@ -1132,7 +1132,7 @@ export const STRINGS = {
         "**임베디드 통신** — **ESP32 UDP/TCP**, 디바이스 패킷, 게이트·타워를 한 타임라인에",
         "**ROS 2 인식** — **YOLO+ByteTrack+ReID**, 토픽 타이밍, 매장 영상 지연 프로파일링",
         "**sim→real teleop** — 브라우저 **RealSense**, **TRAC-IK/FK** 잔차 튜닝, **Three.js URDF**",
-        "게임학교 **3D 공간 감각** → 미로 배치, 로봇 패널, teleop UX",
+        "**3D 공간 배치** → 미로 스테이션, 로봇 패널, teleop UX",
       ],
       presentTitle: "지금",
       present: [
@@ -1165,7 +1165,7 @@ export const STRINGS = {
         "현장 메모 · 시뮬 먼저, 로봇 나중 — 아직도 제 신조",
         "현장 메모 · 패널마다 제가 손댄 부분만, 팀 전체 슬라이드 아님",
         "현장 메모 · 네 게이트 후 출구 — 스피드런 스킵 없음",
-        "현장 메모 · 게임학교 공간 감각 → teleop 배치에 아직도 씀",
+        "현장 메모 · 3D 배치 감각 → teleop 패널에 아직도 씀",
       ],
     },
     panel: {

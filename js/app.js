@@ -877,7 +877,11 @@ function renderIntro() {
     els.introReturn.classList.toggle("hidden", !showReturn);
     els.introReturn.hidden = !showReturn;
   }
-  els.introEdu.textContent = i.edu;
+  if (els.introEdu) {
+    const edu = (i.edu ?? "").trim();
+    els.introEdu.textContent = edu;
+    els.introEdu.hidden = !edu;
+  }
   if (els.introControls && i.controls) {
     const rows = i.controls
       .map(
