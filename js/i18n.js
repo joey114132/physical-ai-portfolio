@@ -108,8 +108,10 @@ export const STRINGS = {
       visualCaption: "3D · drag to orbit · W/S scroll the panel",
       scrollHint: "W ↑ · S ↓ · scroll for more",
       scrollHintTouch: "Swipe to scroll",
-      hintTouch: "Joystick · E · menu (≡)",
-      mobileInteract: "Open",
+      hintTouch: "Joystick (move) · Enter (E) · menu (≡)",
+      mobileJoystickLabel: "Move",
+      mobileInteract: "Open station",
+      mobileInteractLabel: "Enter",
       visualCaptionTouch: "3D · drag to orbit · swipe to scroll",
       menuOpen: "Open menu",
       menuClose: "Close menu",
@@ -123,7 +125,7 @@ export const STRINGS = {
       lead: "Walk a **3D maze** through four **Addinedu Physical AI** projects — **{stationFirst}→{stationLast}** in order. Each station shows **only what I shipped**: gestures, IoT, ROS vision, and browser teleop.",
       returnWelcome:
         "Your maze position and station progress are saved — pick up where you left off.",
-      touchNote: "Mobile: **joystick** · **E** to open · **menu (≡)** for status & projects",
+      touchNote: "Mobile: **joystick** to move · **Enter (E)** to open · **menu (≡)** for status & projects",
       edu: "",
       controlsTitle: "How to explore (simple)",
       controls: [
@@ -1008,8 +1010,10 @@ export const STRINGS = {
       visualCaption: "3D · 드래그 회전 · W/S로 패널 스크롤",
       scrollHint: "W 위 · S 아래 · 더 읽으려면 스크롤",
       scrollHintTouch: "스와이프로 스크롤",
-      hintTouch: "조이스틱 · E · 메뉴(≡)",
-      mobileInteract: "열기",
+      hintTouch: "조이스틱(이동) · Enter(E) · 메뉴(≡)",
+      mobileJoystickLabel: "이동",
+      mobileInteract: "스테이션 열기",
+      mobileInteractLabel: "Enter",
       visualCaptionTouch: "3D · 드래그 회전 · 스와이프로 스크롤",
       menuOpen: "메뉴 열기",
       menuClose: "메뉴 닫기",
@@ -1023,7 +1027,7 @@ export const STRINGS = {
       lead: "**애드인 Physical AI** 부트캠프 **팀 프로젝트 네 건을** **3D 미로로** 옮긴 포트폴리오입니다. **{stationFirst}→{stationLast}** 순서대로 걷다 보면 **제스처·IoT·ROS 비전·브라우저 teleop이** 이어지고, 각 스테이션에는 **제가 직접 기여한 작업만** 담았습니다.",
       returnWelcome:
         "탐색 위치와 스테이션 진행이 저장되어 있습니다. 미로에서 이어서 진행할 수 있습니다.",
-      touchNote: "모바일: **조이스틱** · **E로** 열기 · **메뉴(≡)** 에서 상태·프로젝트",
+      touchNote: "모바일: **조이스틱**으로 이동 · **Enter(E)** 로 열기 · **메뉴(≡)** 에서 상태·프로젝트",
       edu: "",
       controlsTitle: "조작 방법",
       controls: [

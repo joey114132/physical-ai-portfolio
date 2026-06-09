@@ -1168,12 +1168,19 @@ export class MazeScene {
     else this._stuckTime = 0;
   }
 
-  _resize() {
-    const w = this.container.clientWidth;
-    const h = this.container.clientHeight;
-    this.camera.aspect = w / h;
+  _resize(force = false) {
+    const w = this.container?.clientWidth ?? 0;
+    const h = this.container?.clientHeight ?? 0;
+    if ((w < 2 || h < 2) && !force) {
+      this._resizePending = true;
+      return;
+    }
+    this._resizePending = false;
+    const pr = getPixelRatio(this.perf);
+    if (this.renderer.getPixelRatio() !== pr) this.renderer.setPixelRatio(pr);
+    this.camera.aspect = w / Math.max(h, 1);
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(w, h);
+    this.renderer.setSize(w, h, false);
     if (this.composer) {
       this.composer.setSize(w, h);
       this.bloom?.setSize(w, h);
@@ -1186,6 +1193,10 @@ export class MazeScene {
       return;
     }
     requestAnimationFrame(() => this._loop());
+
+    if (this._resizePending && (this.container?.clientWidth ?? 0) >= 2) {
+      this._resize(true);
+    }
 
     this._frame += 1;
     const dt = Math.min(this.clock.getDelta(), 0.05);

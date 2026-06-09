@@ -175,7 +175,9 @@ const els = {
   mobileControls: document.getElementById("mobile-controls"),
   mobileJoystick: document.getElementById("mobile-joystick"),
   mobileJoystickThumb: document.getElementById("mobile-joystick-thumb"),
+  mobileJoystickLabel: document.getElementById("mobile-joystick-label"),
   mobileInteract: document.getElementById("mobile-interact"),
+  mobileInteractLabel: document.getElementById("mobile-interact-label"),
   cutscene: document.getElementById("cutscene"),
   cutscenePhase: document.getElementById("cutscene-phase"),
   cutsceneTitle: document.getElementById("cutscene-title"),
@@ -538,11 +540,13 @@ function updateQuestBanner() {
   if (maze?.nearExitProximity && maze.visitCount < PROJECT_COUNT) {
     setQuestBanner(questCopy("questExitLocked"));
     els.questBanner.classList.add("quest-banner--active");
+    syncMobileInteractState();
     return;
   }
   if (maze?.nearExit) {
     setQuestBanner(s.nav.questExit);
     els.questBanner.classList.add("quest-banner--active");
+    syncMobileInteractState();
     return;
   }
 
@@ -557,6 +561,7 @@ function updateQuestBanner() {
       setQuestBanner(questCopy("questIdle"));
       els.questBanner.classList.remove("quest-banner--active");
     }
+    syncMobileInteractState();
     return;
   }
 
@@ -574,6 +579,16 @@ function updateQuestBanner() {
     );
   }
   els.questBanner.classList.add("quest-banner--active");
+  syncMobileInteractState();
+}
+
+function syncMobileInteractState() {
+  if (!els.mobileInteract) return;
+  const canInteract =
+    mode === "maze" &&
+    maze &&
+    (maze.nearExit || (maze.nearZone && maze.canActivateGate?.(maze.nearZone)));
+  els.mobileInteract.classList.toggle("mobile-btn--interact-ready", Boolean(canInteract));
 }
 
 function updateProgress() {
@@ -1439,9 +1454,8 @@ function closeDetail() {
   updateQuestBanner();
   updateProgress();
   startLabNotesRotation();
+  refreshMazeSurface();
   requestAnimationFrame(() => {
-    scheduleViewportMetrics();
-    requestDrawMinimap(true);
     scheduleSaveMazeProgress();
   });
 }
@@ -1506,10 +1520,7 @@ function hideJourney() {
   syncMobileControls();
   updateQuestBanner();
   startLabNotesRotation();
-  requestAnimationFrame(() => {
-    scheduleViewportMetrics();
-    requestDrawMinimap(true);
-  });
+  refreshMazeSurface();
 }
 
 function startMaze() {
@@ -1696,6 +1707,32 @@ let lastViewportH = 0;
 let lastViewportBucket = "";
 let minimapLastDraw = 0;
 
+function isMazeCanvasVisible() {
+  const body = document.body;
+  return (
+    body.classList.contains("maze-mode") &&
+    !body.classList.contains("detail-mode") &&
+    !body.classList.contains("journey-mode") &&
+    !body.classList.contains("about-mode")
+  );
+}
+
+/** Re-sync WebGL + minimap after overlays hide the maze canvas (resize while hidden → blurry upscaling). */
+function refreshMazeSurface() {
+  cancelAnimationFrame(viewportMetricsRaf);
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (!isMazeCanvasVisible()) return;
+      maze?._resize?.(true);
+      requestDrawMinimap(true);
+      const vv = window.visualViewport;
+      lastViewportW = Math.round(vv?.width ?? window.innerWidth);
+      lastViewportH = Math.round(vv?.height ?? window.innerHeight);
+      syncViewportMetrics();
+    });
+  });
+}
+
 function syncViewportMetrics() {
   const vv = window.visualViewport;
   const w = Math.round(vv?.width ?? window.innerWidth);
@@ -1734,8 +1771,12 @@ function syncViewportMetrics() {
     lastViewportW = w;
     lastViewportH = h;
     maze?._resize?.();
-    detail3d?._resize?.();
-    requestDrawMinimap(true);
+    if (isMazeCanvasVisible()) {
+      requestDrawMinimap(true);
+    }
+    if (document.body.classList.contains("detail-mode")) {
+      detail3d?._resize?.();
+    }
   }
 
   lastViewportBucket = bucket;
@@ -1808,9 +1849,17 @@ function applyLanguage() {
       ? (s.nav.scrollHintTouch ?? s.nav.scrollHint)
       : s.nav.scrollHint;
   }
+  if (els.mobileJoystickLabel) {
+    els.mobileJoystickLabel.textContent = s.nav.mobileJoystickLabel ?? "Move";
+  }
+  if (els.mobileJoystick) {
+    els.mobileJoystick.setAttribute("aria-label", s.nav.mobileJoystickLabel ?? "Move");
+  }
+  if (els.mobileInteractLabel) {
+    els.mobileInteractLabel.textContent = s.nav.mobileInteractLabel ?? "Enter";
+  }
   if (els.mobileInteract) {
-    els.mobileInteract.textContent = isTouchViewport() ? "E" : (s.nav.mobileInteract ?? "E");
-    els.mobileInteract.setAttribute("aria-label", s.nav.mobileInteract ?? "Open");
+    els.mobileInteract.setAttribute("aria-label", s.nav.mobileInteract ?? "Open station");
   }
   if (els.hint) {
     const hintTemplate = isTouchViewport() ? (s.nav.hintTouch ?? s.nav.hint) : s.nav.hint;

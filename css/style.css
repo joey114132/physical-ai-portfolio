@@ -177,9 +177,7 @@ body[data-project="pai"] {
   height: var(--app-height);
   max-height: var(--app-height);
   z-index: 1;
-  transition:
-    opacity 0.55s var(--ease-out),
-    filter 0.55s ease;
+  transition: opacity 0.55s var(--ease-out);
 }
 
 body.detail-mode #canvas-root,
@@ -4099,19 +4097,39 @@ body.maze-mode.touch-ui .top-bar__status-progress {
 
 .mobile-joystick {
   flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
   padding: 0;
+}
+
+.mobile-control-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: color-mix(in srgb, var(--text) 88%, var(--project) 12%);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  user-select: none;
 }
 
 .mobile-joystick__base {
   position: relative;
-  width: 6.25rem;
-  height: 6.25rem;
+  width: 7.35rem;
+  height: 7.35rem;
   border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--project) 18%, var(--border));
-  background: rgba(12, 16, 24, 0.52);
+  border: 2px solid color-mix(in srgb, var(--project) 58%, var(--border));
+  background: color-mix(in srgb, rgba(12, 16, 24, 0.88) 82%, var(--project) 18%);
   box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--text) 4%, transparent),
-    0 6px 18px rgba(0, 0, 0, 0.32);
+    inset 0 0 0 1px color-mix(in srgb, var(--text) 10%, transparent),
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    0 0 22px color-mix(in srgb, var(--project) 22%, transparent);
   backdrop-filter: blur(10px);
 }
 
@@ -4138,30 +4156,68 @@ body.maze-mode.touch-ui .top-bar__status-progress {
     linear-gradient(
       to right,
       transparent calc(50% - 0.5px),
-      color-mix(in srgb, var(--project) 22%, transparent) calc(50% - 0.5px),
-      color-mix(in srgb, var(--project) 22%, transparent) calc(50% + 0.5px),
+      color-mix(in srgb, var(--project) 42%, transparent) calc(50% - 0.5px),
+      color-mix(in srgb, var(--project) 42%, transparent) calc(50% + 0.5px),
       transparent calc(50% + 0.5px)
     ),
     linear-gradient(
       to bottom,
       transparent calc(50% - 0.5px),
-      color-mix(in srgb, var(--project) 22%, transparent) calc(50% - 0.5px),
-      color-mix(in srgb, var(--project) 22%, transparent) calc(50% + 0.5px),
+      color-mix(in srgb, var(--project) 42%, transparent) calc(50% - 0.5px),
+      color-mix(in srgb, var(--project) 42%, transparent) calc(50% + 0.5px),
       transparent calc(50% + 0.5px)
     );
-  opacity: 0.28;
+  opacity: 0.52;
+}
+
+.mobile-joystick__dir {
+  position: absolute;
+  z-index: 1;
+  font-size: 0.62rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--project) 78%, #fff 22%);
+  opacity: 0.82;
+  pointer-events: none;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--project) 55%, transparent);
+}
+
+.mobile-joystick__dir--n {
+  top: 0.55rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.mobile-joystick__dir--s {
+  bottom: 0.55rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.mobile-joystick__dir--e {
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.mobile-joystick__dir--w {
+  left: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .mobile-joystick__thumb {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 2.35rem;
-  height: 2.35rem;
+  z-index: 2;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--project) 38%, var(--border));
-  background: color-mix(in srgb, var(--surface-strong) 88%, var(--project) 12%);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.36);
+  border: 2px solid color-mix(in srgb, var(--project) 62%, var(--border));
+  background: color-mix(in srgb, var(--surface-strong) 72%, var(--project) 28%);
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.42),
+    0 0 16px color-mix(in srgb, var(--project) 28%, transparent);
   transform: translate(-50%, -50%);
   transition:
     background 0.12s ease,
@@ -4235,30 +4291,97 @@ body.maze-mode.touch-ui .top-bar__status-progress {
 }
 
 .mobile-btn--interact {
-  min-width: 3.55rem;
-  min-height: 3.55rem;
-  padding: 0;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--project) 40%, var(--border));
-  background: rgba(12, 16, 24, 0.72);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-width: 4.35rem;
+  min-height: 4.35rem;
+  padding: 0.35rem 0.45rem 0.42rem;
+  border-radius: 1rem;
+  border: 2px solid color-mix(in srgb, var(--project) 58%, var(--border));
+  background: color-mix(in srgb, rgba(12, 16, 24, 0.9) 78%, var(--project) 22%);
   color: var(--text);
-  font-family: var(--font-game);
-  font-size: var(--text-md);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.34);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.35),
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    0 0 18px color-mix(in srgb, var(--project) 18%, transparent);
   backdrop-filter: blur(10px);
+}
+
+.mobile-btn__key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.15rem;
+  min-height: 2.15rem;
+  padding: 0 0.35rem;
+  border-radius: 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--project) 55%, var(--border-strong, var(--border)));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-strong) 88%, #fff 12%) 0%,
+    color-mix(in srgb, var(--surface-strong) 72%, var(--project) 28%) 100%
+  );
+  font-family: var(--font-game);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 3px 10px rgba(0, 0, 0, 0.38);
+}
+
+.mobile-btn--interact .mobile-control-label {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+}
+
+.mobile-btn--interact-ready {
+  border-color: color-mix(in srgb, var(--project) 82%, #fff 18%);
+  background: color-mix(in srgb, rgba(12, 16, 24, 0.82) 62%, var(--project) 38%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--project) 35%, transparent),
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    0 0 24px color-mix(in srgb, var(--project) 42%, transparent);
+  animation: mobile-interact-pulse 1.35s ease-in-out infinite;
+}
+
+.mobile-btn--interact-ready .mobile-btn__key {
+  border-color: color-mix(in srgb, var(--project) 75%, #fff 25%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 14px color-mix(in srgb, var(--project) 45%, transparent);
+}
+
+@keyframes mobile-interact-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-btn--interact-ready {
+    animation: none;
+  }
 }
 
 @media (max-width: 719px) {
   .mobile-joystick__base {
-    width: 5.5rem;
-    height: 5.5rem;
+    width: 6.75rem;
+    height: 6.75rem;
   }
 
   .mobile-joystick__thumb {
-    width: 2.15rem;
-    height: 2.15rem;
+    width: 2.55rem;
+    height: 2.55rem;
   }
 
   .mobile-btn--sprint {
@@ -4272,9 +4395,14 @@ body.maze-mode.touch-ui .top-bar__status-progress {
   }
 
   .mobile-btn--interact {
-    min-width: 3.25rem;
-    min-height: 3.25rem;
-    font-size: var(--text-sm);
+    min-width: 4.05rem;
+    min-height: 4.05rem;
+  }
+
+  .mobile-btn__key {
+    min-width: 2rem;
+    min-height: 2rem;
+    font-size: 0.98rem;
   }
 }
 

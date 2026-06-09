@@ -470,8 +470,13 @@
     <div id="mobile-controls" class="mobile-controls" hidden>
       <div id="mobile-joystick" class="mobile-joystick" role="group" aria-label="Move">
         <div class="mobile-joystick__base">
+          <span class="mobile-joystick__dir mobile-joystick__dir--n" aria-hidden="true">▲</span>
+          <span class="mobile-joystick__dir mobile-joystick__dir--e" aria-hidden="true">▶</span>
+          <span class="mobile-joystick__dir mobile-joystick__dir--s" aria-hidden="true">▼</span>
+          <span class="mobile-joystick__dir mobile-joystick__dir--w" aria-hidden="true">◀</span>
           <div id="mobile-joystick-thumb" class="mobile-joystick__thumb" aria-hidden="true"></div>
         </div>
+        <span id="mobile-joystick-label" class="mobile-control-label">Move</span>
       </div>
       <div class="mobile-actions">
         <button
@@ -498,7 +503,8 @@
           class="mobile-btn mobile-btn--interact"
           aria-label="Open"
         >
-          E
+          <span class="mobile-btn__key" aria-hidden="true">E</span>
+          <span id="mobile-interact-label" class="mobile-control-label">Enter</span>
         </button>
       </div>
     </div>
