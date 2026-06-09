@@ -2397,7 +2397,13 @@ body.intro #intro-overlay.overlay {
 
 .intro-card.overlay__card {
   position: relative;
+  display: flex;
+  flex-direction: column;
   max-width: min(640px, 96vw);
+  max-height: min(92dvh, 92vh, calc(var(--app-height) * 0.92));
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--glass-ring);
   background: linear-gradient(
     152deg,
@@ -2410,31 +2416,48 @@ body.intro #intro-overlay.overlay {
     0 0 52px color-mix(in srgb, var(--project) 9%, transparent);
 }
 
-.intro-card.overlay__card::before,
-.intro-card.overlay__card::after {
+.intro-card__frame {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.intro-card__frame::before {
   content: "";
   position: absolute;
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
+  top: 13px;
+  left: 13px;
+  width: 18px;
+  height: 18px;
   border-color: color-mix(in srgb, var(--copper) 58%, transparent);
   border-style: solid;
+  border-width: 2px 0 0 2px;
   opacity: 0.8;
 }
 
-.intro-card.overlay__card::before {
-  top: 11px;
-  left: 11px;
-  border-width: 2px 0 0 2px;
+.intro-card__frame::after {
+  content: "";
+  position: absolute;
+  right: 13px;
+  bottom: 13px;
+  width: 18px;
+  height: 2px;
+  background: color-mix(in srgb, var(--copper) 58%, transparent);
+  opacity: 0.8;
 }
 
-.intro-card.overlay__card::after {
-  bottom: 11px;
-  right: 11px;
-  border-width: 0 2px 2px 0;
+.intro-card__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  padding-right: calc(clamp(1.75rem, 4vw, 2.5rem) + 0.35rem);
 }
 
-.overlay__card {
+.overlay__card:not(.intro-card) {
   max-width: 560px;
   width: 100%;
   max-height: min(calc(var(--app-height) * 0.92), 920px);
@@ -2565,6 +2588,12 @@ body.intro #intro-overlay.overlay {
   color: var(--muted);
 }
 
+.intro-card__edu:empty,
+.intro-card__edu[hidden] {
+  display: none;
+  margin: 0;
+}
+
 .intro-card__stations {
   margin: 0 0 1.15rem;
 }
@@ -2664,46 +2693,46 @@ body.intro #intro-overlay.overlay {
   text-overflow: ellipsis;
 }
 
-.intro-card:not(.intro-card--revealed) > * {
+.intro-card:not(.intro-card--revealed) .intro-card__scroll > * {
   opacity: 0;
   transform: translateY(14px);
 }
 
-.intro-card.intro-card--revealed > * {
+.intro-card.intro-card--revealed .intro-card__scroll > * {
   animation: intro-card-reveal 0.58s var(--ease-out) both;
 }
 
-.intro-card.intro-card--revealed > *:nth-child(1) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(1) {
   animation-delay: 0.04s;
 }
-.intro-card.intro-card--revealed > *:nth-child(2) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(2) {
   animation-delay: 0.09s;
 }
-.intro-card.intro-card--revealed > *:nth-child(3) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(3) {
   animation-delay: 0.14s;
 }
-.intro-card.intro-card--revealed > *:nth-child(4) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(4) {
   animation-delay: 0.19s;
 }
-.intro-card.intro-card--revealed > *:nth-child(5) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(5) {
   animation-delay: 0.24s;
 }
-.intro-card.intro-card--revealed > *:nth-child(6) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(6) {
   animation-delay: 0.29s;
 }
-.intro-card.intro-card--revealed > *:nth-child(7) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(7) {
   animation-delay: 0.34s;
 }
-.intro-card.intro-card--revealed > *:nth-child(8) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(8) {
   animation-delay: 0.39s;
 }
-.intro-card.intro-card--revealed > *:nth-child(9) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(9) {
   animation-delay: 0.44s;
 }
-.intro-card.intro-card--revealed > *:nth-child(10) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(10) {
   animation-delay: 0.49s;
 }
-.intro-card.intro-card--revealed > *:nth-child(11) {
+.intro-card.intro-card--revealed .intro-card__scroll > *:nth-child(11) {
   animation-delay: 0.54s;
 }
 
@@ -2735,8 +2764,8 @@ body.intro #intro-overlay.overlay {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .intro-card:not(.intro-card--revealed) > *,
-  .intro-card.intro-card--revealed > *,
+  .intro-card:not(.intro-card--revealed) .intro-card__scroll > *,
+  .intro-card.intro-card--revealed .intro-card__scroll > *,
   .intro-card.intro-card--revealed .intro-station-chip {
     opacity: 1;
     transform: none;
@@ -3772,6 +3801,15 @@ body.cutscene-mode #orbit-ui {
     max-height: min(calc(var(--app-height) * 0.94), 100%);
   }
 
+  .intro-card.overlay__card {
+    padding: 0;
+    max-height: min(calc(var(--app-height) * 0.94), 100%);
+  }
+
+  .intro-card__scroll {
+    padding: 1.35rem 1.15rem;
+  }
+
   .intro-card__title,
   .about-card__title {
     font-size: clamp(1.65rem, 7.5vw, 2.35rem);
@@ -3910,7 +3948,7 @@ body.cutscene-mode #orbit-ui {
 }
 
 /* Overlays never overflow a small or short window. */
-.overlay__card {
+.overlay__card:not(.intro-card) {
   max-height: min(92dvh, 92vh);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;

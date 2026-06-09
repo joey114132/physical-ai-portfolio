@@ -1195,7 +1195,7 @@ export const STRINGS = {
           "최종 발표 **평균 F1 약 74%** (**LSTM v1→v4**)",
         ],
         summary:
-          "발표 시 **PPT·YouTube를** 키보드 없이 돌리는 작업을 진행했습니다. **PyQt** 셸과 **MediaPipe→LSTM→pynput** 연결, **학습 데이터** 수집, **LSTM** 일부 학습, **Rat Labyrinth**·기말 QA까지 담당했습니다.",
+          "발표 시 **PPT·YouTube를** 키보드 없이 돌리는 작업을 진행했습니다. **PyQt** 셸과 **MediaPipe→LSTM→pynput** 연결, **학습 데이터** 수집, **LSTM** 일부 학습, **Rat Labyrinth**·발표 QA까지 담당했습니다.",
         rolePoints: [
           "**PyQt6** + **MediaPipe→LSTM** 파이프라인 (트리거, 모드, 임계값)",
           "**LSTM 데이터셋** 수집 + **일부 학습**",
@@ -1208,7 +1208,7 @@ export const STRINGS = {
           "**LSTM 데이터셋**: `.npy` (**30×21×3**), 수집 툴, 팀 매뉴얼.",
           "**LSTM v1→v4** 체크포인트 일부 직접 학습 — 팀과 공유, 실제 학습 런은 돌림.",
           "**Rat Labyrinth** 제스처 레지스트리 연동.",
-          "기말 전 **트리거·PPT·YouTube** QA.",
+          "발표 전 **트리거·PPT·YouTube** QA.",
         ],
         skills: [
           { category: "언어 & 프레임워크", items: ["Python 3.10", "PyQt6", "OpenCV", "pynput"] },
@@ -1244,7 +1244,7 @@ export const STRINGS = {
           },
         ],
         outcomes: [
-          "기말: **PPT + YouTube + Rat Labyrinth**, 웹캠만.",
+          "최종 발표: **PPT + YouTube + Rat Labyrinth**, 웹캠만.",
           "팀 덱 — 아키텍처, **11-D**, **F1** 그래프.",
           "수업 후에도 쓰던 **PyQt + MediaPipe** 구조.",
         ],
@@ -1329,7 +1329,7 @@ export const STRINGS = {
           "팀 덱: 번호판 **~94.3%**, **TC 통과**, 리프트 **±2 mm**",
         ],
         summary:
-          "미니어처 주차 타워 프로젝트입니다. **ESP32** 펌웨어와 **UDP/TCP** 통신부터 담당했고, 기말에는 **PyQt** 관제실과 통합 데모(**웹캠**, **LPR**)를 맞췄습니다.",
+          "미니어처 주차 타워 프로젝트입니다. **ESP32** 펌웨어와 **UDP/TCP** 통신부터 담당했고, 후반에는 **PyQt** 관제실과 통합 데모(**웹캠**, **LPR**)를 맞췄습니다.",
         rolePoints: [
           "**ESP32** 주차 안내 펌웨어 + **UDP/TCP** 통신",
           "**PyQt** 관제실 — 다중 웹캠, **LPR** 창, 디바이스 클라이언트",
@@ -1496,7 +1496,7 @@ export const STRINGS = {
           "**ReID** **OSNet → MobileNetV3** + 색상 폴백; **NCNN**(Pi 5).",
           "**ROS** 인식 그래프에 **ByteTrack** 연동.",
           "마트 녹화 **E2E 지연**; 덱 영상 임계값 튜닝.",
-          "기말 데모 **LCD·QR** 배치.",
+          "최종 데모 **LCD·QR** 배치.",
         ],
         skills: [
           { category: "ROS 2", items: ["Jazzy", "Perception 노드", "토픽 타이밍"] },

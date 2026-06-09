@@ -7,3 +7,4 @@ gesto-media-found.txt
 .netlify/
 node_modules/
 package-lock.json
+.worktrees/

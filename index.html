@@ -80,7 +80,9 @@
 
     <section id="intro-overlay" class="overlay intro-overlay" aria-modal="true">
       <div class="overlay__card intro-card">
-        <div class="intro-lang" role="group" aria-labelledby="intro-lang-label">
+        <div class="intro-card__frame" aria-hidden="true"></div>
+        <div class="intro-card__scroll">
+          <div class="intro-lang" role="group" aria-labelledby="intro-lang-label">
           <p class="intro-lang__label" id="intro-lang-label"></p>
           <div class="intro-lang__options">
             <button type="button" class="intro-lang__btn" data-lang="en" id="intro-lang-en">
@@ -90,19 +92,20 @@
               한국어
             </button>
           </div>
-        </div>
-        <p class="intro-card__eyebrow" id="intro-eyebrow"></p>
-        <h1 class="intro-card__title" id="intro-title"></h1>
-        <p class="intro-card__alias" id="intro-alias"></p>
-        <p class="intro-card__role" id="intro-role"></p>
-        <p class="intro-card__lead" id="intro-lead"></p>
-        <div class="intro-card__stations" id="intro-stations" hidden></div>
-        <p class="intro-card__return hidden" id="intro-return"></p>
-        <p class="intro-card__edu" id="intro-edu"></p>
-        <div class="intro-card__controls" id="intro-controls" aria-label="How to play"></div>
-        <div class="intro-card__actions">
-          <button type="button" id="intro-start" class="btn btn--primary btn--intro-cta"></button>
-          <button type="button" id="intro-skip" class="btn btn--ghost"></button>
+          </div>
+          <p class="intro-card__eyebrow" id="intro-eyebrow"></p>
+          <h1 class="intro-card__title" id="intro-title"></h1>
+          <p class="intro-card__alias" id="intro-alias"></p>
+          <p class="intro-card__role" id="intro-role"></p>
+          <p class="intro-card__lead" id="intro-lead"></p>
+          <div class="intro-card__stations" id="intro-stations" hidden></div>
+          <p class="intro-card__return hidden" id="intro-return"></p>
+          <p class="intro-card__edu" id="intro-edu"></p>
+          <div class="intro-card__controls" id="intro-controls" aria-label="How to play"></div>
+          <div class="intro-card__actions">
+            <button type="button" id="intro-start" class="btn btn--primary btn--intro-cta"></button>
+            <button type="button" id="intro-skip" class="btn btn--ghost"></button>
+          </div>
         </div>
       </div>
     </section>
