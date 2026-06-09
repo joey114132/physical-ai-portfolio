@@ -3679,12 +3679,19 @@ body.cutscene-mode #orbit-ui {
   }
 }
 
-.detail-section--repo {
+.detail-section--links {
   scroll-margin-top: 1rem;
   padding-bottom: 0.25rem;
 }
 
-.detail-section--repo .panel-repo {
+.detail-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.detail-section--links .panel-repo {
   margin-top: 0;
 }
 

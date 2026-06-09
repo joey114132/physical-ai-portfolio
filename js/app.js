@@ -7,6 +7,7 @@ import {
   fullName,
   githubProfileUrl,
   getRepoSlug,
+  getDeckUrl,
   siteCopyVars,
   matchMediaMax,
   isTouchViewport,
@@ -103,7 +104,8 @@ const els = {
   detailTags: document.getElementById("detail-tags"),
   detailGalleryTitle: document.getElementById("detail-gallery-title"),
   detailGallery: document.getElementById("detail-gallery"),
-  detailRepoTitle: document.getElementById("detail-repo-title"),
+  detailLinksTitle: document.getElementById("detail-links-title"),
+  detailDeck: document.getElementById("detail-deck"),
   detailRepo: document.getElementById("detail-repo"),
   detailContent: document.getElementById("detail-content"),
   detailScrollProgress: document.getElementById("detail-scroll-progress"),
@@ -155,6 +157,9 @@ const els = {
   aboutBio: document.getElementById("about-bio"),
   aboutStrengths: document.getElementById("about-strengths"),
   aboutPhone: document.getElementById("about-phone"),
+  aboutDiplomaBlock: document.getElementById("about-diploma-block"),
+  aboutDiplomaIntro: document.getElementById("about-diploma-intro"),
+  aboutDiplomaLink: document.getElementById("about-diploma-link"),
   aboutArtBlock: document.getElementById("about-art-block"),
   aboutArtIntro: document.getElementById("about-art-intro"),
   aboutArtLink: document.getElementById("about-art-link"),
@@ -932,6 +937,23 @@ async function renderAbout() {
   els.aboutPhone.textContent = SITE.contact.display;
   els.aboutPhone.href = `tel:${SITE.contact.tel}`;
   els.aboutThanks.textContent = a.finish;
+  if (els.aboutDiplomaBlock && els.aboutDiplomaLink) {
+    const showDiploma = Boolean(SITE.links.diploma && a.diplomaLinkLabel);
+    els.aboutDiplomaBlock.classList.toggle("hidden", !showDiploma);
+    if (showDiploma) {
+      if (els.aboutDiplomaIntro) {
+        if (a.diplomaLinkIntro) {
+          els.aboutDiplomaIntro.innerHTML = formatConceptHtml(a.diplomaLinkIntro);
+          els.aboutDiplomaIntro.classList.remove("hidden");
+        } else {
+          els.aboutDiplomaIntro.textContent = "";
+          els.aboutDiplomaIntro.classList.add("hidden");
+        }
+      }
+      els.aboutDiplomaLink.textContent = a.diplomaLinkLabel;
+      els.aboutDiplomaLink.href = SITE.links.diploma;
+    }
+  }
   if (els.aboutArtBlock && els.aboutArtLink) {
     const showArt = Boolean(SITE.links.artPortfolio && a.artLinkLabel);
     els.aboutArtBlock.classList.toggle("hidden", !showArt);
@@ -1201,8 +1223,22 @@ async function renderDetailContent(key) {
   els.detailVisualCaption.textContent = isTouchViewport()
     ? (nav.visualCaptionTouch ?? nav.visualCaption)
     : nav.visualCaption;
-  els.detailRepoTitle.textContent = ui.repo;
+  els.detailLinksTitle.textContent = ui.links;
   const repoSlug = getRepoSlug(key);
+  const deckUrl = p.deck ?? getDeckUrl(key);
+  const deckLabel = p.deckLabel ?? ui.deck;
+  if (els.detailDeck) {
+    if (deckUrl) {
+      els.detailDeck.hidden = false;
+      els.detailDeck.href = deckUrl;
+      els.detailDeck.textContent = `${deckLabel} →`;
+      els.detailDeck.setAttribute("aria-label", deckLabel);
+    } else {
+      els.detailDeck.hidden = true;
+      els.detailDeck.removeAttribute("href");
+      els.detailDeck.textContent = "";
+    }
+  }
   els.detailRepo.textContent = repoSlug ? `${ui.repo} · ${repoSlug} →` : `${ui.repo} →`;
   els.detailRepo.href = REPO_URLS[key];
   els.detailRepo.setAttribute("aria-label", `${ui.repo}: ${repoSlug}`);

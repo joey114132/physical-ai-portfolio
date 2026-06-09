@@ -148,6 +148,9 @@ export const STRINGS = {
         "**ROS 2**, **TRAC-IK**, dual-arm teleop, **IK/FK** tuning",
       ],
       galleryTitle: "Clips",
+      diplomaLinkIntro:
+        "Addinedu **Physical AI** bootcamp completion certificate — open the PDF below.",
+      diplomaLinkLabel: "Physical AI diploma (PDF)",
       artLinkIntro: "Older **game/3D** art — separate page, link below.",
       media: [
         {
@@ -195,6 +198,18 @@ export const STRINGS = {
           url: `https://github.com/${SITE.github.username}`,
         },
         {
+          label: "Physical AI diploma (Addinedu · PDF)",
+          url: SITE.links.diploma,
+        },
+        {
+          label: "Gesto team presentation (Google Slides)",
+          url: SITE.links.gestoDeck,
+        },
+        {
+          label: "Wizard of Parking team deck (오주의 마법사 PPTX · Prismic)",
+          url: SITE.links.iotDeck,
+        },
+        {
           label: "ShopPinkki team deck (삥끼랩 PPTX → web)",
           url: SITE.links.shopPinkkiDeck,
         },
@@ -212,6 +227,7 @@ export const STRINGS = {
             "**Gesto** — webcam **MediaPipe→LSTM→pynput** for **PPT/YouTube**; I owned the **PyQt6** shell and dataset tooling",
           myRole:
             "**PyQt6 UI** (~1,600+ lines), **MediaPipe→LSTM** wiring, **LSTM dataset** + partial training, **Rat Labyrinth** mode — **14 commits** on `deeplearning-repo-4`",
+          deck: SITE.links.gestoDeck,
           learned:
             "Worker threads for **camera/trigger/detection**; **6,276** `.npy` sequences (**30×21×3**); team deck **~74% avg F1**, **Swipe Left ~0.89** after **LSTM v1→v4**",
         },
@@ -222,6 +238,7 @@ export const STRINGS = {
             "**오주의 마법사** — **ESP32-CAM** rotary tower lot, gates, and a **PyQt6** control room I kept alive on demo day",
           myRole:
             "**ESP32** parking-guide firmware (**UDP/TCP**, **33-byte** packets), then final-week **PyQt** operator UI — multi-cam, **PaddleOCR LPR** dialogs, webcam recovery",
+          deck: SITE.links.iotDeck,
           learned:
             "Merged tower + gate + LPR into one timeline; manual LPR override when angles fail; team deck **~94.3%** plate read, **TC all pass**, **±2 mm** lift",
         },
@@ -300,6 +317,8 @@ export const STRINGS = {
       outcomes: "What shipped",
       visualAids: "Visual reference",
       stack: "Tech stack",
+      links: "Links",
+      deck: "Team deck",
       repo: "GitHub",
       gallery: "Gallery & demos",
       close: "Close",
@@ -311,6 +330,7 @@ export const STRINGS = {
         subtitle: "MediaPipe + LSTM Hand Gesture PC Control",
         team: "DL Team 4 · {repo}",
         metaLine: "29 Jan – 6 Feb 2026 · LLM robot interaction · team of 6 · GitHub: {github}",
+        deckLabel: "Team presentation",
         highlights: [
           "Webcam gestures → **PPT / YouTube** without keyboard or mouse",
           "**PyQt6** UI ~1,600+ lines — live feed, modes, gauge, **worker threads**",
@@ -969,7 +989,7 @@ export const STRINGS = {
       scenes: "3D 장면 불러오는 중…",
       assets: "프로젝트 미디어 캐시 중…",
       resume: "이전 경로 복원 — 전체 로딩 중…",
-      ready: "준비됐습니다 — 들어가 보세요",
+      ready: "준비되었습니다 — 들어가 보시면 됩니다",
     },
     nav: {
       hint: "WASD 이동 · E로 게이트·출구 · 1–{projectLast} 프로젝트 · Esc 뒤로",
@@ -1007,10 +1027,10 @@ export const STRINGS = {
       edu: "",
       controlsTitle: "조작 방법",
       controls: [
-        { keys: "W A S D", label: "걷기 — 키를 누르고 있으면 이동" },
-        { keys: "E", label: "문·프로젝트·출구 열기" },
-        { keys: "1 – {projectLast}", label: "프로젝트로 바로 이동 (해금 후)" },
-        { keys: "Esc", label: "패널 닫고 미로로 돌아가기" },
+        { keys: "W A S D", label: "걷기 — 키를 누르고 있으면 이동합니다" },
+        { keys: "E", label: "문·프로젝트·출구를 엽니다" },
+        { keys: "1 – {projectLast}", label: "해금 후 프로젝트로 바로 이동합니다" },
+        { keys: "Esc", label: "패널을 닫고 미로로 돌아갑니다" },
       ],
       stationsLabel: "네 스테이션 · 제가 한 일",
       cta: "걷기 시작",
@@ -1048,6 +1068,9 @@ export const STRINGS = {
         { type: "gif", src: "PRISMIC_SIM", caption: "브라우저 IK 튜닝 루프" },
         { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "Gesto — 제스처 게임/발표 모드" },
       ],
+      diplomaLinkIntro:
+        "애드인 **Physical AI** 부트캠프 수료 증서입니다. 아래 PDF에서 확인하실 수 있습니다.",
+      diplomaLinkLabel: "Physical AI 수료 증서 (PDF)",
       artLinkIntro:
         "예전 **게임·3D** 아트 작업은 따로 모아 두었습니다. 아래 링크에서 보실 수 있습니다.",
       artLinkLabel: "3D 아트 포트폴리오",
@@ -1062,7 +1085,7 @@ export const STRINGS = {
       bootcamp:
         "**2026.01→06 애디닝**: DL **Gesto**(스레드 **PyQt6+MediaPipe/LSTM**), IoT **오주의 마법사**(**ESP32 UDP/TCP**+**관제 UI**), ROS **쑈삥끼**(**YOLOv8/ByteTrack/ReID**+**Nav2**), PAI **pingdergarten**(**Vue/Three.js**+**D435→TRAC-IK→FK**). 아래 **GitHub·팀 덱 링크** — 수치는 **PPTX/PDF** 지표와 조직 저장소 **제 커밋**에서 가져왔습니다.",
       scrollHint: "아래로 스크롤 · 키보드 **W** 위 · **S** 아래 · 마우스 휠",
-      scrollHintTouch: "위아래로 스와이프해 전체를 읽어 주세요",
+      scrollHintTouch: "위아래로 스와이프하시면 전체 내용을 읽으실 수 있습니다",
       myRoleLabel: "제 역할",
       deckLabel: "팀 발표",
       sourcesTitle: "출처",
@@ -1070,6 +1093,18 @@ export const STRINGS = {
         {
           label: "GitHub · **joey114132**",
           url: `https://github.com/${SITE.github.username}`,
+        },
+        {
+          label: "Physical AI 수료 증서 (애드인 · PDF)",
+          url: SITE.links.diploma,
+        },
+        {
+          label: "Gesto 팀 발표 (Google Slides · DL 4조)",
+          url: SITE.links.gestoDeck,
+        },
+        {
+          label: "오주의 마법사 팀 덱 (PPTX · Prismic)",
+          url: SITE.links.iotDeck,
         },
         {
           label: "쑈삥끼 팀 덱 (삥끼랩 PPTX → 웹)",
@@ -1086,65 +1121,67 @@ export const STRINGS = {
           key: "dl",
           date: "2026.01 · DL 4조",
           summary:
-            "**Gesto** — 웹캠 **MediaPipe→LSTM→pynput로** **PPT/YouTube** 제어; **PyQt6 셸·데이터셋 도구를** 담당",
+            "**Gesto**에서 웹캠 **MediaPipe→LSTM→pynput**로 **PPT/YouTube를** 제어했으며, **PyQt6** 셸과 데이터셋 도구를 담당했습니다",
           myRole:
-            "**PyQt6 UI** (~1,600+ 라인), **MediaPipe→LSTM** 연동, **LSTM 데이터셋**·일부 학습, **Rat Labyrinth** · deeplearning-repo-4 · **14 commits**",
+            "**PyQt6 UI**(~1,600+ 라인), **MediaPipe→LSTM** 연동, **LSTM 데이터셋** 수집·일부 학습, **Rat Labyrinth** 구현을 맡았습니다(deeplearning-repo-4 · **14 commits**)",
+          deck: SITE.links.gestoDeck,
           learned:
-            "**카메라·트리거·인식** 워커 스레드; **6,276** `.npy` 시퀀스(**30×21×3**); 팀 덱 **평균 F1 ~74%**, **Swipe Left ~0.89** (**LSTM v1→v4**)",
+            "**카메라·트리거·인식을** 워커 스레드로 분리했습니다. **6,276**개 `.npy` 시퀀스(**30×21×3**)를 모았고, 팀 덱 기준 **평균 F1 ~74%**, **Swipe Left ~0.89**(**LSTM v1→v4**) 달성했습니다",
         },
         {
           key: "iot",
           date: "2026.02 · IoT 2조",
           summary:
-            "**오주의 마법사** — **ESP32-CAM** 회전 타워·게이트 미니 주차장 + 데모 날 살린 **PyQt6** 관제실",
+            "**오주의 마법사**는 **ESP32-CAM** 회전 타워·게이트가 있는 미니 주차장이며, 데모 당일에는 **PyQt6** 관제실로 통합을 살렸습니다",
           myRole:
-            "**ESP32** 주차 안내 펌웨어(**UDP/TCP**, **33바이트** 패킷), 최종 주 **PyQt** 관제 UI — 멀티캠, **PaddleOCR LPR**, 웹캠 복구",
+            "**ESP32** 주차 안내 펌웨어(**UDP/TCP**, **33바이트** 패킷)를 작성했고, 최종 주에는 **PyQt** 관제 UI(멀티캠, **PaddleOCR LPR**, 웹캠 복구)를 담당했습니다",
+          deck: SITE.links.iotDeck,
           learned:
-            "타워+게이트+LPR 한 타임라인; 각도 나쁠 때 수동 LPR; 팀 덱 **번호판 ~94.3%**, **TC 전부 통과**, 리프트 **±2mm**",
+            "타워·게이트·LPR을 한 타임라인으로 묶었습니다. 각도가 나쁠 때는 수동 LPR로 보완했고, 팀 덱 기준 번호판 **~94.3%**, **TC 전부 통과**, 리프트 **±2mm** 확인했습니다",
         },
         {
           key: "ros",
           date: "2026.03–04 · ROS 2조 (삥끼랩)",
           summary:
-            "**쑈삥끼** — **Pinky Pro** 매장 카트: **YOLOv8→ByteTrack→ReID** 팔로우 모드 (**ROS 2 Jazzy** + **Nav2**)",
+            "**쑈삥끼**는 **Pinky Pro** 매장 카트의 **YOLOv8→ByteTrack→ReID** 팔로우 모드(**ROS 2 Jazzy** + **Nav2**) 프로젝트입니다",
           myRole:
-            "주인 추적 **인식 스택** — detect/track/**ReID**, **Safe-ID**, **NCNN 보내기**; ros-repo-2 · **9 commits**",
+            "주인 추적 **인식 스택**(detect/track/**ReID**, **Safe-ID**, **NCNN** 배포)을 담당했습니다(ros-repo-2 · **9 commits**)",
           deck: SITE.links.shopPinkkiDeck,
           learned:
-            "락 후 **5프레임 Safe-ID**; 사람 교차 시 **OSNet→MobileNetV3**+HSV 폴백; 매장 녹화본 E2E 지연 튜닝(덱 슬라이드)",
+            "락 이후 **5프레임 Safe-ID** 적용했습니다. 사람이 교차할 때는 **OSNet→MobileNetV3**+HSV 폴백을 썼고, 매장 녹화본으로 E2E 지연을 튜닝했습니다(덱 슬라이드)",
         },
         {
           key: "pai",
           date: "2026.04–06 · 팀 EduPing",
           summary:
-            "**pingdergarten / EduPing** — 유치원 보조 로봇: 브라우저 teleop, 뎁스 하이파이브, 출석 플로우",
+            "**pingdergarten / EduPing**는 유치원 보조 로봇으로, 브라우저 teleop, 뎁스 하이파이브, 출석 플로우를 다룹니다",
           myRole:
-            "최종 발표: **등하원·하이파이브**, **무궁화꽃**, **일과 보고서**; **robot-web** UX, **D435** 스트림, **TRAC-IK/FK** · physical-ai-repo-2 · **37 commits**",
+            "최종 발표(**등하원·하이파이브**, **무궁화꽃**, **일과 보고서**)와 **robot-web** UX, **D435** 스트림, **TRAC-IK/FK** 담당했습니다(physical-ai-repo-2 · **37 commits**)",
           deck: SITE.links.pingdergartenDeck,
           learned:
-            "**D435 zstd WS → 브라우저 포인트클라우드 → TRAC-IK → FK 잔차**; **OpenArm** 오차 **~28cm→~2cm**; 하드웨어 전 **MuJoCo** 트윈",
+            "**D435 zstd WS → 브라우저 포인트클라우드 → TRAC-IK → FK 잔차** 파이프라인을 구축했습니다. **OpenArm** 오차를 **~28cm→~2cm**로 줄였고, 하드웨어 전 **MuJoCo** 트윈으로 검증했습니다",
         },
       ],
       learnedTitle: "배워간 기술",
       learned: [
-        "**PyQt6 + 워커 스레드** — 비전 추론을 UI 밖으로 (Gesto, IoT 관제실)",
-        "**제스처·LSTM 파이프라인** — **MediaPipe 21점→30프레임**, 데이터셋 도구, **pynput** 액션 매핑",
-        "**임베디드 통신** — **ESP32 UDP/TCP**, 디바이스 패킷, 게이트·타워를 한 타임라인에",
-        "**ROS 2 인식** — **YOLO+ByteTrack+ReID**, 토픽 타이밍, 매장 영상 지연 프로파일링",
-        "**sim→real teleop** — 브라우저 **RealSense**, **TRAC-IK/FK** 잔차 튜닝, **Three.js URDF**",
-        "**3D 공간 배치** → 미로 스테이션, 로봇 패널, teleop UX",
+        "**PyQt6**와 **워커 스레드로** 비전 추론을 UI 밖으로 분리하는 방식을 익혔습니다(Gesto, IoT 관제실)",
+        "**제스처·LSTM 파이프라인**(**MediaPipe 21점→30프레임**, 데이터셋 도구, **pynput** 액션 매핑)을 다뤘습니다",
+        "**임베디드 통신**(**ESP32 UDP/TCP**, 디바이스 패킷)으로 게이트·타워를 한 타임라인에 묶었습니다",
+        "**ROS 2 인식**(**YOLO+ByteTrack+ReID**, 토픽 타이밍)과 매장 영상 지연 프로파일링을 수행했습니다",
+        "**sim→real teleop**에서 브라우저 **RealSense**, **TRAC-IK/FK** 잔차 튜닝, **Three.js URDF** 연습했습니다",
+        "**3D 공간 배치** 감각을 미로 스테이션, 로봇 패널, teleop UX에 적용했습니다",
       ],
       presentTitle: "지금",
       present: [
-        "**라이브 데모**와 이 **인터랙티브 포트폴리오** 다듬기",
-        "**EduPing** 반복 개선 — 뎁스 UX, 댄스 재생, 출석 플로우",
-        "캡스톤이 생생할 때 **sim→real** 패턴 문서화",
+        "**라이브 데모**와 이 **인터랙티브 포트폴리오를** 계속 다듬고 있습니다",
+        "**EduPing**의 뎁스 UX, 댄스 재생, 출석 플로우를 반복 개선하고 있습니다",
+        "캡스톤이 생생할 때 **sim→real** 패턴을 문서로 남기고 있습니다",
       ],
       futureTitle: "다음에 해보고 싶은 것",
       future: [
-        "**ROS·MoveIt** — sim에서 재현 가능하게 돌려보고 실기에 연결",
-        "도움이 되면 **작은 오픈소스 기여** (이슈·문서·패치)",
-        "**teleop·비전 UI** 쪽 엔지니어링 — 팀 안에서 붙이고 다듬기",
+        "**ROS·MoveIt을** 시뮬에서 재현 가능하게 굴린 뒤 실기에 연결해 보고 싶습니다",
+        "도움이 되면 **작은 오픈소스 기여**(이슈·문서·패치)를 이어가고 싶습니다",
+        "**teleop·비전 UI** 엔지니어링을 팀 안에서 붙이고 다듬는 역할을 맡고 싶습니다",
       ],
       manifesto:
         "포트폴리오 대행이 아닙니다. 걸어 다니는 **랩 기록** — 버그, 팀 크레딧, 지저분한 **sim→real**까지 그대로.",
@@ -1161,11 +1198,11 @@ export const STRINGS = {
       tagline:
         "스테이션 **{projectCount}**개 · **{stationFirst}→{stationLast}** 순서대로 · 출구에서 여정 기록",
       labNotes: [
-        "현장 메모 · 미로가 버벅이면 GPU가 제대로 일하는 증거",
-        "현장 메모 · 시뮬 먼저, 로봇 나중 — 아직도 제 신조",
-        "현장 메모 · 패널마다 제가 손댄 부분만, 팀 전체 슬라이드 아님",
-        "현장 메모 · 네 게이트 후 출구 — 스피드런 스킵 없음",
-        "현장 메모 · 3D 배치 감각 → teleop 패널에 아직도 씀",
+        "현장 메모 · 미로가 버벅이면 GPU가 제대로 일하고 있다는 증거입니다",
+        "현장 메모 · 시뮬 먼저, 로봇 나중 — 아직도 제가 지키는 원칙입니다",
+        "현장 메모 · 패널마다 제가 손댄 부분만 담았으며, 팀 전체 슬라이드는 아닙니다",
+        "현장 메모 · 네 게이트를 모두 거친 뒤 출구로 가야 하며, 스피드런 스킵은 없습니다",
+        "현장 메모 · 3D 배치 감각은 teleop 패널에도 그대로 쓰고 있습니다",
       ],
     },
     panel: {
@@ -1177,6 +1214,8 @@ export const STRINGS = {
       outcomes: "결과물",
       visualAids: "시각 자료",
       stack: "기술 스택",
+      links: "링크",
+      deck: "팀 발표",
       repo: "GitHub",
       gallery: "갤러리 & 데모",
       close: "닫기",
@@ -1188,27 +1227,28 @@ export const STRINGS = {
         subtitle: "MediaPipe + LSTM 손동작 PC 제어",
         team: "DL 4조 · {repo}",
         metaLine: "2026.01.29 – 2026.02.06 · LLM 로봇 인터랙션 · 6인 팀 · GitHub {github}",
+        deckLabel: "팀 발표",
         highlights: [
-          "웹캠 손동작 → **PPT·YouTube** 핸즈프리 제어",
-          "**PyQt6** UI 약 1,600+ 라인 — 실시간 피드, 모드, **워커 스레드**",
-          "**LSTM 데이터셋** 상당 부분 수집·정리; **일부 직접 학습**",
-          "최종 발표 **평균 F1 약 74%** (**LSTM v1→v4**)",
+          "웹캠 손동작으로 **PPT·YouTube를** 핸즈프리 제어했습니다",
+          "**PyQt6** UI 약 1,600+ 라인에 실시간 피드, 모드, **워커 스레드를** 구현했습니다",
+          "**LSTM 데이터셋** 상당 부분을 수집·정리했고 **일부 직접 학습**했습니다",
+          "최종 발표에서 **평균 F1 약 74%**(**LSTM v1→v4**)를 달성했습니다",
         ],
         summary:
           "발표 시 **PPT·YouTube를** 키보드 없이 돌리는 작업을 진행했습니다. **PyQt** 셸과 **MediaPipe→LSTM→pynput** 연결, **학습 데이터** 수집, **LSTM** 일부 학습, **Rat Labyrinth**·발표 QA까지 담당했습니다.",
         rolePoints: [
-          "**PyQt6** + **MediaPipe→LSTM** 파이프라인 (트리거, 모드, 임계값)",
-          "**LSTM 데이터셋** 수집 + **일부 학습**",
-          "**Rat Labyrinth** 게임 모드",
+          "**PyQt6**와 **MediaPipe→LSTM** 파이프라인(트리거, 모드, 임계값)을 구현했습니다",
+          "**LSTM 데이터셋을** 수집하고 **일부 학습을** 수행했습니다",
+          "**Rat Labyrinth** 게임 모드를 연동했습니다",
         ],
         contributions: [
-          "**ModeController** — 인식 제스처를 **pynput** 키 입력으로 매핑.",
-          "**MediaPipe + LSTM** — 트리거 on/off, 모드별 검출, 신뢰도 임계값.",
-          "**PyQt6 UI** (~1,600+ 라인): 웹캠, 모드, 게이지; **워커 스레드로** UI 응답 유지.",
-          "**LSTM 데이터셋**: `.npy` (**30×21×3**), 수집 툴, 팀 매뉴얼.",
-          "**LSTM v1→v4** 체크포인트 일부 직접 학습 — 팀과 공유, 실제 학습 런은 돌림.",
-          "**Rat Labyrinth** 제스처 레지스트리 연동.",
-          "발표 전 **트리거·PPT·YouTube** QA.",
+          "**ModeController**로 인식 제스처를 **pynput** 키 입력에 매핑했습니다.",
+          "**MediaPipe + LSTM**에서 트리거 on/off, 모드별 검출, 신뢰도 임계값을 맞췄습니다.",
+          "**PyQt6 UI**(~1,600+ 라인)에 웹캠, 모드, 게이지를 넣고 **워커 스레드로** UI 응답을 유지했습니다.",
+          "**LSTM 데이터셋** `.npy`(**30×21×3**), 수집 툴, 팀 매뉴얼을 정리했습니다.",
+          "**LSTM v1→v4** 체크포인트를 일부 직접 학습해 팀과 공유했고, 실제 학습 런을 돌렸습니다.",
+          "**Rat Labyrinth**에 제스처 레지스트리를 연동했습니다.",
+          "발표 전 **트리거·PPT·YouTube** QA를 수행했습니다.",
         ],
         skills: [
           { category: "언어 & 프레임워크", items: ["Python 3.10", "PyQt6", "OpenCV", "pynput"] },
@@ -1228,25 +1268,28 @@ export const STRINGS = {
           },
         ],
         techniques: [
-          "**21점** → **30프레임** → **LSTM**; **11차원 피처**.",
-          "**카메라/트리거/검출** 워커 분리 — UI 응답 유지.",
-          "모드별 **pynput** 키 출력 **레지스트리**.",
+          "**21점** → **30프레임** → **LSTM**과 **11차원 피처** 파이프라인을 썼습니다.",
+          "**카메라/트리거/검출** 워커를 분리해 UI 응답을 유지했습니다.",
+          "모드별 **pynput** 키 출력 **레지스트리로** 액션을 통일했습니다.",
         ],
         obstacles: [
           {
             title: "처음엔 **학습 데이터** 들쭉날쭉",
-            body: "수집 프레임워크·매뉴얼 후 **6,276 시퀀스** **30프레임** 보간 재수집.",
+            body: "수집 프레임워크·매뉴얼을 만든 뒤 **6,276** 시퀀스를 **30프레임** 보간으로 재수집했습니다.",
           },
-          { title: "추론 시 **UI 멈춤**", body: "시퀀스 그림대로 **스레드** 분리." },
+          {
+            title: "추론 시 **UI 멈춤**",
+            body: "시퀀스 다이어그램대로 **스레드를** 분리해 해결했습니다.",
+          },
           {
             title: "일부 제스처 늦게 잡힘",
-            body: "데이터 추가 + **LSTM v1→v4**; **~74% F1**, **Swipe Left ~0.89**.",
+            body: "데이터를 추가하고 **LSTM v1→v4** 학습을 돌려 **~74% F1**, **Swipe Left ~0.89** 달성했습니다.",
           },
         ],
         outcomes: [
-          "최종 발표: **PPT + YouTube + Rat Labyrinth**, 웹캠만.",
-          "팀 덱 — 아키텍처, **11-D**, **F1** 그래프.",
-          "수업 후에도 쓰던 **PyQt + MediaPipe** 구조.",
+          "최종 발표에서 **PPT + YouTube + Rat Labyrinth** 웹캠만으로 시연했습니다.",
+          "팀 덱에 아키텍처, **11-D**, **F1** 그래프를 정리했습니다.",
+          "수업 후에도 **PyQt + MediaPipe** 구조를 계속 활용했습니다.",
         ],
         visualAids: [
           {
@@ -1323,24 +1366,24 @@ export const STRINGS = {
         team: "IoT 2조 · {repo}",
         metaLine: "2026.02.23 – 2026.03.04 · IoT 로봇 시스템 · 6인 팀 · ESP32-CAM + PyQt6",
         highlights: [
-          "실물 **로타리 주차 타워** — **ESP32-CAM**, 게이트, 리프트",
-          "초반 **UDP/TCP**: 다중 CAM GUI, **33바이트 패킷**, 주차 안내 **펌웨어**",
-          "후반 **PyQt 관제** — **PaddleOCR LPR** 창, 디바이스 클라이언트, **웹캠** 안정화",
-          "팀 덱: 번호판 **~94.3%**, **TC 통과**, 리프트 **±2 mm**",
+          "실물 **로타리 주차 타워**에 **ESP32-CAM**, 게이트, 리프트를 연동했습니다",
+          "초반에는 **UDP/TCP** 다중 CAM GUI, **33바이트 패킷**, 주차 안내 **펌웨어를** 담당했습니다",
+          "후반에는 **PyQt 관제**에서 **PaddleOCR LPR** 창, 디바이스 클라이언트, **웹캠** 안정화를 맡았습니다",
+          "팀 덱 기준 번호판 **~94.3%**, **TC 통과**, 리프트 **±2 mm** 확인했습니다",
         ],
         summary:
           "미니어처 주차 타워 프로젝트입니다. **ESP32** 펌웨어와 **UDP/TCP** 통신부터 담당했고, 후반에는 **PyQt** 관제실과 통합 데모(**웹캠**, **LPR**)를 맞췄습니다.",
         rolePoints: [
-          "**ESP32** 주차 안내 펌웨어 + **UDP/TCP** 통신",
-          "**PyQt** 관제실 — 다중 웹캠, **LPR** 창, 디바이스 클라이언트",
-          "자동화 전 **PaddleOCR** 검증 UI",
+          "**ESP32** 주차 안내 펌웨어와 **UDP/TCP** 통신을 구현했습니다",
+          "**PyQt** 관제실에서 다중 웹캠, **LPR** 창, 디바이스 클라이언트를 맡았습니다",
+          "자동화 전 **PaddleOCR** 검증 UI를 만들었습니다",
         ],
         contributions: [
-          "**ESP32** 주차 안내 펌웨어 — **IR 4구역**, **WiFi TCP**, **PING/PONG**, LCD.",
-          "다중 **ESP32-CAM UDP** + **33바이트** 패킷 포맷.",
-          "**PyQt6** 관제: 다중 웹캠, 연결 상태, 전송 매니저.",
-          "입·출차 **LPR** 테스트 창 — 자동화 전 번호판 확인.",
-          "데모 노트북 **웹캠 끊김** 수정 (**OpenCV**, USB 재열거, 재시도).",
+          "**ESP32** 주차 안내 펌웨어에 **IR 4구역**, **WiFi TCP**, **PING/PONG**, LCD를 넣었습니다.",
+          "다중 **ESP32-CAM UDP**와 **33바이트** 패킷 포맷을 정의했습니다.",
+          "**PyQt6** 관제에 다중 웹캠, 연결 상태, 전송 매니저를 구현했습니다.",
+          "입·출차 **LPR** 테스트 창으로 자동화 전 번호판을 확인했습니다.",
+          "데모 노트북 **웹캠 끊김을** **OpenCV**, USB 재열거, 재시도로 수정했습니다.",
         ],
         skills: [
           {
@@ -1354,19 +1397,28 @@ export const STRINGS = {
           },
         ],
         techniques: [
-          "**PyQt** ↔ 팀 **FastAPI**; 카메라 **UDP**; 장비 **33바이트 TCP**.",
-          "카메라 **워커 스레드** — HMI 응답 유지.",
-          "각도 나쁠 때 **PaddleOCR LPR** 수동 오버라이드.",
+          "**PyQt**와 팀 **FastAPI**, 카메라 **UDP**, 장비 **33바이트 TCP** 연결했습니다.",
+          "카메라 **워커 스레드로** HMI 응답을 유지했습니다.",
+          "각도가 나쁠 때 **PaddleOCR LPR** 수동 오버라이드를 썼습니다.",
         ],
         obstacles: [
-          { title: "통합 데모 중 **웹캠** 끊김", body: "재시도 + 디바이스 인덱스 + 경고 UI." },
-          { title: "창이 너무 많음", body: "타워·게이트·안내를 **PyQt** 타임라인 하나로." },
-          { title: "**LPR** 각도 틀림", body: "스냅샷 확인·수동 입력; 팀 미들웨어 **~94%**." },
+          {
+            title: "통합 데모 중 **웹캠** 끊김",
+            body: "재시도, 디바이스 인덱스, 경고 UI로 복구했습니다.",
+          },
+          {
+            title: "창이 너무 많음",
+            body: "타워·게이트·안내를 **PyQt** 타임라인 하나로 묶었습니다.",
+          },
+          {
+            title: "**LPR** 각도 틀림",
+            body: "스냅샷 확인·수동 입력으로 보완했고, 팀 미들웨어 **~94%** 확인했습니다.",
+          },
         ],
         outcomes: [
-          "미니 로트 **입차→주차→요금→출차** 데모.",
-          "팀 덱 **TC** 전항 PASS, 기술 보고서 **TR**.",
-          "갤러리에 실물 프로토 + 팀 덱.",
+          "미니 로트 **입차→주차→요금→출차** 데모를 완료했습니다.",
+          "팀 덱 **TC** 전항 PASS와 기술 보고서 **TR** 확보했습니다.",
+          "갤러리에 실물 프로토와 팀 덱을 정리했습니다.",
         ],
         visualAids: [
           {
@@ -1479,24 +1531,24 @@ export const STRINGS = {
         team: "ROS 2조 · {repo}",
         metaLine: "2026.04.03 – 2026.04.14 · AI 로봇 자율주행 · Pinky Pro",
         highlights: [
-          "**Pinky Pro** 미니 마트 **Owner 추적** 데모",
-          "**YOLOv8 + ByteTrack + ReID**, **5프레임 Safe-ID**",
-          "**ReID** **OSNet → MobileNetV3**; **Pi 5 NCNN**",
-          "마트 녹화 **지연** 측정; 덱 영상으로 임계값 조정",
+          "**Pinky Pro** 미니 마트에서 **Owner 추적** 데모를 시연했습니다",
+          "**YOLOv8 + ByteTrack + ReID**와 **5프레임 Safe-ID** 적용했습니다",
+          "**ReID를** **OSNet → MobileNetV3로** 바꾸고 **Pi 5 NCNN** 시험했습니다",
+          "마트 녹화 **지연을** 측정하고 덱 영상으로 임계값을 조정했습니다",
         ],
         summary:
           "쑈삥끼 마트 카트 프로젝트입니다. 고객 추종 **비전 스택**(검출·트래킹·**ReID**)과 **LCD·QR** 온카트 쪽을 담당했습니다.",
         rolePoints: [
-          "**ROS** 그래프에 **YOLOv8 + ByteTrack**",
-          "**Safe-ID** + **ReID** 교체 (**MobileNetV3**)",
-          "마트 영상 **지연** 프로파일링, **NCNN** 실험",
+          "**ROS** 그래프에 **YOLOv8 + ByteTrack** 연동했습니다",
+          "**Safe-ID**와 **ReID**(**MobileNetV3**) 교체를 담당했습니다",
+          "마트 영상 **지연** 프로파일링과 **NCNN** 실험을 수행했습니다",
         ],
         contributions: [
-          "**Owner 추적**: **YOLOv8** + CNN **ReID** + IoU; **5프레임 Safe-ID**.",
-          "**ReID** **OSNet → MobileNetV3** + 색상 폴백; **NCNN**(Pi 5).",
-          "**ROS** 인식 그래프에 **ByteTrack** 연동.",
-          "마트 녹화 **E2E 지연**; 덱 영상 임계값 튜닝.",
-          "최종 데모 **LCD·QR** 배치.",
+          "**Owner 추적**에 **YOLOv8** + CNN **ReID** + IoU와 **5프레임 Safe-ID** 넣었습니다.",
+          "**ReID를** **OSNet → MobileNetV3** + 색상 폴백으로 바꾸고 **NCNN**(Pi 5) 시험했습니다.",
+          "**ROS** 인식 그래프에 **ByteTrack** 연동했습니다.",
+          "마트 녹화 **E2E 지연을** 재고 덱 영상으로 임계값을 튜닝했습니다.",
+          "최종 데모 **LCD·QR** 배치를 맞췄습니다.",
         ],
         skills: [
           { category: "ROS 2", items: ["Jazzy", "Perception 노드", "토픽 타이밍"] },
@@ -1504,22 +1556,28 @@ export const STRINGS = {
           { category: "시스템", items: ["지연 측정", "멀티 카메라", "온로봇 UI"] },
         ],
         techniques: [
-          "**검출 → 트래크 → ReID**; 마트 영상으로 임계값 조정.",
-          "**Safe-ID** 동안 **ReID** 생략 — **Pi** 부담 감소.",
-          "**NCNN** 온카트 추론 실험.",
+          "**검출 → 트래크 → ReID** 파이프라인을 마트 영상으로 임계값 조정했습니다.",
+          "**Safe-ID** 동안 **ReID** 생략해 **Pi** 부담을 줄였습니다.",
+          "**NCNN** 온카트 추론을 실험했습니다.",
         ],
         obstacles: [
-          { title: "사람 지나갈 때 **ID 스왑**", body: "**ReID** 키우고 트랙 생명주기 조정." },
+          {
+            title: "사람 지나갈 때 **ID 스왑**",
+            body: "**ReID** 가중을 키우고 트랙 생명주기를 조정했습니다.",
+          },
           {
             title: "**지연**으로 추적 늦음",
-            body: "파이프라인 지연 재고, **Safe-ID**·임계값 보완.",
+            body: "파이프라인 지연을 재고 **Safe-ID**·임계값으로 보완했습니다.",
           },
-          { title: "인형 데모 **오검출**", body: "**YOLO** 클래스·**ROI** 분리." },
+          {
+            title: "인형 데모 **오검출**",
+            body: "**YOLO** 클래스와 **ROI** 분리해 줄였습니다.",
+          },
         ],
         outcomes: [
-          "팀 통합 마트 영상에서 **추종** 안정화.",
-          "**shoppinkki.pdf** 인식 파트.",
-          "엣지용 **NCNN** 파일.",
+          "팀 통합 마트 영상에서 **추종** 안정화했습니다.",
+          "**shoppinkki.pdf** 인식 파트를 정리했습니다.",
+          "엣지용 **NCNN** 파일을 남겼습니다.",
         ],
         visualAids: [
           {
@@ -1592,26 +1650,26 @@ export const STRINGS = {
         team: "사랑의 에듀핑 · {repo}",
         metaLine: "2026.04.23 – 2026.06.04 · Physical AI 로봇 구현 · 커밋 약 68",
         highlights: [
-          "**뎁스 하이파이브**: 손 3D → **TRAC-IK**; 빗나감 **~20–28cm → ~2cm**",
-          "**MuJoCo 트윈** 후 실물 **OpenArm** 데모",
-          "**Vue + Three.js** — **D435** 포인트클라우드, 등하원, 율동 UI",
-          "최종 **Q&A** 페이지(등하원·**무궁화**·포털) 작성",
+          "**뎁스 하이파이브**에서 손 3D → **TRAC-IK**로 빗나감을 **~20–28cm → ~2cm**까지 줄였습니다",
+          "**MuJoCo 트윈** 검증 후 실물 **OpenArm** 데모를 시연했습니다",
+          "**Vue + Three.js**로 **D435** 포인트클라우드, 등하원, 율동 UI를 구현했습니다",
+          "최종 **Q&A** 페이지(등하원·**무궁화**·포털)를 작성했습니다",
         ],
         summary:
           "핑더가든 **EduPing** 프로젝트입니다. 브라우저 로봇 UI와 **하이파이브**(**뎁스**→손→**IK→FK**) 폐루프를 담당했습니다. **physical-ai-repo-2** 커밋 약 68건입니다.",
         rolePoints: [
-          "**EduPing** 브라우저 + **하이파이브**",
-          "**뎁스 WS**, **MediaPipe** 손, **TRAC-IK** 잔차 보정",
-          "웨이크워드 + 최종 **Q&A** 페이지",
+          "**EduPing** 브라우저와 **하이파이브** 폐루프를 담당했습니다",
+          "**뎁스 WS**, **MediaPipe** 손, **TRAC-IK** 잔차 보정을 구현했습니다",
+          "웨이크워드와 최종 **Q&A** 페이지를 작성했습니다",
         ],
         contributions: [
-          "**하이파이브**: **D435** zstd WS → **포인트클라우드** → **TRAC-IK** + **FK 잔차** 루프.",
-          "좌팔 **IK 미러 솔브**(우측 **TRAC-IK** 그룹).",
-          "**Vue3 + Three.js**: **URDF GLB**, **Z-up→Y-up** 회전 1회.",
-          "**등하원** UI — 얼굴 인식 + 인사 트리거.",
-          "**무궁화** 녹화·재생 UI; 포털 감정 캡처.",
-          "**MuJoCo 트윈**; **D435** 스트리머 **cv_bridge** ABI → 시스템 Python.",
-          "최종 **Q&A** 슬라이드.",
+          "**하이파이브**에 **D435** zstd WS → **포인트클라우드** → **TRAC-IK** + **FK 잔차** 루프를 넣었습니다.",
+          "좌팔 **IK 미러 솔브**(우측 **TRAC-IK** 그룹) 추가했습니다.",
+          "**Vue3 + Three.js**에 **URDF GLB**, **Z-up→Y-up** 회전 1회 적용했습니다.",
+          "**등하원** UI에 얼굴 인식과 인사 트리거를 연결했습니다.",
+          "**무궁화** 녹화·재생 UI와 포털 감정 캡처를 구현했습니다.",
+          "**MuJoCo 트윈을** 만들고 **D435** 스트리머 **cv_bridge** ABI를 시스템 Python에 맞췄습니다.",
+          "최종 **Q&A** 슬라이드를 작성했습니다.",
         ],
         skills: [
           {
@@ -1629,28 +1687,34 @@ export const STRINGS = {
           },
         ],
         techniques: [
-          "**IK→FK 잔차** 폐루프로 아이 손 추종.",
-          "좌어깨 한계 시 **TRAC-IK 미러 솔브**.",
-          "브라우저 **뎁스 뷰** 기준 **MuJoCo** 메쉬 정합.",
-          "**MediaPipe** 메인 스레드; **zstd**는 **Worker**.",
+          "**IK→FK 잔차** 폐루프로 아이 손을 추종했습니다.",
+          "좌어깨 한계 시 **TRAC-IK 미러 솔브** 적용했습니다.",
+          "브라우저 **뎁스 뷰** 기준으로 **MuJoCo** 메쉬를 정합했습니다.",
+          "**MediaPipe**는 메인 스레드, **zstd**는 **Worker**로 분리했습니다.",
         ],
         obstacles: [
           {
             title: "**IK** 나와도 하이파이브 빗나감",
-            body: "**FK 잔차** 루프·어깨 높이 캡·리치 박스 튜닝.",
+            body: "**FK 잔차** 루프·어깨 높이 캡·리치 박스를 튜닝했습니다.",
           },
           {
             title: "**뎁스 뷰** 멈춤",
-            body: "**cv_bridge** ABI → **D435** 스트리머 시스템 Python.",
+            body: "**cv_bridge** ABI를 맞춰 **D435** 스트리머를 시스템 Python으로 돌렸습니다.",
           },
-          { title: "**URDF** 렉·뒤집힘", body: "**DAE→GLB**; **Z-up→Y-up** 1회만." },
-          { title: "**moveit_servo PSM** 데드락", body: "**JointTrajectory** 스무딩 우회." },
+          {
+            title: "**URDF** 렉·뒤집힘",
+            body: "**DAE→GLB**와 **Z-up→Y-up** 회전 1회로 정리했습니다.",
+          },
+          {
+            title: "**moveit_servo PSM** 데드락",
+            body: "**JointTrajectory** 스무딩으로 우회했습니다.",
+          },
         ],
         outcomes: [
-          "실물 **하이파이브** — 갤러리 영상.",
-          "브라우저 **뎁스·등하원·율동** 재생.",
-          "최종 **Q&A** 페이지 배포.",
-          "**URDF** 좌표 수정은 이 포트폴리오 미로에도 재사용.",
+          "실물 **하이파이브** 갤러리 영상으로 남겼습니다.",
+          "브라우저 **뎁스·등하원·율동** 재생을 완성했습니다.",
+          "최종 **Q&A** 페이지를 배포했습니다.",
+          "**URDF** 좌표 수정은 이 포트폴리오 미로에도 재사용했습니다.",
         ],
         visualAids: [
           {

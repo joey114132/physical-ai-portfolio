@@ -30,8 +30,13 @@ export const SITE = Object.freeze({
   links: Object.freeze({
     artPortfolio: "https://joeyjeongwooleeportfolio.netlify.app/",
     live: "https://joeyleeportfolio.netlify.app/",
+    gestoDeck:
+      "https://docs.google.com/presentation/d/11vuofFDRytEalj0gbnBPFTUP_mZggY7Th7VoipDIErI/preview",
+    iotDeck:
+      "https://joey.cdn.prismic.io/joey/aiemrweQX7-eW_67_%ED%94%BC%EC%A7%80%EC%BB%ACAI1%EA%B8%B0_2%ED%8C%80_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%AE%E1%84%8B%E1%85%B4%E1%84%86%E1%85%A1%E1%84%87%E1%85%A5%E1%86%B8%E1%84%89%E1%85%A1.pptx",
     shopPinkkiDeck: "https://shoppinkki-presentation.netlify.app/",
     pingdergartenDeck: "https://preso-slides-only.vercel.app/",
+    diploma: "https://joey.cdn.prismic.io/joey/aie0gweQX7-eW_9H_diploma.pdf",
   }),
   cohort: "Physical AI · 2025–2026",
   cohortShort: "PAI · 25–26",
@@ -112,6 +117,22 @@ export const PHASE_SHORT = Object.freeze(Object.fromEntries(PROJECTS.map((p) => 
 export const REPO_URLS = Object.freeze(
   Object.fromEntries(PROJECTS.map((p) => [p.key, githubRepoUrl(p.repo)])),
 );
+
+/** @type {Readonly<Partial<Record<ProjectKey, string>>>} */
+export const DECK_URLS = Object.freeze({
+  dl: SITE.links.gestoDeck,
+  iot: SITE.links.iotDeck,
+  ros: SITE.links.shopPinkkiDeck,
+  pai: SITE.links.pingdergartenDeck,
+});
+
+/**
+ * @param {string} key
+ * @returns {string}
+ */
+export function getDeckUrl(key) {
+  return DECK_URLS[/** @type {ProjectKey} */ (key)] ?? "";
+}
 
 /** @type {Readonly<Record<ProjectKey, string>>} */
 export const STATION_LABELS = Object.freeze(
