@@ -2278,12 +2278,55 @@ body.detail-mode .detail-content:focus-visible {
   background: rgba(8, 10, 16, 0.5);
 }
 
+.visual-aid--diagram {
+  cursor: zoom-in;
+  position: relative;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
+}
+
+.visual-aid--diagram:hover {
+  border-color: color-mix(in srgb, var(--project) 45%, var(--border));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.28);
+}
+
+.visual-aid--diagram::after {
+  content: "⤢";
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.55rem;
+  height: 1.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background: rgba(6, 10, 16, 0.72);
+  color: #fff;
+  font-size: 0.82rem;
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.visual-aid--diagram:hover::after,
+.visual-aid--diagram:focus-visible::after {
+  opacity: 1;
+}
+
+.visual-aid--diagram:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--project) 70%, #fff);
+  outline-offset: 2px;
+}
+
 .visual-aid--diagram img {
   display: block;
   width: 100%;
   height: auto;
   max-height: 200px;
   object-fit: cover;
+  pointer-events: none;
 }
 
 .visual-aid figcaption,

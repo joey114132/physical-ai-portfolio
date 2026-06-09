@@ -1124,7 +1124,8 @@ function renderVisualAids(aids) {
         return `<article class="visual-aid visual-aid--flow"><h3>${a.title}</h3><ol class="flow-steps">${steps}</ol>${a.caption ? `<p>${a.caption}</p>` : ""}</article>`;
       }
       if (a.type === "diagram") {
-        return `<figure class="visual-aid visual-aid--diagram"><img src="${a.src}" alt="${a.title}" loading="lazy" /><figcaption><strong>${a.title}</strong>${a.caption ? ` — ${a.caption}` : ""}</figcaption></figure>`;
+        const cap = `${a.title}${a.caption ? ` — ${a.caption}` : ""}`.replace(/"/g, "&quot;");
+        return `<figure class="visual-aid visual-aid--diagram visual-aid--zoomable" data-full="${a.src}" data-type="image" data-caption="${cap}" role="button" tabindex="0" aria-label="${a.title}"><img src="${a.src}" alt="${a.title}" loading="lazy" decoding="async" /><figcaption><strong>${a.title}</strong>${a.caption ? ` — ${a.caption}` : ""}</figcaption></figure>`;
       }
       return "";
     })
@@ -1948,14 +1949,24 @@ els.soundBtn?.addEventListener("click", () => {
   updateSoundBtn();
 });
 
-function onGalleryClick(e) {
-  const fig = e.target.closest(".gallery-item");
+function onEnlargeableMediaClick(e) {
+  const fig = e.target.closest(".gallery-item, .visual-aid--zoomable");
   if (!fig || !fig.dataset.full) return;
-  openLightbox(fig.dataset.type, fig.dataset.full, fig.dataset.caption);
+  openLightbox(fig.dataset.type ?? "image", fig.dataset.full, fig.dataset.caption);
 }
 
-els.detailGallery?.addEventListener("click", onGalleryClick);
-els.aboutGallery?.addEventListener("click", onGalleryClick);
+function onEnlargeableMediaKeydown(e) {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const fig = e.target.closest(".visual-aid--zoomable");
+  if (!fig || !fig.dataset.full) return;
+  e.preventDefault();
+  openLightbox(fig.dataset.type ?? "image", fig.dataset.full, fig.dataset.caption);
+}
+
+els.detailGallery?.addEventListener("click", onEnlargeableMediaClick);
+els.aboutGallery?.addEventListener("click", onEnlargeableMediaClick);
+els.detailAids?.addEventListener("click", onEnlargeableMediaClick);
+els.detailAids?.addEventListener("keydown", onEnlargeableMediaKeydown);
 
 els.lightbox?.addEventListener("click", (e) => {
   if (e.target === els.lightbox || e.target.closest(".lightbox__close")) closeLightbox();
