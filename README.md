@@ -4,6 +4,13 @@
 
 **이정우(Joey Lee)** 의 인터랙티브 3D 포트폴리오입니다. Three.js 미로를 걸으며 Physical AI 부트캠프에서 진행한 네 가지 팀 프로젝트를 순서대로 탐색할 수 있습니다.
 
+[![Live demo](https://img.shields.io/badge/Live-joeyleeportfolio.netlify.app-2dffb3?style=flat-square)](https://joeyleeportfolio.netlify.app/)
+[![Three.js](https://img.shields.io/badge/Three.js-0.170-000000?style=flat-square&logo=threedotjs&logoColor=white)](https://threejs.org/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES_modules-F7DF1E?style=flat-square&logo=javascript&logoColor=000)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![CSS](https://img.shields.io/badge/CSS-vanilla-1572B6?style=flat-square&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![Playwright](https://img.shields.io/badge/Playwright-E2E-2EAD33?style=flat-square&logo=playwright&logoColor=white)](https://playwright.dev/)
+[![Netlify](https://img.shields.io/badge/Netlify-static_hosting-00C7B7?style=flat-square&logo=netlify&logoColor=white)](https://www.netlify.com/)
+
 - **설정:** `js/config.js` — 이름, GitHub, 연락처, 프로젝트 목록, 브레이크포인트 (하드코딩 최소화)
 - **언어:** 한국어 / English (`js/i18n.js`)
 
@@ -19,6 +26,44 @@
 | 04   | Physical AI   | **pingdergarten (EduPing)** | 브라우저 로봇 UI·뎁스 하이파이브 폐루프      |
 
 프로젝트 메타·저장소 URL은 `js/config.js`의 `PROJECTS`에서 정의하고, 문구만 `js/i18n.js`에 둡니다.
+
+### 프로젝트 스택 · 스킬
+
+**01 Gesto (DL)**  
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![PyQt6](https://img.shields.io/badge/PyQt6-41CD52?style=flat-square&logo=qt&logoColor=white)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-4285F4?style=flat-square&logo=google&logoColor=white)
+![LSTM](https://img.shields.io/badge/LSTM-PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white)
+![pynput](https://img.shields.io/badge/pynput-input-555?style=flat-square)
+
+**02 오주의 마법사 (IoT)**  
+![ESP32-CAM](https://img.shields.io/badge/ESP32--CAM-embedded-E7352C?style=flat-square&logo=espressif&logoColor=white)
+![Arduino](https://img.shields.io/badge/Arduino-00979D?style=flat-square&logo=arduino&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![PyQt6](https://img.shields.io/badge/PyQt6-41CD52?style=flat-square&logo=qt&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white)
+![PaddleOCR](https://img.shields.io/badge/PaddleOCR-OCR-2932E1?style=flat-square)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+
+**03 쑈삥끼 / ShopPinkki (ROS)**  
+![ROS 2](https://img.shields.io/badge/ROS_2-Jazzy-22314E?style=flat-square&logo=ros&logoColor=white)
+![YOLOv8](https://img.shields.io/badge/YOLOv8-ultralytics-111?style=flat-square)
+![ByteTrack](https://img.shields.io/badge/ByteTrack-tracking-555?style=flat-square)
+![torchreid](https://img.shields.io/badge/torchreid-ReID-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
+![MobileNetV3](https://img.shields.io/badge/MobileNetV3-TFLite-FF6F00?style=flat-square&logo=tensorflow&logoColor=white)
+![NCNN](https://img.shields.io/badge/NCNN-edge_infer-0052CC?style=flat-square)
+![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white)
+
+**04 pingdergarten / EduPing (PAI)**  
+![Vue 3](https://img.shields.io/badge/Vue_3-4FC08D?style=flat-square&logo=vuedotjs&logoColor=white)
+![Three.js](https://img.shields.io/badge/Three.js-WebGL-000000?style=flat-square&logo=threedotjs&logoColor=white)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-hands-4285F4?style=flat-square&logo=google&logoColor=white)
+![ROS 2](https://img.shields.io/badge/ROS_2-bridge-22314E?style=flat-square&logo=ros&logoColor=white)
+![MuJoCo](https://img.shields.io/badge/MuJoCo-sim-6C5CE7?style=flat-square)
+![WebRTC](https://img.shields.io/badge/WebRTC-teleop-333?style=flat-square)
+![TRAC-IK](https://img.shields.io/badge/TRAC--IK-kinematics-555?style=flat-square)
+![Python](https://img.shields.io/badge/Python-backend-3776AB?style=flat-square&logo=python&logoColor=white)
 
 ## 조작법
 
@@ -68,13 +113,14 @@ python3 -m http.server 8766
 
 > ES 모듈과 import map을 사용하므로 `file://`로 직접 열면 동작하지 않을 수 있습니다. 반드시 HTTP 서버로 서빙하세요.
 
-## 기술 스택
+## 기술 스택 (사이트)
 
-- **Three.js** 0.170 (CDN import map)
-- **urdf-loader** (저장소 내 URDF는 참고용, 브라우저 프리뷰는 절차적 저폴리 메시)
-- 바닐라 JavaScript (모듈), CSS
+- **Three.js** 0.170 (CDN import map) · **urdf-loader** (URDF 참고용, 브라우저 프리뷰는 `js/models.js` 절차 메시)
+- 바닐라 **JavaScript (ESM)**, **CSS** — 빌드 단계 없음
+- **Playwright** UI 검증 · **Netlify** 정적 호스팅
+- 성능 등급(`js/perf.js`), Web Audio(`js/audio.js`), 한·영 i18n(`js/i18n.js`)
 
-성능 등급 감지(`js/perf.js`), Web Audio 효과음(`js/audio.js`), 한·영 i18n이 포함되어 있습니다.
+프로젝트별 스택·스킬 뱃지는 위 [프로젝트 스택 · 스킬](#프로젝트-스택--스킬)을 참고하세요. 상세 문구·태그는 `js/i18n.js`와 동기화됩니다.
 
 ## 디렉터리 구조
 
