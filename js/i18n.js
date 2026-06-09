@@ -118,7 +118,7 @@ export const STRINGS = {
       detail3dHide: "Hide 3D",
     },
     intro: {
-      eyebrow: "FIELD LAB · NOT A PDF",
+      eyebrow: "",
       role: "Physical AI · robotics · vision-UI",
       lead: "Four bootcamp **team projects** in a walkable **3D maze**. Open **{stationFirst}→{stationLast}** in order — **gestures, IoT, ROS vision, robot teleop** — with **only my contributions** at each station.",
       returnWelcome:
@@ -263,11 +263,11 @@ export const STRINGS = {
         "Keep iterating **EduPing** — depth UX, dance playback, attendance flows",
         "Write down **sim→real** patterns while the capstone is fresh",
       ],
-      futureTitle: "Next",
+      futureTitle: "Next up",
       future: [
-        "Ship **full-stack robot products** with thoughtful **HRI** and operator UX",
-        "Contribute to **open-source robotics** — MoveIt, ROS, reproducible sim stacks",
-        "Grow into **Physical AI** industry or research roles that blend vision + motion",
+        "**ROS / MoveIt** — reproducible sim first, then wire to hardware",
+        "**Small open-source contributions** when something is worth sharing",
+        "**Teleop & vision UI** on teams — build and integrate, not run a startup",
       ],
       manifesto:
         "I am not a portfolio agency. This is a **lab log** you walk — bugs, team credit, and the ugly **sim→real** bits included.",
@@ -998,7 +998,7 @@ export const STRINGS = {
       detail3dHide: "3D 숨기기",
     },
     intro: {
-      eyebrow: "현장 랩 · PDF 아님",
+      eyebrow: "",
       role: "Physical AI · 로봇 · 비전-UI",
       lead: "부트캠프 **팀 프로젝트 네 건을** **3D 미로로** 옮긴 포트폴리오입니다. **{stationFirst}→{stationLast}** 스테이션을 순서대로 열면 **제스처·IoT·ROS 비전·로봇 teleop**까지 이어지며, 각 스테이션에는 **제가 기여한 작업만** 담았습니다.",
       returnWelcome:
@@ -1140,11 +1140,11 @@ export const STRINGS = {
         "**EduPing** 반복 개선 — 뎁스 UX, 댄스 재생, 출석 플로우",
         "캡스톤이 생생할 때 **sim→real** 패턴 문서화",
       ],
-      futureTitle: "앞으로",
+      futureTitle: "다음에 해보고 싶은 것",
       future: [
-        "**HRI**와 조작 UX를 신경 쓰는 **풀스택 로봇 제품** 출시",
-        "**오픈소스 로보틱스** 기여 — MoveIt, ROS, 재현 가능한 sim 스택",
-        "비전 + 모션을 아우르는 **Physical AI** 산업·연구 역할로 성장",
+        "**ROS·MoveIt** — sim에서 재현 가능하게 돌려보고 실기에 연결",
+        "도움이 되면 **작은 오픈소스 기여** (이슈·문서·패치)",
+        "**teleop·비전 UI** 쪽 엔지니어링 — 팀 안에서 붙이고 다듬기",
       ],
       manifesto:
         "포트폴리오 대행이 아닙니다. 걸어 다니는 **랩 기록** — 버그, 팀 크레딧, 지저분한 **sim→real**까지 그대로.",

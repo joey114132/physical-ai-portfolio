@@ -7,7 +7,11 @@ export function detectPerfTier() {
   const cores = navigator.hardwareConcurrency ?? 4;
   const mobile = isTouchViewport();
   if (mem && mem <= 4) return "low";
-  if (mobile || cores <= 4) return "medium";
+  if (mobile) {
+    if (mem && mem >= 6 && cores >= 6) return "medium";
+    return "low";
+  }
+  if (cores <= 4) return "medium";
   return "high";
 }
 

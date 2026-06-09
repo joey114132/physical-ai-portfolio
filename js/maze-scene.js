@@ -270,6 +270,7 @@ export class MazeScene {
     this.onArrive = null;
     this._stepT = 0;
     this.paused = false;
+    this._loopRunning = false;
     this.visited = new Set();
     this.arrived = new Set();
     this.bursts = [];
@@ -295,7 +296,7 @@ export class MazeScene {
     this.camera.position.set(0, 24, 14);
 
     this.renderer = new THREE.WebGLRenderer({
-      antialias: this.perf !== "low",
+      antialias: this.perf === "high",
       powerPreference: "high-performance",
     });
     this.renderer.setPixelRatio(getPixelRatio(this.perf));
@@ -317,7 +318,6 @@ export class MazeScene {
     this._exitMarker();
     this._frame = 0;
 
-    window.addEventListener("resize", () => this._resize());
     window.addEventListener("keydown", (e) => this._key(e, true));
     window.addEventListener("keyup", (e) => this._key(e, false));
     window.addEventListener("keydown", (e) => {
@@ -326,7 +326,7 @@ export class MazeScene {
 
     this.clock = new THREE.Clock();
     this._resize();
-    this._loop();
+    this._kickLoop();
   }
 
   getNextGate() {
@@ -346,6 +346,7 @@ export class MazeScene {
   }
 
   setPaused(p) {
+    const wasPaused = this.paused;
     this.paused = p;
     if (p) {
       this.keys = { w: false, a: false, s: false, d: false };
@@ -354,7 +355,15 @@ export class MazeScene {
       this.velX = 0;
       this.velZ = 0;
       this.moveSpeed = 0;
+      return;
     }
+    if (wasPaused) this._kickLoop();
+  }
+
+  _kickLoop() {
+    if (this._loopRunning) return;
+    this._loopRunning = true;
+    this._loop();
   }
 
   setVirtualStick(x, z) {
@@ -1172,10 +1181,11 @@ export class MazeScene {
   }
 
   _loop() {
-    requestAnimationFrame(() => this._loop());
     if (this.paused || document.hidden || document.body.classList.contains("ui-menu-open")) {
+      this._loopRunning = false;
       return;
     }
+    requestAnimationFrame(() => this._loop());
 
     this._frame += 1;
     const dt = Math.min(this.clock.getDelta(), 0.05);

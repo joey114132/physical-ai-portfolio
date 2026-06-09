@@ -87,10 +87,6 @@ export class DetailScene {
     this.clock = new THREE.Clock();
     this.running = false;
     this._resize();
-    window.addEventListener("resize", () => {
-      this._resize();
-      if (this.model) frameModelForCamera(this.model, this.camera, this.controls);
-    });
   }
 
   async setProject(key) {
@@ -130,6 +126,7 @@ export class DetailScene {
       this.composer.setSize(w, h);
       this.bloom?.setSize(w, h);
     }
+    if (this.model) frameModelForCamera(this.model, this.camera, this.controls);
   }
 
   start() {

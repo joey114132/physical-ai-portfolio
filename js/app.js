@@ -581,7 +581,7 @@ function updateProgress() {
   );
   if (els.questProgress) els.questProgress.textContent = progressText;
   if (els.topQuestProgress) els.topQuestProgress.textContent = progressText;
-  drawMinimap();
+  requestDrawMinimap(true);
 }
 
 function drawMinimap() {
@@ -1399,8 +1399,8 @@ function closeDetail() {
   updateProgress();
   startLabNotesRotation();
   requestAnimationFrame(() => {
-    maze?._resize?.();
-    drawMinimap();
+    scheduleViewportMetrics();
+    requestDrawMinimap(true);
     scheduleSaveMazeProgress();
   });
 }
@@ -1466,8 +1466,8 @@ function hideJourney() {
   updateQuestBanner();
   startLabNotesRotation();
   requestAnimationFrame(() => {
-    maze?._resize?.();
-    drawMinimap();
+    scheduleViewportMetrics();
+    requestDrawMinimap(true);
   });
 }
 
@@ -1489,9 +1489,10 @@ function startMaze() {
   syncMobileControls();
   updateQuestBanner();
   updateProgress();
-  drawMinimap();
+  requestDrawMinimap(true);
   startLabNotesRotation();
   syncBrandLabelTier();
+  scheduleViewportMetrics();
 }
 
 function syncBrandLabels() {
@@ -1648,8 +1649,72 @@ async function finishBootLoader() {
 }
 
 let viewportFxTimer = null;
+let viewportMetricsRaf = null;
+let lastViewportW = 0;
+let lastViewportH = 0;
+let lastViewportBucket = "";
+let minimapLastDraw = 0;
+
+function syncViewportMetrics() {
+  const vv = window.visualViewport;
+  const w = Math.round(vv?.width ?? window.innerWidth);
+  const h = Math.round(vv?.height ?? window.innerHeight);
+  const root = document.documentElement;
+  const sizeChanged = w !== lastViewportW || h !== lastViewportH;
+
+  root.style.setProperty("--app-width", `${w}px`);
+  root.style.setProperty("--app-height", `${h}px`);
+  root.style.setProperty("--viewport-offset-top", `${Math.max(0, Math.round(vv?.offsetTop ?? 0))}px`);
+  root.style.setProperty(
+    "--viewport-offset-left",
+    `${Math.max(0, Math.round(vv?.offsetLeft ?? 0))}px`,
+  );
+
+  const refW = 900;
+  const refH = 700;
+  const scale = Math.min(w / refW, h / refH);
+  const uiScale = Math.min(1.06, Math.max(0.84, scale));
+  root.style.setProperty("--ui-scale", String(uiScale));
+
+  const aspect = w / Math.max(1, h);
+  const bucket =
+    aspect >= 2.1 ? "ultrawide" : aspect <= 0.72 ? "tall" : w < 520 ? "narrow" : "balanced";
+  const bucketChanged = bucket !== lastViewportBucket;
+  root.dataset.viewport = bucket;
+
+  if (mode === "maze") {
+    if (bucketChanged || sizeChanged) layoutMazeChrome();
+    else syncBrandLabelTier();
+  } else {
+    syncBrandLabelTier();
+  }
+
+  if (sizeChanged) {
+    lastViewportW = w;
+    lastViewportH = h;
+    maze?._resize?.();
+    detail3d?._resize?.();
+    requestDrawMinimap(true);
+  }
+
+  lastViewportBucket = bucket;
+}
+
+function requestDrawMinimap(force = false) {
+  const now = performance.now();
+  const minGap = perfTier === "low" ? 900 : perfTier === "medium" ? 550 : 350;
+  if (!force && now - minimapLastDraw < minGap) return;
+  minimapLastDraw = now;
+  drawMinimap();
+}
+
+function scheduleViewportMetrics() {
+  cancelAnimationFrame(viewportMetricsRaf);
+  viewportMetricsRaf = requestAnimationFrame(syncViewportMetrics);
+}
 
 function pulseViewportEdges() {
+  if (perfTier !== "high") return;
   document.body.classList.add("viewport-resize-active");
   clearTimeout(viewportFxTimer);
   viewportFxTimer = setTimeout(() => document.body.classList.remove("viewport-resize-active"), 720);
@@ -1658,11 +1723,14 @@ function pulseViewportEdges() {
 function setupViewportFx() {
   let debounce = null;
   const onResize = () => {
+    scheduleViewportMetrics();
     clearTimeout(debounce);
     debounce = setTimeout(pulseViewportEdges, 90);
   };
   window.addEventListener("resize", onResize, { passive: true });
+  window.addEventListener("orientationchange", onResize, { passive: true });
   window.visualViewport?.addEventListener("resize", onResize, { passive: true });
+  scheduleViewportMetrics();
 }
 
 function applySiteConfig() {
@@ -1946,7 +2014,7 @@ async function init() {
           btn.classList.toggle("active", i === idx);
         });
       }
-      drawMinimap();
+      requestDrawMinimap(true);
     };
 
     maze.onZoneActivate = (key) => enterProject(key);
@@ -1954,13 +2022,12 @@ async function init() {
     maze.onGateLocked = () => updateQuestBanner();
     maze.onStep = (sprint) => {
       audio.step(sprint);
-      if (introDone && mode === "maze") scheduleSaveMazeProgress();
+      if (introDone && mode === "maze") {
+        scheduleSaveMazeProgress();
+        requestDrawMinimap();
+      }
     };
     maze.onArrive = () => audio.arrive();
-
-    setInterval(() => {
-      if (mode === "maze" && !document.hidden) drawMinimap();
-    }, 400);
 
     window.addEventListener("pagehide", saveMazeProgress);
 
