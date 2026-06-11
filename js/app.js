@@ -85,7 +85,14 @@ const els = {
   detailTeam: document.getElementById("detail-team"),
   detailMetaLine: document.getElementById("detail-meta-line"),
   detailHighlights: document.getElementById("detail-highlights"),
-  detailSummary: document.getElementById("detail-summary"),
+  detailBrief: document.getElementById("detail-brief"),
+  detailWhySection: document.getElementById("detail-why-section"),
+  detailWhyTitle: document.getElementById("detail-why-title"),
+  detailWhy: document.getElementById("detail-why"),
+  detailMyWorkSection: document.getElementById("detail-my-work-section"),
+  detailMyWorkTitle: document.getElementById("detail-my-work-title"),
+  detailMyWork: document.getElementById("detail-my-work"),
+  detailRoleSection: document.getElementById("detail-role-section"),
   detailRoleTitle: document.getElementById("detail-role-title"),
   detailRole: document.getElementById("detail-role"),
   detailContribTitle: document.getElementById("detail-contrib-title"),
@@ -1199,6 +1206,16 @@ function bindGalleryMedia(root = els.detailGallery) {
   });
 }
 
+/** summary에서 역할 문단을 잘라 brief만 남김 */
+function projectBriefText(project) {
+  if (project.brief) return project.brief;
+  const summary = project.summary ?? "";
+  return summary
+    .replace(/\s*\*\*(?:My role|제 역할):\*\*[\s\S]*/i, "")
+    .replace(/\s*\*\*(?:My role|제 역할)\*\*:[\s\S]*/i, "")
+    .trim();
+}
+
 async function renderDetailContent(key) {
   const p = getProject(lang, key);
   const media = await filterReachableMedia(p.media);
@@ -1211,7 +1228,38 @@ async function renderDetailContent(key) {
   els.detailSubtitle.innerHTML = formatConceptHtml(p.subtitle);
   els.detailTeam.innerHTML = formatConceptHtml(interpolateCopy(p.team, copy));
   els.detailMetaLine.innerHTML = formatConceptHtml(interpolateCopy(p.metaLine ?? "", copy));
-  els.detailSummary.innerHTML = formatConceptHtml(p.summary);
+
+  const brief = projectBriefText(p);
+  if (els.detailBrief) {
+    els.detailBrief.innerHTML = formatConceptHtml(brief);
+    els.detailBrief.hidden = !brief;
+  }
+
+  const whyJoined = (p.whyJoined ?? "").trim();
+  if (els.detailWhySection && els.detailWhyTitle && els.detailWhy) {
+    if (whyJoined) {
+      els.detailWhySection.hidden = false;
+      els.detailWhyTitle.textContent = ui.whyJoined ?? ui.role;
+      els.detailWhy.innerHTML = formatConceptHtml(whyJoined);
+    } else {
+      els.detailWhySection.hidden = true;
+      els.detailWhyTitle.textContent = "";
+      els.detailWhy.innerHTML = "";
+    }
+  }
+
+  const myWork = p.myWork ?? p.rolePoints ?? (p.role ? [p.role] : []);
+  if (els.detailMyWorkSection && els.detailMyWorkTitle && els.detailMyWork) {
+    if (myWork.length) {
+      els.detailMyWorkSection.hidden = false;
+      els.detailMyWorkTitle.textContent = ui.myWork ?? ui.role;
+      els.detailMyWork.innerHTML = myWork.map((r) => `<li>${formatConceptHtml(r)}</li>`).join("");
+    } else {
+      els.detailMyWorkSection.hidden = true;
+      els.detailMyWorkTitle.textContent = "";
+      els.detailMyWork.innerHTML = "";
+    }
+  }
 
   const highlights = p.highlights ?? [];
   if (els.detailHighlights) {
@@ -1224,9 +1272,18 @@ async function renderDetailContent(key) {
     }
   }
 
-  els.detailRoleTitle.textContent = ui.role;
-  const rolePoints = p.rolePoints ?? (p.role ? [p.role] : []);
-  els.detailRole.innerHTML = rolePoints.map((r) => `<li>${formatConceptHtml(r)}</li>`).join("");
+  const showLegacyRole = myWork.length === 0;
+  if (els.detailRoleSection) {
+    els.detailRoleSection.hidden = !showLegacyRole;
+  }
+  if (showLegacyRole) {
+    els.detailRoleTitle.textContent = ui.role;
+    const rolePoints = p.rolePoints ?? (p.role ? [p.role] : []);
+    els.detailRole.innerHTML = rolePoints.map((r) => `<li>${formatConceptHtml(r)}</li>`).join("");
+  } else {
+    els.detailRoleTitle.textContent = "";
+    els.detailRole.innerHTML = "";
+  }
   els.detailContribTitle.textContent = ui.contributions;
   els.detailSkillsTitle.textContent = ui.skills;
   els.detailTechTitle.textContent = ui.techniques;
@@ -1815,11 +1872,17 @@ function setupViewportFx() {
   scheduleViewportMetrics();
 }
 
+function syncMetaDescription(localeStrings) {
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) {
+    metaDesc.setAttribute("content", localeStrings.meta?.ogDescription ?? SITE.metaDescription);
+  }
+}
+
 function applySiteConfig() {
   document.body.dataset.project = SITE.defaultProject;
   syncBrandLabels();
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute("content", SITE.metaDescription);
+  syncMetaDescription(STRINGS[lang]);
   applyShareMeta(STRINGS[lang]);
   if (els.footerGithub) {
     els.footerGithub.textContent = `GitHub · ${SITE.github.username}`;
@@ -1839,6 +1902,7 @@ function applyLanguage() {
   els.heroSub.textContent = displayName(lang, "alias");
   els.heroRole.textContent = s.hero.role;
   els.heroTagline.innerHTML = formatConceptHtml(interpolateCopy(s.hero.tagline, copy));
+  syncMetaDescription(s);
   applyShareMeta(s);
   if (mode === "maze" && introDone) startLabNotesRotation();
   else stopLabNotesRotation();

@@ -43,7 +43,7 @@ export const SITE = Object.freeze({
   cohortMicro: "PAI",
   defaultProject: /** @type {ProjectKey} */ ("dl"),
   metaDescription:
-    "Walk a 3D lab maze — four Physical AI projects I actually built. Not a PDF resume.",
+    "직접 만진 네 스테이션을 돌아다니는 3D 미로 — 제스처, IoT, ROS 비전, 실물 로봇 하이파이브. PDF 이력서가 아닙니다.",
   storage: Object.freeze({
     lang: "portfolio-lang",
     langManual: "portfolio-lang-manual",

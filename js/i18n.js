@@ -226,7 +226,7 @@ export const STRINGS = {
           key: "dl",
           date: "Jan 2026 · DL Team 4",
           summary:
-            "**Gesto** — webcam **MediaPipe→LSTM→pynput** for **PPT/YouTube**; I owned the **PyQt6** shell and dataset tooling",
+            "**Gesto** — hands-free **PPT/YouTube** via **MediaPipe**, **LSTM**, **PyQt6**, plus **Rat Labyrinth**",
           myRole:
             "**PyQt6 UI** (~1,600+ lines), **MediaPipe→LSTM** wiring, **LSTM dataset** + partial training, **Rat Labyrinth** mode — **14 commits** on `deeplearning-repo-4`",
           deck: SITE.links.gestoDeck,
@@ -237,7 +237,7 @@ export const STRINGS = {
           key: "iot",
           date: "Feb 2026 · IoT Team 2",
           summary:
-            "**오주의 마법사** — **ESP32-CAM** rotary tower lot, gates, and a **PyQt6** control room I kept alive on demo day",
+            "**Wizard of Parking** — miniature **rotary smart-parking tower** with **ESP32**, **LPR**, and **PyQt6** control room",
           myRole:
             "**ESP32** parking-guide firmware (**UDP/TCP**, **33-byte** packets), then final-week **PyQt** operator UI — multi-cam, **PaddleOCR LPR** dialogs, webcam recovery",
           deck: SITE.links.iotDeck,
@@ -248,7 +248,7 @@ export const STRINGS = {
           key: "ros",
           date: "Mar–Apr 2026 · ROS Team 2 (삥끼랩)",
           summary:
-            "**ShopPinkki** — **Pinky Pro** mart cart: **YOLOv8 → ByteTrack → ReID** follow mode on **ROS 2 Jazzy** + **Nav2**",
+            "**ShopPinkki** — **ROS 2** **Pinky Pro** owner-follow in a miniature mart (**YOLOv8**, **ByteTrack**, **ReID**)",
           myRole:
             "Owner-tracking **perception stack** — detect/track/**ReID**, **Safe-ID** lock, **NCNN** export tests; **9 commits** on `ros-repo-2`",
           deck: SITE.links.shopPinkkiDeck,
@@ -259,7 +259,7 @@ export const STRINGS = {
           key: "pai",
           date: "Apr–Jun 2026 · Team EduPing",
           summary:
-            "**pingdergarten / EduPing** — kindergarten assistant robot: browser teleop, depth high-five, attendance flows",
+            "**pingdergarten / EduPing** — kindergarten assistant: browser teleop, **OpenArm**, **Vue/Three.js**, **ROS 2**",
           myRole:
             "Final deck: **commute + high-five**, **Mugunghwa**, **daily report** pages; **robot-web** UX, **D435** stream, **TRAC-IK/FK** loop — **37 commits** on `physical-ai-repo-2`",
           deck: SITE.links.pingdergartenDeck,
@@ -312,6 +312,9 @@ export const STRINGS = {
     },
     panel: {
       role: "My role",
+      brief: "What it is",
+      whyJoined: "Why I joined this team",
+      myWork: "What I shipped",
       contributions: "What I built",
       skills: "Skills",
       techniques: "Techniques & approach",
@@ -339,8 +342,18 @@ export const STRINGS = {
           "Built much of the **LSTM dataset**; **partial model training** with the team",
           "Final deck **~74% avg F1** after **LSTM v1→v4**",
         ],
+        brief:
+          "Hands-free **PowerPoint** and **YouTube** from a webcam — **MediaPipe**, **LSTM**, **PyQt6**, plus a **Rat Labyrinth** game mode.",
+        whyJoined:
+          "The DL team was shipping a **live demo**, not a notebook — I wanted **hands-free** control from the webcam, and there was a clear slot for **PyQt**, **dataset tooling**, and **threading**.",
+        myWork: [
+          "**PyQt6** desktop shell ~**1,600** LOC · **worker-thread** architecture",
+          "**MediaPipe → LSTM → pynput** pipeline",
+          "**LSTM dataset** · **6,276** sequences",
+          "**Rat Labyrinth** · **14 commits** (deeplearning-repo-4)",
+        ],
         summary:
-          "Hands-free PPT and YouTube for demos — no keyboard. I built the **PyQt** shell, wired **MediaPipe→LSTM→pynput**, collected a lot of the **training data**, ran part of the **LSTM training**, and shipped **Rat Labyrinth**.",
+          "Hands-free **PowerPoint** and **YouTube** from a webcam — **MediaPipe**, **LSTM**, **PyQt6**, plus a **Rat Labyrinth** game mode.",
         rolePoints: [
           "**PyQt6** + **MediaPipe→LSTM** pipeline (trigger, modes, thresholds)",
           "**LSTM dataset** collection + **partial training**",
@@ -430,12 +443,12 @@ export const STRINGS = {
             src: "PRISMIC_GESTO_PPT",
             caption: "PPT mode — next/prev slide & fullscreen gestures",
           },
+          { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "Detection armed — LSTM → pynput" },
           {
             type: "gif",
             src: "PRISMIC_GESTO_YOUTUBE",
             caption: "YouTube mode — transport, volume, fullscreen",
           },
-          { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "Detection armed — LSTM → pynput" },
           {
             type: "gif",
             src: "PRISMIC_GESTO_TRIGGER",
@@ -503,8 +516,18 @@ export const STRINGS = {
           "**PyQt control room** — **PaddleOCR LPR** dialogs, device client, webcam stability",
           "Team deck: **~94.3%** plate read, **TC pass**, **±2 mm** lift",
         ],
+        brief:
+          "Miniature **rotary smart-parking tower** — **3× ESP32** firmware, **LPR**, and a **PyQt6** control room for the full park-and-pay flow.",
+        whyJoined:
+          "IoT Team 2 ran a rotary **physical model** with **3 ESP32s** and **FastAPI**. I wanted to own **33-byte TCP** tower state into the **PyQt control room**; when the control-room schedule slipped, I took **IR guidance firmware · multi-cam UI · LPR verify window** through demo day.",
+        myWork: [
+          "**ESP32** parking-guide firmware — **33-byte** packets, **UDP/TCP**",
+          "**PyQt6** control room — multi-cam, **LPR** dialogs, gate UI",
+          "**Webcam recovery** on demo laptops",
+          "Team deck **~94.3%** plate read",
+        ],
         summary:
-          "**오주의 마법사** — smart parking on a physical mini lot. I started with **ESP32 firmware** and **UDP/TCP comms**; for the final I owned the **PyQt control room** and kept integration demos alive (**webcams**, **LPR dialogs**, gate UI).",
+          "Miniature **rotary smart-parking tower** — **ESP32** firmware, **LPR**, and a **PyQt6** control room for the full park-and-pay flow.",
         rolePoints: [
           "**ESP32** parking-guide firmware + **UDP/TCP** comms layout",
           "**PyQt** control room — multi-cam, **LPR** dialogs, device client",
@@ -600,6 +623,11 @@ export const STRINGS = {
           },
           {
             type: "gif",
+            src: "assets/iot/gate.gif",
+            caption: "Entry gate — barrier open/close rehearsal",
+          },
+          {
+            type: "gif",
             src: "assets/iot/image66.gif",
             caption: "Rotary tower lift — mechanical simulation",
           },
@@ -680,8 +708,18 @@ export const STRINGS = {
           "**ReID** swap: **OSNet → MobileNetV3** + color fallback; **NCNN** on **Pi 5**",
           "**Latency** profiling on mart recordings; thresholds from deck slides",
         ],
+        brief:
+          "**ROS 2** **Pinky Pro** mart cart — **owner follow** with **YOLOv8**, **ByteTrack**, and **ReID** in a miniature store.",
+        whyJoined:
+          "My first **perception → navigation** stretch — I wanted to **keep the owner** in mart footage and own **perception tuning** on the team.",
+        myWork: [
+          "**YOLO → ByteTrack → ReID** follow pipeline",
+          "**5-frame Safe-ID** lock",
+          "**MobileNetV3 ReID** + **NCNN** export tests",
+          "**9 commits** on ros-repo-2",
+        ],
         summary:
-          "**ShopPinkki** mart cart — I handled **owner-tracking perception**: detect, track, **re-ID**, keep ID when people cross. Most commits are in the **vision stack** plus **LCD/QR** demo tweaks.",
+          "**ROS 2** **Pinky Pro** mart cart — **owner follow** with **YOLOv8**, **ByteTrack**, and **ReID** in a miniature store.",
         rolePoints: [
           "**YOLOv8 + ByteTrack** in the **ROS** perception graph",
           "**Safe-ID lock** + **ReID** backbone swap (**MobileNetV3**)",
@@ -758,6 +796,11 @@ export const STRINGS = {
           },
           {
             type: "video",
+            src: "PRISMIC_TRACKING_REID",
+            caption: "YOLO + ByteTrack + ReID on mart footage",
+          },
+          {
+            type: "video",
             src: "PRISMIC_SHOP_GUIDE",
             caption: "In-store guiding — follow shopper to aisle",
           },
@@ -785,11 +828,6 @@ export const STRINGS = {
             type: "video",
             src: "PRISMIC_SHOP_SHOPPING_LIST",
             caption: "Shopping-list driven pick route",
-          },
-          {
-            type: "video",
-            src: "PRISMIC_TRACKING_REID",
-            caption: "YOLO + ByteTrack + ReID on mart footage",
           },
           { type: "video", src: "PRISMIC_TRACKING", caption: "Tracking pipeline — live rehearsal" },
           {
@@ -841,19 +879,29 @@ export const STRINGS = {
           "**Vue + Three.js** robot web — live **D435** cloud, attendance, dance UI",
           "Final **Q&A pages** I wrote (commute, **Mugunghwa**, portal)",
         ],
+        brief:
+          "Kindergarten assistant **pingdergarten** — **high-five**, **attendance**, and **Mugunghwa** rhythm game in the **browser** on **OpenArm**, **Vue/Three.js**, and **ROS 2**.",
+        whyJoined:
+          "Final **Physical AI** team — I wanted a **browser robot** to matter with **real children** (high-five, attendance, dance). Capstone **vision → UI → robot** after Gesto, IoT, and ROS. The team already had **browser teleop** and an **OpenArm** slot that matched my **3D/UI** background.",
+        myWork: [
+          "**High-five** — D435 depth → **TRAC-IK** + **FK** residual (**~28 cm → ~2 cm**)",
+          "**Mugunghwa** — red-light-green-light game shell, beat sync, record UI, motion+audio WS playback",
+          "**Attendance** · **O/X quiz** UI + portal **daily report** Q&A pages",
+          "**Vue 3 + Three.js** — **D435** zstd WebSocket point cloud · ~**68 commits**",
+        ],
         summary:
-          "**EduPing** on pingdergarten — I owned **browser robot UX** and the **high-five closed loop** (**depth stream**, hand track, **IK→FK feedback**). ~**68 commits** on **physical-ai-repo-2**.",
+          "Kindergarten assistant **pingdergarten** — **high-five**, **attendance**, and **Mugunghwa** rhythm game in the **browser** on **OpenArm**, **Vue/Three.js**, and **ROS 2**.",
         rolePoints: [
-          "**EduPing** browser + high-five (~**68 commits**)",
+          "**High-five** closed loop + **Mugunghwa** game shell & dance playback (~**68 commits**)",
           "**Depth WebSocket**, **MediaPipe** hands, **TRAC-IK** residual fix",
-          "Wake-word hook + final **Q&A** pages",
+          "**Attendance** · **O/X quiz** UI + final **Q&A** pages (commute, Mugunghwa, portal)",
         ],
         contributions: [
           "**High-five**: **D435** zstd WS → browser **point cloud** → **TRAC-IK** + **FK residual** loop.",
           "Left arm **IK mirror-solve** on right **TRAC-IK** group when left shoulder could not open.",
           "**Vue 3 + Three.js** robot web: depth tab, **URDF GLB**, **Z-up→Y-up** fix.",
           "**Attendance** UI — face detect + greeting trigger.",
-          "**Mugunghwa** dance recording UI; emotion capture for portal photos.",
+          "**Mugunghwa** — game shell (`MugunghwaGame.vue`), **RecorderControls** motion capture, `/dance/{slug}/stream` motion+audio sync; emotion capture for portal photos.",
           "**MuJoCo twin** for reach checks; **D435** streamer on system Python (**cv_bridge** ABI fix).",
           "Korean **Q&A** slides for final presentation.",
         ],
@@ -938,6 +986,7 @@ export const STRINGS = {
             src: "PRISMIC_HIFIVE_VIDEO",
             caption: "EduPing — real high-five demo (full capture)",
           },
+          { type: "gif", src: "PRISMIC_HIFIVE", caption: "EduPing high-five demo (GIF)" },
           {
             type: "video",
             src: "PRISMIC_DANCE_VIDEO",
@@ -953,7 +1002,6 @@ export const STRINGS = {
             src: "PRISMIC_GOGOPING_HIDESEEK",
             caption: "GogoPing — hide-and-seek navigation game",
           },
-          { type: "gif", src: "PRISMIC_HIFIVE", caption: "EduPing high-five demo (GIF)" },
           {
             type: "gif",
             src: "PRISMIC_SIM",
@@ -964,6 +1012,8 @@ export const STRINGS = {
             src: "PRISMIC_MUGUNGHWA",
             caption: "Mugunghwa rhythm routine — dance recording UI (GIF)",
           },
+          { type: "image", src: "PRISMIC_OX", caption: "Attendance O/X vision board" },
+          { type: "image", src: "PRISMIC_OXLOCK", caption: "Attendance lock-in confirmation UI" },
           { type: "image", src: "PRISMIC_CLOUD", caption: "Browser D435 point cloud viewer" },
           { type: "image", src: "PRISMIC_MUJOCO", caption: "MuJoCo digital twin" },
           { type: "image", src: "PRISMIC_UI", caption: "EduPing web robot console" },
@@ -1125,7 +1175,7 @@ export const STRINGS = {
           key: "dl",
           date: "2026.01 · DL 4조",
           summary:
-            "**Gesto**에서 웹캠 **MediaPipe→LSTM→pynput**로 **PPT/YouTube를** 제어했으며, **PyQt6** 셸과 데이터셋 도구를 담당했습니다",
+            "**Gesto** — 웹캠으로 **PPT·YouTube** 핸즈프리 제어(**MediaPipe**·**LSTM**·**PyQt6**, **쥐 미로**)",
           myRole:
             "**PyQt6 UI**(~1,600+ 라인), **MediaPipe→LSTM** 연동, **LSTM 데이터셋** 수집·일부 학습, **Rat Labyrinth** 구현을 맡았습니다(deeplearning-repo-4 · **14 commits**)",
           deck: SITE.links.gestoDeck,
@@ -1136,7 +1186,7 @@ export const STRINGS = {
           key: "iot",
           date: "2026.02 · IoT 2조",
           summary:
-            "**오주의 마법사**는 **ESP32-CAM** 회전 타워·게이트가 있는 미니 주차장이며, 데모 당일에는 **PyQt6** 관제실로 통합을 살렸습니다",
+            "**오주의 마법사** — 미니 **회전식 스마트 주차 타워**(**ESP32**, **LPR**, **PyQt6** 관제실)",
           myRole:
             "**ESP32** 주차 안내 펌웨어(**UDP/TCP**, **33바이트** 패킷)를 작성했고, 최종 주에는 **PyQt** 관제 UI(멀티캠, **PaddleOCR LPR**, 웹캠 복구)를 담당했습니다",
           deck: SITE.links.iotDeck,
@@ -1147,7 +1197,7 @@ export const STRINGS = {
           key: "ros",
           date: "2026.03–04 · ROS 2조 (삥끼랩)",
           summary:
-            "**쑈삥끼**는 **Pinky Pro** 매장 카트의 **YOLOv8→ByteTrack→ReID** 팔로우 모드(**ROS 2 Jazzy** + **Nav2**) 프로젝트입니다",
+            "**쑈삥끼** — **ROS 2** **Pinky Pro** 미니 마트 **주인 추종**(**YOLOv8**·**ByteTrack**·**ReID**)",
           myRole:
             "주인 추적 **인식 스택**(detect/track/**ReID**, **Safe-ID**, **NCNN** 배포)을 담당했습니다(ros-repo-2 · **9 commits**)",
           deck: SITE.links.shopPinkkiDeck,
@@ -1158,7 +1208,7 @@ export const STRINGS = {
           key: "pai",
           date: "2026.04–06 · 팀 EduPing",
           summary:
-            "**pingdergarten / EduPing**는 유치원 보조 로봇으로, 브라우저 teleop, 뎁스 하이파이브, 출석 플로우를 다룹니다",
+            "**pingdergarten / EduPing** — 유치원 보조 로봇(**브라우저 teleop**, **OpenArm**, **Vue/Three.js**, **ROS 2**)",
           myRole:
             "최종 발표(**등하원·하이파이브**, **무궁화꽃**, **일과 보고서**)와 **robot-web** UX, **D435** 스트림, **TRAC-IK/FK** 담당했습니다(physical-ai-repo-2 · **37 commits**)",
           deck: SITE.links.pingdergartenDeck,
@@ -1211,6 +1261,9 @@ export const STRINGS = {
     },
     panel: {
       role: "담당 역할",
+      brief: "프로젝트 소개",
+      whyJoined: "이 팀을 선택한 이유",
+      myWork: "내가 한 일",
       contributions: "구현 내용",
       skills: "사용 기술",
       techniques: "접근 방식",
@@ -1238,8 +1291,18 @@ export const STRINGS = {
           "**LSTM 데이터셋** 상당 부분을 수집·정리했고 **일부 직접 학습**했습니다",
           "최종 발표에서 **평균 F1 약 74%**(**LSTM v1→v4**)를 달성했습니다",
         ],
+        brief:
+          "웹캠 제스처로 **PPT·YouTube를** 핸즈프리 조작 — **MediaPipe**·**LSTM**·**PyQt6**, **쥐 미로** 게임 모드 포함.",
+        whyJoined:
+          "DL 팀이 노트북이 아니라 **라이브 데모를** 만들고 있었고, 웹캠만으로 **핸즈프리** 제어를 하고 싶었습니다. **PyQt 데스크톱 셸으로** **웹캠→LSTM→pynput을** 한 화면에 묶고, **LSTM 데이터셋을** 정리하며, 추론 중에도 **UI가 멈추지 않게** 워커 스레드를 나누기로 했습니다.",
+        myWork: [
+          "**PyQt6** 데스크톱 셸 약 **1,600** LOC · **워커 스레드** 구조",
+          "**MediaPipe → LSTM → pynput** 파이프라인",
+          "**LSTM 데이터셋** **6,276** 시퀀스",
+          "**Rat Labyrinth** · **14 commits** (deeplearning-repo-4)",
+        ],
         summary:
-          "발표 시 **PPT·YouTube를** 키보드 없이 돌리는 작업을 진행했습니다. **PyQt** 셸과 **MediaPipe→LSTM→pynput** 연결, **학습 데이터** 수집, **LSTM** 일부 학습, **Rat Labyrinth**·발표 QA까지 담당했습니다.",
+          "웹캠 제스처로 **PPT·YouTube를** 핸즈프리 조작 — **MediaPipe**·**LSTM**·**PyQt6**, **쥐 미로** 게임 모드 포함.",
         rolePoints: [
           "**PyQt6**와 **MediaPipe→LSTM** 파이프라인(트리거, 모드, 임계값)을 구현했습니다",
           "**LSTM 데이터셋을** 수집하고 **일부 학습을** 수행했습니다",
@@ -1273,7 +1336,7 @@ export const STRINGS = {
         ],
         techniques: [
           "**21점** → **30프레임** → **LSTM**과 **11차원 피처** 파이프라인을 썼습니다.",
-          "**카메라/트리거/검출** 워커를 분리해 UI 응답을 유지했습니다.",
+          "**카메라·검출·트리거** 워커 3분할과 **ModeController**로 UI 응답을 유지했습니다.",
           "모드별 **pynput** 키 출력 **레지스트리로** 액션을 통일했습니다.",
         ],
         obstacles: [
@@ -1282,8 +1345,8 @@ export const STRINGS = {
             body: "수집 프레임워크·매뉴얼을 만든 뒤 **6,276** 시퀀스를 **30프레임** 보간으로 재수집했습니다.",
           },
           {
-            title: "추론 시 **UI 멈춤**",
-            body: "시퀀스 다이어그램대로 **스레드를** 분리해 해결했습니다.",
+            title: "발표 직전 **UI 멈춤**",
+            body: "**카메라·LSTM·pynput이** 한 스레드에 묶여 추론 중 화면이 멈췄습니다. **카메라·검출·트리거를** 워커 3분할로 나누고 **ModeController**로 모드별 키 매핑을 분리해 데모 중에도 피드가 살아 있게 했습니다.",
           },
           {
             title: "일부 제스처 늦게 잡힘",
@@ -1318,12 +1381,12 @@ export const STRINGS = {
         stack: ["Python", "PyQt6", "MediaPipe", "LSTM", "OpenCV", "pynput"],
         media: [
           { type: "gif", src: "PRISMIC_GESTO_PPT", caption: "PPT 모드 — 슬라이드·전체화면 제스처" },
+          { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "인식 활성 — LSTM → pynput" },
           {
             type: "gif",
             src: "PRISMIC_GESTO_YOUTUBE",
             caption: "YouTube 모드 — 재생/볼륨/전체화면",
           },
-          { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "인식 활성 — LSTM → pynput" },
           {
             type: "gif",
             src: "PRISMIC_GESTO_TRIGGER",
@@ -1375,8 +1438,18 @@ export const STRINGS = {
           "후반에는 **PyQt 관제**에서 **PaddleOCR LPR** 창, 디바이스 클라이언트, **웹캠** 안정화를 맡았습니다",
           "팀 덱 기준 번호판 **~94.3%**, **TC 통과**, 리프트 **±2 mm** 확인했습니다",
         ],
+        brief:
+          "미니 **회전식 스마트 주차 타워** — **ESP32 3대** 펌웨어, **LPR**, **PyQt6** 관제실로 입출차·결제까지 운영.",
+        whyJoined:
+          "IoT 2조는 회전 주차 **실물 모형**에 **ESP32 3대**와 **FastAPI가** 동시에 붙는 팀이었습니다. 저는 **33바이트 TCP로** 타워 상태를 읽고 **PyQt 관제실**에 뿌리는 통합을 맡고 싶었고, 후반 관제 일정이 밀리자 제가 **IR 안내 펌웨어**, **멀티캠 UI**, **LPR 검증 창**까지 이어서 데모를 살렸습니다.",
+        myWork: [
+          "**ESP32** 주차 안내 펌웨어 — **33바이트** 패킷, **UDP/TCP**",
+          "**PyQt6** 관제실 — 다중 웹캠, **LPR** 창, 게이트 UI",
+          "데모 노트북 **웹캠 복구**",
+          "팀 덱 **LPR ~94.3%**",
+        ],
         summary:
-          "미니어처 주차 타워 프로젝트입니다. **ESP32** 펌웨어와 **UDP/TCP** 통신부터 담당했고, 후반에는 **PyQt** 관제실과 통합 데모(**웹캠**, **LPR**)를 맞췄습니다.",
+          "미니 **회전식 스마트 주차 타워** — **ESP32** 펌웨어, **LPR**, **PyQt6** 관제실로 입출차·결제까지 운영.",
         rolePoints: [
           "**ESP32** 주차 안내 펌웨어와 **UDP/TCP** 통신을 구현했습니다",
           "**PyQt** 관제실에서 다중 웹캠, **LPR** 창, 디바이스 클라이언트를 맡았습니다",
@@ -1472,6 +1545,11 @@ export const STRINGS = {
           },
           {
             type: "gif",
+            src: "assets/iot/gate.gif",
+            caption: "입구 게이트 — 차단기 개폐 리허설",
+          },
+          {
+            type: "gif",
             src: "assets/iot/image66.gif",
             caption: "회전식 타워 리프트 — 기구 시뮬레이션",
           },
@@ -1540,8 +1618,18 @@ export const STRINGS = {
           "**ReID를** **OSNet → MobileNetV3로** 바꾸고 **Pi 5 NCNN** 시험했습니다",
           "마트 녹화 **지연을** 측정하고 덱 영상으로 임계값을 조정했습니다",
         ],
+        brief:
+          "**ROS 2** **Pinky Pro** 마트 카트 — **YOLOv8**·**ByteTrack**·**ReID**로 주인을 따라가는 미니 마트 추종.",
+        whyJoined:
+          "처음으로 **인식→내비를** 한 사이클에 묶는 팀이었고, 마트 영상에서 **주인을 놓치지** 않고 **인식 튜닝을** 맡고 싶었습니다.",
+        myWork: [
+          "**YOLO → ByteTrack → ReID** 추종 파이프라인",
+          "**5프레임 Safe-ID** 락",
+          "**MobileNetV3 ReID** + **NCNN** 실험",
+          "**9 commits** (ros-repo-2)",
+        ],
         summary:
-          "쑈삥끼 마트 카트 프로젝트입니다. 고객 추종 **비전 스택**(검출·트래킹·**ReID**)과 **LCD·QR** 온카트 쪽을 담당했습니다.",
+          "**ROS 2** **Pinky Pro** 마트 카트 — **YOLOv8**·**ByteTrack**·**ReID**로 주인을 따라가는 미니 마트 추종.",
         rolePoints: [
           "**ROS** 그래프에 **YOLOv8 + ByteTrack** 연동했습니다",
           "**Safe-ID**와 **ReID**(**MobileNetV3**) 교체를 담당했습니다",
@@ -1610,6 +1698,11 @@ export const STRINGS = {
             src: "PRISMIC_FINAL_DEMO",
             caption: "통합 마트 주행 — Pinky Pro 최종 데모",
           },
+          {
+            type: "video",
+            src: "PRISMIC_TRACKING_REID",
+            caption: "YOLO + ByteTrack + ReID 마트 영상",
+          },
           { type: "video", src: "PRISMIC_SHOP_GUIDE", caption: "매장 안내 — 고객 추종 주행" },
           { type: "video", src: "PRISMIC_SHOP_LLM_GUIDE", caption: "LLM 기반 상품 안내 · 맵 연동" },
           { type: "video", src: "PRISMIC_SHOP_RETURN", caption: "결제 후 복귀 주행" },
@@ -1619,11 +1712,6 @@ export const STRINGS = {
             type: "video",
             src: "PRISMIC_SHOP_SHOPPING_LIST",
             caption: "쇼핑 리스트 기반 픽업 경로",
-          },
-          {
-            type: "video",
-            src: "PRISMIC_TRACKING_REID",
-            caption: "YOLO + ByteTrack + ReID 마트 영상",
           },
           { type: "video", src: "PRISMIC_TRACKING", caption: "추적 파이프라인 — 라이브 리허설" },
           { type: "video", src: "PRISMIC_GUIDING", caption: "가이딩 모드 — 추가 리허설 영상" },
@@ -1659,19 +1747,29 @@ export const STRINGS = {
           "**Vue + Three.js**로 **D435** 포인트클라우드, 등하원, 율동 UI를 구현했습니다",
           "최종 **Q&A** 페이지(등하원·**무궁화**·포털)를 작성했습니다",
         ],
+        brief:
+          "유치원 보조 **pingdergarten** — **하이파이브**, **등하원**, **무궁화** 율동까지 **브라우저**에서 돌아가는 **OpenArm** + **Vue/Three.js** + **ROS 2**.",
+        whyJoined:
+          "마지막 **Physical AI** 팀 — **진짜 아이** 앞에서 의미 있는 **브라우저 로봇**(하이파이브·등하원·율동)을 만들고 싶었습니다. Gesto·IoT·ROS 이후 **비전→UI→로봇** 캡스톤. 팀에 **브라우저 teleop**과 **OpenArm** 슬롯이 있었고 **3D/UI** 배경과 맞았습니다.",
+        myWork: [
+          "**하이파이브** — D435 뎁스 → **TRAC-IK** + **FK** 잔차 (**~28cm → ~2cm**)",
+          "**무궁화** — ‘무궁화꽃이 피었습니다’ 게임 셸, 박자·녹화 UI, 모션+음원 WS 재생",
+          "**등하원**·**OX 퀴즈** UI + 포털 **일과 보고서** Q&A 페이지",
+          "**Vue 3 + Three.js** — **D435** zstd WS · 커밋 약 **68건**",
+        ],
         summary:
-          "핑더가든 **EduPing** 프로젝트입니다. 브라우저 로봇 UI와 **하이파이브**(**뎁스**→손→**IK→FK**) 폐루프를 담당했습니다. **physical-ai-repo-2** 커밋 약 68건입니다.",
+          "유치원 보조 **pingdergarten** — **하이파이브**, **등하원**, **무궁화** 율동까지 **브라우저**에서 돌아가는 **OpenArm** + **Vue/Three.js** + **ROS 2**.",
         rolePoints: [
-          "**EduPing** 브라우저와 **하이파이브** 폐루프를 담당했습니다",
+          "**하이파이브** 폐루프와 **무궁화** 게임·율동 재생을 맡았습니다 (커밋 약 **68건**)",
           "**뎁스 WS**, **MediaPipe** 손, **TRAC-IK** 잔차 보정을 구현했습니다",
-          "웨이크워드와 최종 **Q&A** 페이지를 작성했습니다",
+          "**등하원**·**OX** UI와 최종 **Q&A** 페이지(등하원·무궁화·포털)를 작성했습니다",
         ],
         contributions: [
           "**하이파이브**에 **D435** zstd WS → **포인트클라우드** → **TRAC-IK** + **FK 잔차** 루프를 넣었습니다.",
           "좌팔 **IK 미러 솔브**(우측 **TRAC-IK** 그룹) 추가했습니다.",
           "**Vue3 + Three.js**에 **URDF GLB**, **Z-up→Y-up** 회전 1회 적용했습니다.",
           "**등하원** UI에 얼굴 인식과 인사 트리거를 연결했습니다.",
-          "**무궁화** 녹화·재생 UI와 포털 감정 캡처를 구현했습니다.",
+          "**무궁화** — `MugunghwaGame.vue` 게임 셸, **RecorderControls** 율동 녹화, `/dance/{slug}/stream` 모션·오디오 동기 재생; 포털 감정 캡처.",
           "**MuJoCo 트윈을** 만들고 **D435** 스트리머 **cv_bridge** ABI를 시스템 Python에 맞췄습니다.",
           "최종 **Q&A** 슬라이드를 작성했습니다.",
         ],
@@ -1747,6 +1845,7 @@ export const STRINGS = {
             src: "PRISMIC_HIFIVE_VIDEO",
             caption: "EduPing — 실물 하이파이브 데모 (전체 영상)",
           },
+          { type: "gif", src: "PRISMIC_HIFIVE", caption: "EduPing 하이파이브 데모 (GIF)" },
           { type: "video", src: "PRISMIC_DANCE_VIDEO", caption: "EduPing — 무궁화 리듬 율동 재생" },
           {
             type: "video",
@@ -1758,13 +1857,14 @@ export const STRINGS = {
             src: "PRISMIC_GOGOPING_HIDESEEK",
             caption: "GogoPing — 숨바꼭질 내비게이션",
           },
-          { type: "gif", src: "PRISMIC_HIFIVE", caption: "EduPing 하이파이브 데모 (GIF)" },
           { type: "gif", src: "PRISMIC_SIM", caption: "IK 잔차 루프 — 블루·레드 볼 (GIF)" },
           {
             type: "gif",
             src: "PRISMIC_MUGUNGHWA",
             caption: "무궁화 리듬 율동 — 동작 녹화 UI (GIF)",
           },
+          { type: "image", src: "PRISMIC_OX", caption: "등하원 O/X 비전 보드" },
+          { type: "image", src: "PRISMIC_OXLOCK", caption: "등하원 확정(lock-in) UI" },
           { type: "image", src: "PRISMIC_CLOUD", caption: "브라우저 D435 포인트클라우드" },
           { type: "image", src: "PRISMIC_MUJOCO", caption: "MuJoCo 디지털 트윈" },
           { type: "image", src: "PRISMIC_UI", caption: "EduPing 웹 로봇 콘솔" },
@@ -1838,14 +1938,13 @@ export function prioritizeMedia(media) {
     .sort((a, b) => MEDIA_PRIORITY[a.type] - MEDIA_PRIORITY[b.type]);
 }
 
-/** System language first; localStorage only after manual toggle. */
+/** 기본 KO — 사용자가 EN으로 수동 전환한 경우에만 EN 유지 */
 export function detectLanguage() {
   const { lang, langManual } = SITE.storage;
-  if (localStorage.getItem(langManual) === "1") {
-    const stored = localStorage.getItem(lang);
-    if (stored === "en" || stored === "ko") return stored;
+  if (localStorage.getItem(langManual) === "1" && localStorage.getItem(lang) === "en") {
+    return "en";
   }
-  return (navigator.language || "ko").toLowerCase().startsWith("ko") ? "ko" : "en";
+  return "ko";
 }
 
 export function setLanguage(lang, manual = true) {
