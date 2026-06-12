@@ -1115,7 +1115,8 @@ function renderTimeline() {
     btn.dataset.key = key;
     const order = String(i + 1).padStart(2, "0");
     btn.dataset.num = order;
-    btn.innerHTML = `<span class="phase"><span class="phase__order">${order}</span><span class="phase__tag">${p.phase}</span></span><span class="title">${p.title}</span>`;
+    // 타임라인: phase·제목을 한 줄 라벨로 (별도 title 행 없음)
+    btn.innerHTML = `<span class="phase"><span class="phase__order">${order}</span><span class="phase__tag">${p.phase}</span><span class="phase__name">${p.title}</span></span>`;
     btn.addEventListener("click", () => {
       maze?.teleportToGate(key);
       setUiMenuOpen(false);
@@ -1179,7 +1180,10 @@ function galleryItemsHtml(media, featuredFirst = true) {
     .map((m, i) => {
       const featured = featuredFirst && i === 0 ? " gallery-item--featured" : "";
       const cap = String(m.caption).replace(/"/g, "&quot;");
-      const data = `data-full="${m.src}" data-type="${m.type}" data-caption="${cap}"`;
+      const gifFb = m.gifFallback
+        ? ` data-gif-fallback="${String(m.gifFallback).replace(/"/g, "&quot;")}"`
+        : "";
+      const data = `data-full="${m.src}" data-type="${m.type}" data-caption="${cap}"${gifFb}`;
       if (m.type === "video") {
         return `<figure class="gallery-item gallery-item--video${featured}" ${data}><video src="${m.src}" muted autoplay playsinline preload="metadata" loop></video><span class="gallery-item__play" aria-hidden="true">▶</span><figcaption>${m.caption}</figcaption></figure>`;
       }
@@ -1195,13 +1199,25 @@ function bindGalleryMedia(root = els.detailGallery) {
   root?.querySelectorAll("video").forEach((video) => {
     video.addEventListener("error", () => {
       const fig = video.closest(".gallery-item");
-      if (!fig) return;
-      fig.classList.add("gallery-item--broken");
-      const cap = fig.querySelector("figcaption");
-      if (cap && !cap.dataset.fallback) {
-        cap.dataset.fallback = "1";
-        cap.textContent = `${cap.textContent} (${lang === "ko" ? "미디어를 불러올 수 없음" : "media unavailable"})`;
+      if (!fig || fig.dataset.mediaGaveUp === "1") return;
+      fig.dataset.mediaGaveUp = "1";
+      const gifSrc = fig.dataset.gifFallback;
+      if (gifSrc) {
+        // Prismic CDN GIF로 대체 — 로컬 WebM 미러 없이 Chromium/Linux 대응
+        const img = document.createElement("img");
+        img.src = gifSrc;
+        img.alt = fig.querySelector("figcaption")?.textContent ?? "";
+        img.loading = "lazy";
+        img.decoding = "async";
+        video.replaceWith(img);
+        fig.classList.remove("gallery-item--video");
+        fig.classList.add("gallery-item--image", "gallery-item--gif");
+        fig.dataset.type = "gif";
+        fig.dataset.full = gifSrc;
+        return;
       }
+      fig.classList.add("gallery-item--broken");
+      fig.hidden = true;
     });
   });
 }

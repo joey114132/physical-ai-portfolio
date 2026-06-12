@@ -32,9 +32,13 @@ export const PRISMIC = {
     "https://images.prismic.io/woolimi/aaW4RzPJ2QKSVUFp_trigger.gif?auto=format,compress",
   gestoMediapipe:
     "https://images.prismic.io/woolimi/aaWyozPJ2QKSVT-e_mediapipe.png?auto=format,compress",
-  hifiveGif: "https://images.prismic.io/joey/ah544AeQX7-eWhsi_hifive_final.gif",
+  hifiveGif:
+    "https://images.prismic.io/joey/ah544AeQX7-eWhsi_hifive_final.gif?auto=format,compress",
+  hifiveReal:
+    "https://images.prismic.io/joey/ah544geQX7-eWhsk_hifive_real.gif?auto=format,compress",
   cloud: "https://images.prismic.io/joey/ah541QeQX7-eWhsX_browser_cloud.jpg?auto=format,compress",
-  simBalls: "https://images.prismic.io/joey/ah545AeQX7-eWhsl_hifive_sim.gif",
+  simBalls:
+    "https://images.prismic.io/joey/ah545AeQX7-eWhsl_hifive_sim.gif?auto=format,compress",
   mujoco: "https://images.prismic.io/joey/ah548AeQX7-eWhsw_twin_blueball.jpg?auto=format,compress",
   mugunghwa: "https://images.prismic.io/joey/ah546geQX7-eWhsq_mugunghwa_real.gif",
   mugunghwaUi:
@@ -72,6 +76,14 @@ export const PRISMIC = {
   danceVideo:
     "https://minsung.cdn.prismic.io/minsung/aiDhDgeQX7-eWtV8_%EC%9C%A8%EB%8F%99-%EC%B5%9C%EC%A2%85-.mp4",
   map: "https://images.prismic.io/woolimi/ad5Y051ZCF7ETL0w_shop-map2.png?auto=format,compress",
+};
+
+/** MP4 재생 불가 시 joey/woolimi Prismic GIF로 대체 (로컬 미러 없음) */
+const PRISMIC_VIDEO_GIF = {
+  hifiveVideo: "hifiveGif",
+  danceVideo: "mugunghwa",
+  trackingReid: "trackingStart",
+  trackingLive: "trackingStart",
 };
 
 export const STRINGS = {
@@ -150,28 +162,15 @@ export const STRINGS = {
         "**ROS 2**, **TRAC-IK**, dual-arm teleop, **IK/FK** tuning",
       ],
       galleryTitle: "Clips",
-      diplomaLinkIntro:
-        "Addinedu **Physical AI** bootcamp completion certificate — open the PDF below.",
-      diplomaLinkLabel: "Physical AI diploma (PDF)",
       artLinkIntro: "Older **game/3D** art — separate page, link below.",
       media: [
         {
-          type: "video",
-          src: "assets/about/high-five-demo.mp4",
+          type: "gif",
+          src: "PRISMIC_HIFIVE_REAL",
           caption: "EduPing — real high-five on OpenArm",
         },
-        {
-          type: "video",
-          src: "assets/about/hri-lab.webm",
-          caption: "High-five robot — interaction test in the lab",
-        },
-        {
-          type: "video",
-          src: "assets/about/high-five-sim.webm",
-          caption: "Browser IK sim — blue/red target balls",
-        },
         { type: "gif", src: "PRISMIC_HIFIVE", caption: "High-five demo (depth + arm)" },
-        { type: "gif", src: "PRISMIC_SIM", caption: "IK tuning loop in the browser" },
+        { type: "gif", src: "PRISMIC_SIM", caption: "Browser IK sim — blue/red target balls" },
         {
           type: "gif",
           src: "PRISMIC_GESTO_WORKING",
@@ -198,10 +197,6 @@ export const STRINGS = {
         {
           label: "GitHub · **joey114132**",
           url: `https://github.com/${SITE.github.username}`,
-        },
-        {
-          label: "Physical AI diploma (Addinedu · PDF)",
-          url: SITE.links.diploma,
         },
         {
           label: "Gesto team presentation (Google Slides)",
@@ -1104,27 +1099,14 @@ export const STRINGS = {
       galleryTitle: "영상",
       media: [
         {
-          type: "video",
-          src: "assets/about/high-five-demo.mp4",
+          type: "gif",
+          src: "PRISMIC_HIFIVE_REAL",
           caption: "EduPing — OpenArm 실물 하이파이브",
         },
-        {
-          type: "video",
-          src: "assets/about/hri-lab.webm",
-          caption: "하이파이브 로봇 — 실험실 상호작용 테스트",
-        },
-        {
-          type: "video",
-          src: "assets/about/high-five-sim.webm",
-          caption: "브라우저 IK 시뮬 — 파란/빨간 볼",
-        },
         { type: "gif", src: "PRISMIC_HIFIVE", caption: "하이파이브 (뎁스 + 암)" },
-        { type: "gif", src: "PRISMIC_SIM", caption: "브라우저 IK 튜닝 루프" },
+        { type: "gif", src: "PRISMIC_SIM", caption: "브라우저 IK 시뮬 — 파란/빨간 볼" },
         { type: "gif", src: "PRISMIC_GESTO_WORKING", caption: "Gesto — 제스처 게임/발표 모드" },
       ],
-      diplomaLinkIntro:
-        "애드인 **Physical AI** 부트캠프 수료 증서입니다. 아래 PDF에서 확인하실 수 있습니다.",
-      diplomaLinkLabel: "Physical AI 수료 증서 (PDF)",
       artLinkIntro:
         "예전 **게임·3D** 아트 작업은 따로 모아 두었습니다. 아래 링크에서 보실 수 있습니다.",
       artLinkLabel: "3D 아트 포트폴리오",
@@ -1147,10 +1129,6 @@ export const STRINGS = {
         {
           label: "GitHub · **joey114132**",
           url: `https://github.com/${SITE.github.username}`,
-        },
-        {
-          label: "Physical AI 수료 증서 (애드인 · PDF)",
-          url: SITE.links.diploma,
         },
         {
           label: "Gesto 팀 발표 (Google Slides · DL 4조)",
@@ -1884,6 +1862,7 @@ const PRISMIC_KEYS = {
   PRISMIC_GESTO_TRIGGER: "gestoTrigger",
   PRISMIC_GESTO_MEDIAPIPE: "gestoMediapipe",
   PRISMIC_HIFIVE: "hifiveGif",
+  PRISMIC_HIFIVE_REAL: "hifiveReal",
   PRISMIC_CLOUD: "cloud",
   PRISMIC_SIM: "simBalls",
   PRISMIC_MUJOCO: "mujoco",
@@ -1922,6 +1901,13 @@ export function resolveMediaSrc(src) {
   return src;
 }
 
+function resolveVideoGifFallback(token) {
+  if (!token?.startsWith("PRISMIC_")) return null;
+  const key = PRISMIC_KEYS[token];
+  const gifKey = key && PRISMIC_VIDEO_GIF[key];
+  return gifKey ? PRISMIC[gifKey] : null;
+}
+
 export function inferMediaType(src, declared) {
   if (declared === "video" || VIDEO_EXT.test(src)) return "video";
   if (declared === "gif" || GIF_EXT.test(src)) return "gif";
@@ -1931,9 +1917,11 @@ export function inferMediaType(src, declared) {
 export function prioritizeMedia(media) {
   return [...media]
     .map((m) => {
-      const src = resolveMediaSrc(m.src);
+      const token = m.src;
+      const src = resolveMediaSrc(token);
       const type = inferMediaType(src, m.type);
-      return { ...m, src, type };
+      const gifFallback = type === "video" ? resolveVideoGifFallback(token) : null;
+      return { ...m, src, type, gifFallback };
     })
     .sort((a, b) => MEDIA_PRIORITY[a.type] - MEDIA_PRIORITY[b.type]);
 }
@@ -1988,7 +1976,11 @@ export function collectBootAssetUrls() {
     for (const key of PROJECT_KEYS) {
       const p = block.projects?.[key];
       if (!p) continue;
-      for (const m of p.media ?? []) add(m.src);
+      for (const m of p.media ?? []) {
+        add(m.src);
+        const gifFallback = resolveVideoGifFallback(m.src);
+        if (gifFallback) add(gifFallback);
+      }
       for (const a of p.visualAids ?? []) {
         if (a.type === "diagram") add(a.src);
       }

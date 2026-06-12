@@ -705,7 +705,8 @@ html[data-viewport="tall"] .hero {
   max-width: min(30rem, 88vw);
 }
 
-@media (max-height: 680px) and (min-width: 600px) {
+/* 짧은 창 — 모바일·태블릿만 (데스크톱 웹은 고정 스케일 유지) */
+@media (max-height: 680px) and (min-width: 600px) and (max-width: 719px) {
   .hero {
     top: auto;
     bottom: clamp(0.85rem, 5vmin, 2rem);
@@ -1199,7 +1200,7 @@ body.maze-mode .timeline-btn .phase__tag {
   letter-spacing: 0.1em;
 }
 
-body.maze-mode .timeline-btn .title {
+body.maze-mode .timeline-btn .phase__name {
   font-size: var(--text-sm);
   white-space: nowrap;
   letter-spacing: -0.01em;
@@ -1283,7 +1284,7 @@ body.maze-mode .dock__link {
   }
 
   body.maze-mode .ui {
-    grid-template-columns: minmax(0, 1fr) clamp(11.5rem, 14vw, 17rem);
+    grid-template-columns: minmax(0, 1fr) 15.75rem;
     grid-template-rows: auto minmax(0, 1fr) auto;
     grid-template-areas:
       "bar bar"
@@ -1336,7 +1337,7 @@ body.maze-mode .dock__link {
     display: inline;
   }
 
-  body.maze-mode .timeline-btn .title {
+  body.maze-mode .timeline-btn .phase__name {
     font-size: var(--text-md);
     white-space: normal;
   }
@@ -1703,10 +1704,12 @@ body.maze-mode .dock__link {
   }
 
   body.maze-mode .timeline-btn .phase {
-    display: block;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
   }
 
-  body.maze-mode .timeline-btn .title {
+  body.maze-mode .timeline-btn .phase__name {
     white-space: normal;
   }
 }
@@ -1862,13 +1865,16 @@ body.maze-mode .dock__link {
 
 .timeline-btn .phase {
   position: relative;
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.35rem;
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 0.25rem;
+  margin-bottom: 0;
 }
 
 .timeline-btn .phase__order {
@@ -1880,12 +1886,21 @@ body.maze-mode .dock__link {
   letter-spacing: 0.1em;
 }
 
-.timeline-btn .title {
+.timeline-btn .phase__name {
   position: relative;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-md);
   letter-spacing: -0.02em;
+  text-transform: none;
+  color: var(--text);
+}
+
+.timeline-btn .phase__name::before {
+  content: "·";
+  margin-right: 0.35rem;
+  color: var(--muted);
+  font-weight: 400;
 }
 
 /* ── Dock ── */
@@ -4043,7 +4058,7 @@ body.cutscene-mode #orbit-ui {
 }
 
 @media (max-height: 480px) and (max-width: 900px) {
-  body.maze-mode .timeline-btn .title {
+  body.maze-mode .timeline-btn .phase__name {
     font-size: 0.8rem;
   }
 }
@@ -5316,32 +5331,111 @@ body.viewport-resize-active .viewport-edge-fx__edge {
   }
 }
 
-/* ── Fluid responsive copy (maze + overlays) ── */
-.quest-banner {
-  font-size: var(--text-fluid-sm);
+/* ── Desktop web: fixed scale (pre–fluid viewport sync) ── */
+@media (min-width: 720px) {
+  html {
+    font-size: 17px;
+  }
+
+  .brand {
+    font-size: var(--text-sm);
+  }
+
+  .hero {
+    left: clamp(1.25rem, 3vw, 2.5rem);
+    top: 50%;
+    transform: translateY(-48%);
+    max-width: min(32rem, 44vw);
+    max-height: none;
+  }
+
+  .hero__panel {
+    max-height: none;
+    overflow: visible;
+    padding: 1.75rem 1.85rem 1.65rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.45),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  html[data-viewport="ultrawide"] .hero,
+  html[data-viewport="tall"] .hero {
+    top: 50%;
+    transform: translateY(-48%);
+    max-width: min(32rem, 44vw);
+  }
+
+  body.maze-mode .minimap {
+    margin: auto auto calc(6.5rem + var(--safe-bottom)) calc(0.65rem + var(--safe-left));
+    transform: scale(0.9);
+  }
+
+  .quest-banner {
+    font-size: var(--text-sm);
+  }
+
+  body.maze-mode .timeline-btn .phase__name {
+    font-size: var(--text-sm);
+  }
+
+  body.maze-mode .dock__hint,
+  .hint {
+    font-size: var(--text-xs);
+  }
+
+  .intro-card__lead,
+  .journey-card__bootcamp,
+  .journey-timeline__summary,
+  .journey-timeline__role {
+    font-size: var(--text-sm);
+  }
+
+  .intro-card__role,
+  .journey-card__subtitle {
+    font-size: var(--text-md);
+  }
+
+  .top-bar__status {
+    font-size: var(--text-xs);
+  }
 }
 
-body.maze-mode .timeline-btn .title {
-  font-size: var(--text-fluid-sm);
+@media (min-width: 900px) {
+  html {
+    font-size: 18px;
+  }
 }
 
-body.maze-mode .dock__hint,
-.hint {
-  font-size: var(--text-fluid-xs);
-}
+/* ── Fluid responsive copy — mobile only (≤719px maze drawer) ── */
+@media (max-width: 719px) {
+  .quest-banner {
+    font-size: var(--text-fluid-sm);
+  }
 
-.intro-card__lead,
-.journey-card__bootcamp,
-.journey-timeline__summary,
-.journey-timeline__role {
-  font-size: var(--text-fluid-sm);
-}
+  body.maze-mode .timeline-btn .phase__name {
+    font-size: var(--text-fluid-sm);
+  }
 
-.intro-card__role,
-.journey-card__subtitle {
-  font-size: var(--text-fluid-md);
-}
+  body.maze-mode .dock__hint,
+  .hint {
+    font-size: var(--text-fluid-xs);
+  }
 
-.top-bar__status {
-  font-size: var(--text-fluid-xs);
+  .intro-card__lead,
+  .journey-card__bootcamp,
+  .journey-timeline__summary,
+  .journey-timeline__role {
+    font-size: var(--text-fluid-sm);
+  }
+
+  .intro-card__role,
+  .journey-card__subtitle {
+    font-size: var(--text-fluid-md);
+  }
+
+  .top-bar__status {
+    font-size: var(--text-fluid-xs);
+  }
 }
