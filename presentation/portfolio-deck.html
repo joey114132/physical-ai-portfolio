@@ -29,11 +29,6 @@
       color: var(--text);
       font-family: var(--font);
     }
-    @supports (height: 100dvh) {
-      html, body { height: 100dvh; }
-      .deck { height: 100dvh; }
-    }
-
     /* 배경 그리드 + 스캔라인 */
     body::before {
       content: "";
@@ -189,7 +184,8 @@
     .card-compact.project-brief .project-brief__label {
       margin-bottom: 0.35rem;
     }
-    @media (max-width: 900px) {
+    /* 태블릿·분할 창은 2열 유지 — 모바일 너비에서만 스택 */
+    @media (max-width: 768px) {
       .slide-body { grid-template-columns: 1fr; }
       .strengths-grid { grid-template-columns: 1fr !important; }
       .my-work-block ul { grid-template-columns: 1fr !important; }
@@ -961,7 +957,7 @@
       align-items: center; /* 소개 텍스트를 데모 영상 열과 세로 중앙 정렬 */
       margin-bottom: 0.45rem;
     }
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
       .slide-header-intro { grid-template-columns: 1fr; }
     }
     .slide-header-intro__media {
@@ -1006,7 +1002,7 @@
       object-fit: cover;
       border-radius: 12px;
     }
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
       .slide-col--media-feature {
         padding-top: 0;
         order: 2;
@@ -1257,8 +1253,23 @@
       font-size: 0.8rem;
     }
 
+    /* 데스크톱·태블릿 — 여유 패딩·타이포 (2열 슬라이드 유지) */
+    @media (min-width: 1024px) {
+      .slide {
+        padding: 3.5rem 2.75rem 3rem;
+      }
+      .slide-fit {
+        max-width: 1320px;
+      }
+      h2 { font-size: clamp(1.45rem, 2.2vw, 1.85rem); }
+    }
+
     /* 모바일 — 패딩·고정 UI·미디어·스크롤 폴백 (JS가 slide--scroll 부여) */
     @media (max-width: 640px) {
+      @supports (height: 100dvh) {
+        html, body { height: 100dvh; }
+        .deck { height: 100dvh; }
+      }
       .slide {
         padding:
           calc(2.75rem + env(safe-area-inset-top, 0px))
@@ -2203,7 +2214,7 @@
       <div class="glass cta-zone reveal">
         <p class="eyebrow"><span data-lang="ko">랩에 들어가기</span><span data-lang="en">Play the Lab</span></p>
         <h1><span data-lang="ko">걸어서 확인하세요.</span><span data-lang="en">Walk the maze.</span></h1>
-        <p data-lang="ko" style="max-width:36rem;margin:1rem auto 0">제가 직접 만든 네 스테이션 — PDF 이력서가 아닌 걸어 다니는 <strong>3D 랩</strong>입니다.</p>
+        <p data-lang="ko" style="max-width:36rem;margin:1rem auto 0">제가 직접 만든 4 스테이션 — PDF 이력서가 아닌 걸어 다니는 <strong>3D 랩</strong>입니다.</p>
         <p data-lang="en" style="max-width:36rem;margin:1rem auto 0">Four stations I actually built — not a PDF resume. This portfolio <strong>is</strong> the 3D lab.</p>
         <div class="cta-stack">
           <a class="cta-btn" href="https://joeyleeportfolio.netlify.app/" target="_blank" rel="noopener">
@@ -2596,7 +2607,8 @@
       }
 
       function go(n) {
-        if (n < 0 || n >= total) return;
+        // 첫/끝 슬라이드에서 같은 인덱스로 go 호출 시 전환·미디어 리셋 방지
+        if (n < 0 || n >= total || n === idx) return;
         const leaving = slides[idx];
         pauseSlideMedia(leaving);
         resetSlideFit(leaving);
@@ -2611,8 +2623,14 @@
         playSlideMedia(entering);
       }
 
-      function next() { go(Math.min(idx + 1, total - 1)); }
-      function prev() { go(Math.max(idx - 1, 0)); }
+      function next() {
+        if (idx >= total - 1) return;
+        go(idx + 1);
+      }
+      function prev() {
+        if (idx <= 0) return;
+        go(idx - 1);
+      }
 
       document.addEventListener("keydown", (e) => {
         if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") {
