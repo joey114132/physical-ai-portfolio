@@ -1,0 +1,35 @@
+---
+description: Portfolio end-of-task verify — auto-serve, Playwright, live smoke
+globs: portfolio/**/*
+alwaysApply: false
+---
+
+# Portfolio — task completion
+
+User grants **full permission** for localhost + web tests.
+
+## Before finishing (required for UI/copy/layout)
+
+```zsh
+cd ~/portfolio && npm run verify:ui
+```
+
+This **starts** `http://127.0.0.1:8766` if needed, then runs:
+
+- `lint:ko` + `test:ko-linebreak` (Playwright @ 390px)
+- `lint:layout` + `test:layout` (Playwright @ 1280 + 390px)
+
+After **push**: `npm run verify:live` (Netlify asset markers).
+
+Full gate: `npm run verify:pre-finish` or `npm run test:all` before merge.
+
+## Also run
+
+1. `git status -sb` — report uncommitted files
+2. `grep` + `curl` served JS/CSS for changed strings
+3. Optional: Task **`test-runner`** — prompt from `.cursor/agents/test-verifier.md`
+
+## Cleanup
+
+- Serve stops automatically after `verify:ui` unless `PORTFOLIO_KEEP_SERVE=1`
+- No commit/push without explicit user request
