@@ -1,6 +1,6 @@
 # Portfolio deck
 
-Open locally: `open presentation/portfolio-deck.html` (or serve from repo root so `../assets/` images load). Navigate with **← → Space**. **18 slides** — Problem/Solution/How/Proof/Growth arc per [The Construct robotics portfolio guide](https://www.theconstruct.ai/the-best-way-to-create-your-robotics-portfolio/); each project’s **YouTube thumbnail appears once** at project intro only.
+Open locally: `open presentation/portfolio-deck.html` (or serve from repo root so `../assets/` images load). Navigate with **← → Space** (desktop) or **horizontal swipe** (mobile). **18 slides** — Problem/Solution/How/Proof/Growth arc per [The Construct robotics portfolio guide](https://www.theconstruct.ai/the-best-way-to-create-your-robotics-portfolio/); each project’s **YouTube thumbnail appears once** at project intro only.
 
 ## Language toggle
 
