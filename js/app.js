@@ -185,6 +185,8 @@ const els = {
   mobileJoystickLabel: document.getElementById("mobile-joystick-label"),
   mobileInteract: document.getElementById("mobile-interact"),
   mobileInteractLabel: document.getElementById("mobile-interact-label"),
+  portalPrompt: document.getElementById("portal-prompt"),
+  portalPromptLabel: document.getElementById("portal-prompt-label"),
   cutscene: document.getElementById("cutscene"),
   cutscenePhase: document.getElementById("cutscene-phase"),
   cutsceneTitle: document.getElementById("cutscene-title"),
@@ -523,9 +525,20 @@ function stationOrder(key) {
   return i >= 0 ? String(i + 1).padStart(2, "0") : "—";
 }
 
+let lastPortalPromptPlain = "";
+
 function setQuestBanner(text) {
   if (!els.questBanner) return;
+  lastPortalPromptPlain = text;
   els.questBanner.innerHTML = formatConceptHtml(text);
+}
+
+/** 데스크톱 E 배지 옆 라벨 — 배너 문구에서 E 접두어만 제거 */
+function portalPromptLabel(bannerText) {
+  return bannerText
+    .replace(/^Press E\s*[—–-]\s*/i, "")
+    .replace(/^E\s*[—–-]\s*/, "")
+    .replace(/^All clear\s*[·•]\s*E\s*[—–-]\s*/i, "All clear · ");
 }
 
 function questCopy(key, vars = {}) {
@@ -542,39 +555,45 @@ function questCopy(key, vars = {}) {
 function updateQuestBanner() {
   if (!els.questBanner) return;
   const s = STRINGS[lang];
-  if (mode !== "maze") return;
+  if (mode !== "maze") {
+    els.questBanner.classList.remove("quest-banner--active");
+    syncPortalInteractUi();
+    return;
+  }
 
-  if (maze?.nearExitProximity && maze.visitCount < PROJECT_COUNT) {
+  const atPortal =
+    maze && (Boolean(maze.nearZone) || Boolean(maze.nearExitProximity));
+
+  // 포털(게이트·출구) 근처에서만 E 안내 표시 — 그 외에는 숨김
+  if (!atPortal) {
+    els.questBanner.classList.remove("quest-banner--active");
+    syncPortalInteractUi();
+    return;
+  }
+
+  if (maze.nearExitProximity && maze.visitCount < PROJECT_COUNT) {
     setQuestBanner(questCopy("questExitLocked"));
     els.questBanner.classList.add("quest-banner--active");
-    syncMobileInteractState();
+    syncPortalInteractUi();
     return;
   }
-  if (maze?.nearExit) {
+  if (maze.nearExit) {
     setQuestBanner(s.nav.questExit);
     els.questBanner.classList.add("quest-banner--active");
-    syncMobileInteractState();
+    syncPortalInteractUi();
     return;
   }
 
-  const key = maze?.nearZone;
+  const key = maze.nearZone;
   if (!key) {
-    const next = maze?.getNextGate?.();
-    if (next) {
-      const p = STRINGS[lang].projects[next];
-      setQuestBanner(questCopy("questNext", { order: stationOrder(next), title: p.title }));
-      els.questBanner.classList.add("quest-banner--active");
-    } else {
-      setQuestBanner(questCopy("questIdle"));
-      els.questBanner.classList.remove("quest-banner--active");
-    }
-    syncMobileInteractState();
+    els.questBanner.classList.remove("quest-banner--active");
+    syncPortalInteractUi();
     return;
   }
 
   const p = STRINGS[lang].projects[key];
   const order = stationOrder(key);
-  if (maze?.canActivateGate?.(key)) {
+  if (maze.canActivateGate?.(key)) {
     setQuestBanner(s.nav.questNear.replace("{order}", order).replace("{title}", p.title));
   } else {
     const next = maze.getNextGate();
@@ -586,16 +605,39 @@ function updateQuestBanner() {
     );
   }
   els.questBanner.classList.add("quest-banner--active");
-  syncMobileInteractState();
+  syncPortalInteractUi();
 }
 
-function syncMobileInteractState() {
-  if (!els.mobileInteract) return;
-  const canInteract =
+function syncPortalInteractUi() {
+  const atPortal =
     mode === "maze" &&
     maze &&
-    (maze.nearExit || (maze.nearZone && maze.canActivateGate?.(maze.nearZone)));
-  els.mobileInteract.classList.toggle("mobile-btn--interact-ready", Boolean(canInteract));
+    (Boolean(maze.nearZone) || Boolean(maze.nearExitProximity));
+  const canInteract =
+    atPortal &&
+    (maze.nearExit ||
+      (maze.nearZone &&
+        (maze.canActivateGate?.(maze.nearZone) || maze.visited?.has(maze.nearZone))));
+
+  if (els.mobileInteract) {
+    els.mobileInteract.hidden = !atPortal;
+    els.mobileInteract.classList.toggle("mobile-btn--interact-ready", Boolean(canInteract));
+  }
+
+  // 데스크톱: 포털 근처에서만 하단 E 배지 표시
+  const useDesktopPrompt =
+    atPortal &&
+    !document.body.classList.contains("touch-ui") &&
+    window.innerWidth >= BREAKPOINTS.mazeMenu + 1;
+  if (els.portalPrompt) {
+    els.portalPrompt.hidden = !useDesktopPrompt;
+    els.portalPrompt.classList.toggle("portal-prompt--ready", Boolean(canInteract));
+    if (els.portalPromptLabel) {
+      els.portalPromptLabel.textContent = useDesktopPrompt
+        ? portalPromptLabel(lastPortalPromptPlain)
+        : "";
+    }
+  }
 }
 
 function updateProgress() {
@@ -1843,7 +1885,7 @@ function syncViewportMetrics() {
   // 모바일: 작은 뷰포트에서 HUD 여유 / 데스크톱: 큰 화면일수록 chrome 축소(터치 UI 비율 방지)
   const uiScale =
     w >= 720
-      ? Math.min(1, Math.max(0.76, scale ** -0.28))
+      ? Math.min(1, Math.max(0.88, scale ** -0.12))
       : Math.min(1.06, Math.max(0.84, scale));
   root.style.setProperty("--ui-scale", String(uiScale));
 
@@ -2216,6 +2258,8 @@ async function init() {
       }
       requestDrawMinimap(true);
     };
+
+    maze.onPortalProximityChange = () => updateQuestBanner();
 
     maze.onZoneActivate = (key) => enterProject(key);
     maze.onReachExit = () => enterExit();

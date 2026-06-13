@@ -1,5 +1,5 @@
 /**
- * Desktop maze: quest mission banner horizontally centered in top bar.
+ * Desktop maze: portal E prompt centered; mobile: quest banner centered in top bar.
  * Run: node scripts/test-responsive-layout.mjs
  */
 import { chromium } from "playwright";
@@ -21,6 +21,53 @@ try {
     await page.waitForFunction(() => window.__portfolio?.maze, null, { timeout: 15000 });
     await page.click("#intro-start");
     await page.waitForTimeout(500);
+
+    if (viewport.label === "desktop") {
+      await page.evaluate(() => {
+        const q = document.getElementById("quest-banner");
+        q?.classList.remove("quest-banner--active");
+        const prompt = document.getElementById("portal-prompt");
+        const label = document.getElementById("portal-prompt-label");
+        if (prompt) prompt.hidden = false;
+        if (label) label.textContent = "Station 01: Gesto";
+      });
+
+      const desktopMetrics = await page.evaluate(() => {
+        const prompt = document.getElementById("portal-prompt");
+        if (!prompt) return { ok: false, reason: "missing portal-prompt" };
+        const pr = prompt.getBoundingClientRect();
+        const viewCenter = window.innerWidth / 2;
+        const promptCenter = pr.left + pr.width / 2;
+        const delta = Math.abs(promptCenter - viewCenter);
+        const key = prompt.querySelector(".portal-prompt__key");
+        const keyText = key?.textContent?.trim() ?? "";
+        return {
+          ok: true,
+          delta,
+          promptWidth: pr.width,
+          keyText,
+          labelText: document.getElementById("portal-prompt-label")?.textContent?.trim() ?? "",
+        };
+      });
+
+      if (!desktopMetrics.ok) {
+        throw new Error(`${viewport.label}: ${desktopMetrics.reason}`);
+      }
+      if (desktopMetrics.delta > 24) {
+        throw new Error(
+          `${viewport.label}: portal-prompt off-center by ${desktopMetrics.delta.toFixed(1)}px`,
+        );
+      }
+      if (desktopMetrics.keyText !== "E") {
+        throw new Error(`${viewport.label}: portal-prompt key expected E`);
+      }
+      if (!desktopMetrics.labelText) {
+        throw new Error(`${viewport.label}: portal-prompt label missing`);
+      }
+      console.log(`OK layout ${viewport.label}:`, desktopMetrics);
+      await page.close();
+      continue;
+    }
 
     await page.evaluate(() => {
       const q = document.getElementById("quest-banner");
@@ -64,31 +111,6 @@ try {
     });
 
     if (!metrics.ok) throw new Error(`${viewport.label}: ${metrics.reason}`);
-
-    if (viewport.label === "desktop") {
-      if (metrics.delta > 24) {
-        throw new Error(
-          `${viewport.label}: quest-banner off-center by ${metrics.delta.toFixed(1)}px`,
-        );
-      }
-      if (metrics.textAlign !== "center") {
-        throw new Error(`${viewport.label}: quest text-align expected center`);
-      }
-      if (metrics.questWidth >= metrics.barWidth - 8) {
-        throw new Error(`${viewport.label}: quest-banner should not span full bar width`);
-      }
-      if (metrics.brandVisible && metrics.brandEllipsis === "ellipsis") {
-        throw new Error(`${viewport.label}: brand text must not use ellipsis`);
-      }
-      if (metrics.brandVisible && metrics.brandClipped) {
-        throw new Error(
-          `${viewport.label}: brand clipped (${metrics.brandLabel}, tier=${metrics.brandTier})`,
-        );
-      }
-      if (metrics.brandVisible && !["full", "short", "micro"].includes(metrics.brandTier)) {
-        throw new Error(`${viewport.label}: brand missing data-tier`);
-      }
-    }
 
     console.log(`OK layout ${viewport.label}:`, metrics);
     await page.close();

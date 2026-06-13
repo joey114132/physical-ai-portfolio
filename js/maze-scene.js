@@ -27,8 +27,8 @@ const CELL = 5.5;
 const PLAYER_COLLIDE_R = 0.5;
 /** Overlap adjacent wall hitboxes so seams between blocks cannot be slipped through. */
 const WALL_COLLIDE_SEAM = 0.2;
-const GATE_RADIUS = 3.2;
-const EXIT_RADIUS = 3.2;
+const GATE_RADIUS = 3.85;
+const EXIT_RADIUS = 3.85;
 const WALL_H = 5.0;
 
 const GATE_ORDER = PROJECT_KEYS;
@@ -262,7 +262,9 @@ export class MazeScene {
     this.nearZone = null;
     this.nearExit = false;
     this.nearExitProximity = false;
+    this._wasNearExitProximity = false;
     this.onZoneFocus = null;
+    this.onPortalProximityChange = null;
     this.onZoneActivate = null;
     this.onReachExit = null;
     this.onGateLocked = null;
@@ -1325,6 +1327,10 @@ export class MazeScene {
       const exitD = this.exitGroup.position.distanceTo(this.player.position);
       this.nearExitProximity = exitD < EXIT_RADIUS;
       this.nearExit = this.nearExitProximity && this.visited.size >= PROJECT_COUNT;
+      if (this.nearExitProximity !== this._wasNearExitProximity) {
+        this._wasNearExitProximity = this.nearExitProximity;
+        if (this.onPortalProximityChange) this.onPortalProximityChange();
+      }
       const ready = this.visited.size >= PROJECT_COUNT;
       const arch = this.exitGroup.children.find((c) => c.userData?.isExitArch);
       const exitBeam = this.exitGroup.children.find((c) => c.userData?.isExitBeam);
