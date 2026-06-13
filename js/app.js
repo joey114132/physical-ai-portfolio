@@ -611,9 +611,25 @@ function updateProgress() {
   requestDrawMinimap(true);
 }
 
+/** CSS 표시 크기에 맞춰 미니맵 버퍼 해상도 동기화 (뷰포트 스케일 시 선명도 유지) */
+function syncMinimapCanvasSize() {
+  const canvas = els.minimapCanvas;
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  if (rect.width < 1 || rect.height < 1) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = Math.max(1, Math.round(rect.width * dpr));
+  const h = Math.max(1, Math.round(rect.height * dpr));
+  if (canvas.width !== w || canvas.height !== h) {
+    canvas.width = w;
+    canvas.height = h;
+  }
+}
+
 function drawMinimap() {
   const canvas = els.minimapCanvas;
   if (!canvas) return;
+  syncMinimapCanvasSize();
   const ctx = canvas.getContext("2d");
   const { rows, gates, route, gateOrder } = getMazeLayout();
   const cols = rows[0].length;
@@ -1821,10 +1837,14 @@ function syncViewportMetrics() {
     `${Math.max(0, Math.round(vv?.offsetLeft ?? 0))}px`,
   );
 
-  const refW = 900;
-  const refH = 700;
+  const refW = 1100;
+  const refH = 760;
   const scale = Math.min(w / refW, h / refH);
-  const uiScale = Math.min(1.06, Math.max(0.84, scale));
+  // 모바일: 작은 뷰포트에서 HUD 여유 / 데스크톱: 큰 화면일수록 chrome 축소(터치 UI 비율 방지)
+  const uiScale =
+    w >= 720
+      ? Math.min(1, Math.max(0.76, scale ** -0.28))
+      : Math.min(1.06, Math.max(0.84, scale));
   root.style.setProperty("--ui-scale", String(uiScale));
 
   const aspect = w / Math.max(1, h);

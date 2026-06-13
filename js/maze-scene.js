@@ -292,7 +292,12 @@ export class MazeScene {
     // Light fog — clear top-down view, only the far edges fade out.
     this.scene.fog = new THREE.Fog(COL_FOG, 30, 130);
 
-    this.camera = new THREE.PerspectiveCamera(58, 1, 0.5, 220);
+    this._baseFov = 58;
+    this._baseCamH = 35;
+    this._baseCamOffsetZ = 5;
+    this._camH = this._baseCamH;
+    this._camOffsetZ = this._baseCamOffsetZ;
+    this.camera = new THREE.PerspectiveCamera(this._baseFov, 1, 0.5, 220);
     this.camera.position.set(0, 24, 14);
 
     this.renderer = new THREE.WebGLRenderer({
@@ -1168,6 +1173,25 @@ export class MazeScene {
     else this._stuckTime = 0;
   }
 
+  /** 뷰포트 비율·높이에 맞춰 카메라 높이/FOV를 조정해 좁은 화면에서도 복도가 읽히게 함 */
+  _syncViewportFraming() {
+    const w = Math.max(this.container?.clientWidth ?? 1, 1);
+    const h = Math.max(this.container?.clientHeight ?? 1, 1);
+    const aspect = w / h;
+    const narrow = THREE.MathUtils.clamp(1 - aspect, 0, 0.58);
+    const wide = THREE.MathUtils.clamp(aspect - 1.75, 0, 0.45);
+    const short = THREE.MathUtils.clamp(1 - h / 520, 0, 0.35);
+
+    this._camH = this._baseCamH * (1 + narrow * 0.3 + short * 0.12 - wide * 0.06);
+    this._camOffsetZ = this._baseCamOffsetZ * (1 + narrow * 0.15 + short * 0.08);
+
+    const fov = THREE.MathUtils.clamp(this._baseFov + narrow * 14 - wide * 3, 56, 74);
+    if (Math.abs(this.camera.fov - fov) > 0.05) {
+      this.camera.fov = fov;
+      this.camera.updateProjectionMatrix();
+    }
+  }
+
   _resize(force = false) {
     const w = this.container?.clientWidth ?? 0;
     const h = this.container?.clientHeight ?? 0;
@@ -1179,6 +1203,7 @@ export class MazeScene {
     const pr = getPixelRatio(this.perf);
     if (this.renderer.getPixelRatio() !== pr) this.renderer.setPixelRatio(pr);
     this.camera.aspect = w / Math.max(h, 1);
+    this._syncViewportFraming();
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(w, h, false);
     if (this.composer) {
@@ -1351,10 +1376,10 @@ export class MazeScene {
       this.headlampTarget.position.set(target.x + fwdx * 8, 0.3, target.z + fwdz * 8);
     }
 
-    // Top-down follow cam (slight tilt) — zoomed out so much more of the map reads.
-    // Fixed orientation: W is always up-screen; heading shows as the robot's top.
-    const camH = 35;
-    const camPos = new THREE.Vector3(target.x, camH, target.z + 5);
+    // Top-down follow cam (slight tilt) — framing scales with viewport in _syncViewportFraming.
+    const camH = this._camH ?? this._baseCamH;
+    const camZ = this._camOffsetZ ?? this._baseCamOffsetZ;
+    const camPos = new THREE.Vector3(target.x, camH, target.z + camZ);
     this.camera.position.lerp(camPos, 0.1);
     const look = new THREE.Vector3(target.x, 0.5, target.z);
     this._lookAt = this._lookAt || look.clone();
