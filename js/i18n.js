@@ -579,15 +579,15 @@ export const STRINGS = {
           },
           {
             type: "diagram",
-            src: "assets/iot/deck-architecture.png",
+            src: "assets/iot/deck-overview.png",
             title: "3-tier architecture",
             caption: "Team deck — PyQt6 / FastAPI / ESP32·Arduino.",
           },
           {
             type: "diagram",
-            src: "assets/iot/deck-overview.png",
-            title: "System overview",
-            caption: "ESP32-CAM · FastAPI · PyQt6 · MySQL stack.",
+            src: "assets/iot/deck-architecture.png",
+            title: "Database design",
+            caption: "MySQL 14 tables — USER, PARKING_SLOT, LIFT, DEVICE/LOG.",
           },
         ],
         stack: [
@@ -641,12 +641,12 @@ export const STRINGS = {
           {
             type: "image",
             src: "assets/iot/deck-overview.png",
-            caption: "Team deck — system overview",
+            caption: "Team deck — 3-tier stack (PyQt6 / FastAPI / ESP32)",
           },
           {
             type: "image",
             src: "assets/iot/deck-architecture.png",
-            caption: "Team deck — 3-tier stack",
+            caption: "Team deck — MySQL schema areas (14 tables)",
           },
           {
             type: "image",
@@ -771,9 +771,15 @@ export const STRINGS = {
           },
           {
             type: "diagram",
-            src: "assets/shop/arch.png",
-            title: "ShopPinkki architecture",
-            caption: "ROS graph from shoppinkki.pdf.",
+            src: "assets/shop/software-architecture.png",
+            title: "Software architecture",
+            caption: "Confluence — ROS 2, Control Service, shoppinkki + pinky_pro packages.",
+          },
+          {
+            type: "diagram",
+            src: "assets/shop/hardware-architecture.png",
+            title: "Hardware architecture",
+            caption: "Confluence — CartRobotBoard, LiDAR, Dynamixel, on-robot LCD.",
           },
           {
             type: "diagram",
@@ -960,6 +966,18 @@ export const STRINGS = {
               "Joint command",
             ],
             caption: "The browser depth view is the calibration source of truth.",
+          },
+          {
+            type: "diagram",
+            src: "assets/ping/software-architecture.png",
+            title: "Software architecture",
+            caption: "Confluence — Portal, Control/AI services, EduPing · GogoPing · NoriArm.",
+          },
+          {
+            type: "diagram",
+            src: "assets/ping/hardware-architecture.png",
+            title: "Hardware architecture",
+            caption: "Confluence — OpenArm, Vic Pinky, OMX boards and sensors.",
           },
           {
             type: "diagram",
@@ -1294,20 +1312,20 @@ export const STRINGS = {
           "발표 전 **트리거·PPT·YouTube** QA를 수행했습니다.",
         ],
         skills: [
-          { category: "언어 & 프레임워크", items: ["Python 3.10", "PyQt6", "OpenCV", "pynput"] },
+          { category: "언어 & 프레임워크", items: ["**Python 3.10**", "**PyQt6**", "**OpenCV**", "**pynput**"] },
           {
             category: "ML / 비전",
             items: [
-              "MediaPipe Hands",
-              "LSTM 시퀀스 분류",
-              "11차원 랜드마크 피처",
-              "데이터셋 수집·라벨링",
-              "LSTM 일부 학습",
+              "**MediaPipe Hands**",
+              "**LSTM 시퀀스 분류**",
+              "**11차원 랜드마크 피처**",
+              "**데이터셋 수집·라벨링**",
+              "**LSTM 일부 학습**",
             ],
           },
           {
             category: "설계",
-            items: ["제스처 레지스트리", "액션 매퍼", "모드 상태 머신", "스레드-세이프 UI"],
+            items: ["**제스처 레지스트리**", "**액션 매퍼**", "**모드 상태 머신**", "**스레드-세이프 UI**"],
           },
         ],
         techniques: [
@@ -1440,12 +1458,12 @@ export const STRINGS = {
         skills: [
           {
             category: "데스크톱·비전",
-            items: ["PyQt6", "OpenCV VideoCapture", "PaddleOCR LPR", "LPR 검증 UI"],
+            items: ["**PyQt6**", "**OpenCV VideoCapture**", "**PaddleOCR LPR**", "**LPR 검증 UI**"],
           },
-          { category: "백엔드(팀)", items: ["FastAPI REST", "MySQL / SQLAlchemy (14테이블)"] },
+          { category: "백엔드(팀)", items: ["**FastAPI REST**", "**MySQL / SQLAlchemy (14테이블)**"] },
           {
             category: "임베디드 연동",
-            items: ["ESP32-CAM UDP", "Arduino 게이트·스테퍼 타워", "디바이스 클라이언트"],
+            items: ["**ESP32-CAM UDP**", "**Arduino 게이트·스테퍼 타워**", "**디바이스 클라이언트**"],
           },
         ],
         techniques: [
@@ -1750,16 +1768,16 @@ export const STRINGS = {
         skills: [
           {
             category: "프론트",
-            items: ["Vue 3", "Three.js", "Web Worker", "WebRTC", "TypeScript"],
+            items: ["**Vue 3**", "**Three.js**", "**Web Worker**", "**WebRTC**", "**TypeScript**"],
           },
           {
             category: "비전",
-            items: ["MediaPipe Hands", "뎁스 역투영", "얼굴 인식", "GLSL 포인트클라우드"],
+            items: ["**MediaPipe Hands**", "**뎁스 역투영**", "**얼굴 인식**", "**GLSL 포인트클라우드**"],
           },
-          { category: "로봇", items: ["ROS 2 Jazzy", "TRAC-IK", "MuJoCo", "관절 한계 튜닝"] },
+          { category: "로봇", items: ["**ROS 2 Jazzy**", "**TRAC-IK**", "**MuJoCo**", "**관절 한계 튜닝**"] },
           {
             category: "전달",
-            items: ["DAE→GLB 메쉬 파이프라인", "Prismic 자산", "발표 리포트 페이지"],
+            items: ["**DAE→GLB 메쉬 파이프라인**", "**Prismic 자산**", "**발표 리포트 페이지**"],
           },
         ],
         techniques: [
