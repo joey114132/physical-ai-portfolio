@@ -1885,7 +1885,7 @@ function syncViewportMetrics() {
   // 모바일: 작은 뷰포트에서 HUD 여유 / 데스크톱: 큰 화면일수록 chrome 축소(터치 UI 비율 방지)
   const uiScale =
     w >= 720
-      ? Math.min(1, Math.max(0.88, scale ** -0.12))
+      ? Math.min(1, Math.max(0.76, scale ** -0.28))
       : Math.min(1.06, Math.max(0.84, scale));
   root.style.setProperty("--ui-scale", String(uiScale));
 
