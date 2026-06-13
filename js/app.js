@@ -43,6 +43,14 @@ function formatConceptHtml(text) {
   return escapeHtml(text).replace(/\*\*([^*]+)\*\*/g, '<mark class="key-concept">$1</mark>');
 }
 
+/** 스킬 항목을 **박스** 마크업으로 감싸 key-concept 칩으로 렌더 */
+function skillItemConcept(label) {
+  const trimmed = String(label ?? "").trim();
+  if (!trimmed) return "";
+  const boxed = /^\*\*.+\*\*$/.test(trimmed) ? trimmed : `**${trimmed}**`;
+  return formatConceptHtml(boxed);
+}
+
 let lang = detectLanguage();
 let maze = null;
 let detail3d = null;
@@ -1396,7 +1404,7 @@ async function renderDetailContent(key) {
   els.detailSkills.innerHTML = (p.skills ?? [])
     .map(
       (g) =>
-        `<div class="skill-group"><h3>${formatConceptHtml(g.category)}</h3><ul>${g.items.map((i) => `<li>${formatConceptHtml(i)}</li>`).join("")}</ul></div>`,
+        `<div class="skill-group"><h3>${formatConceptHtml(g.category)}</h3><ul>${g.items.map((i) => `<li>${skillItemConcept(i)}</li>`).join("")}</ul></div>`,
     )
     .join("");
   els.detailTechniques.innerHTML = (p.techniques ?? [])

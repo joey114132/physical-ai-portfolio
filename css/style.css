@@ -3309,7 +3309,8 @@ body.journey-mode .minimap {
 .detail-meta-line .key-concept,
 .detail-team .key-concept,
 .detail-subtitle .key-concept,
-.detail-bullets--highlights .key-concept {
+.detail-bullets--highlights .key-concept,
+.skill-group .key-concept {
   background: color-mix(in srgb, var(--project) 22%, transparent);
 }
 
@@ -3348,8 +3349,8 @@ body.journey-mode .minimap {
   padding: 0;
   list-style: none;
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.45rem;
 }
 
 .skill-group li {
