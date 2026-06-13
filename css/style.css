@@ -1332,7 +1332,8 @@ body.maze-mode .dock__link {
     min-width: 0;
     width: 100%;
     border-radius: var(--radius-sm);
-    padding: 0.75rem 0.9rem;
+    padding: 0.72rem 0.85rem 0.78rem;
+    text-align: left;
   }
 
   body.maze-mode .timeline-btn:hover,
@@ -1344,9 +1345,29 @@ body.maze-mode .dock__link {
     display: inline;
   }
 
+  /* 1행: 번호·페이즈 / 2행: 프로젝트 전체 이름 */
+  body.maze-mode .timeline-btn .phase {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0.35rem;
+    row-gap: 0.12rem;
+    width: 100%;
+  }
+
   body.maze-mode .timeline-btn .phase__name {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-top: 0.1rem;
     font-size: clamp(0.8125rem, calc(0.78rem + 0.18vmin), var(--text-sm));
+    line-height: 1.35;
     white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  body.maze-mode .timeline-btn .phase__name::before {
+    display: none;
   }
 
   body.maze-mode .dock__hint {
@@ -5477,6 +5498,30 @@ body.intro .portal-prompt {
 
   body {
     font-size: calc(var(--text-base) * var(--ui-scale));
+  }
+
+  /* 하단/좌측 타임라인: 데스크톱에서 제목을 다음 줄로 */
+  body.maze-mode .timeline-btn .phase {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0.35rem;
+    row-gap: 0.1rem;
+    width: 100%;
+  }
+
+  body.maze-mode .timeline-btn .phase__name {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-top: 0.08rem;
+    white-space: normal;
+    line-height: 1.35;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  body.maze-mode .timeline-btn .phase__name::before {
+    display: none;
   }
 
   .top-bar {

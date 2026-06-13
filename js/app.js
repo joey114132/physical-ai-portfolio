@@ -1173,7 +1173,7 @@ function renderTimeline() {
     btn.dataset.key = key;
     const order = String(i + 1).padStart(2, "0");
     btn.dataset.num = order;
-    // 타임라인: phase·제목을 한 줄 라벨로 (별도 title 행 없음)
+    // 타임라인: 1행 phase·번호, 2행 프로젝트 제목 (데스크톱 CSS에서 줄바꿈)
     btn.innerHTML = `<span class="phase"><span class="phase__order">${order}</span><span class="phase__tag">${p.phase}</span><span class="phase__name">${p.title}</span></span>`;
     btn.addEventListener("click", () => {
       maze?.teleportToGate(key);
