@@ -23,6 +23,7 @@ import {
   prioritizeMedia,
   interpolateCopy,
   collectBootAssetUrls,
+  resolveMediaSrc,
 } from "./i18n.js";
 import { MazeScene, getMazeLayout, getMazeStartPosition } from "./maze-scene.js";
 import { DetailScene } from "./detail-scene.js";
@@ -999,7 +1000,7 @@ async function renderAbout() {
     els.journeyAboutTitle.textContent = j.aboutSectionTitle ?? a.sectionTitle ?? "";
   }
   if (els.aboutPhoto) {
-    if (a.profileImage) els.aboutPhoto.src = a.profileImage;
+    if (a.profileImage) els.aboutPhoto.src = resolveMediaSrc(a.profileImage);
     els.aboutPhoto.alt = fullName();
     els.aboutPhoto.hidden = !a.profileImage;
   }

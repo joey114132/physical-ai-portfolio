@@ -41,6 +41,8 @@ export const PRISMIC = {
     "https://images.prismic.io/joey/ah545AeQX7-eWhsl_hifive_sim.gif?auto=format,compress",
   mujoco: "https://images.prismic.io/joey/ah548AeQX7-eWhsw_twin_blueball.jpg?auto=format,compress",
   mugunghwa: "https://images.prismic.io/joey/ah546geQX7-eWhsq_mugunghwa_real.gif",
+  profileId:
+    "https://images.prismic.io/joey/ai_2qo1P9HI4Ug1w_joey-lee-profile-id.jpg?auto=format,compress",
   mugunghwaUi:
     "https://images.prismic.io/joey/ah548weQX7-eWhs0_web_eduping_ui.jpg?auto=format,compress",
   reportUi: "https://images.prismic.io/joey/ah547AeQX7-eWhss_report_ui.jpg?auto=format,compress",
@@ -152,7 +154,7 @@ export const STRINGS = {
       languageLabel: "Language",
     },
     about: {
-      profileImage: "assets/about/profile.jpg",
+      profileImage: "PRISMIC_PROFILE",
       sectionTitle: "About me",
       role: "Physical AI · robotics · vision-UI",
       bio: "I build **Physical AI** stacks — cameras in **PyQt** or the browser, **sim/bench** before hardware when I can. From **Gesto** gestures to **ROS 2** follow mode and **EduPing** teleop, I wire **vision → UI → robot**. **3D** layout sense still shapes how I place panels and maze stations.",
@@ -1026,7 +1028,7 @@ export const STRINGS = {
       languageLabel: "언어",
     },
     about: {
-      profileImage: "assets/about/profile.jpg",
+      profileImage: "PRISMIC_PROFILE",
       sectionTitle: "자기소개",
       role: "Physical AI · 로봇 · 비전-UI",
       bio: "**Physical AI** 쪽에서 카메라·비전을 **PyQt**나 **브라우저**에 붙이고, 가능하면 **시뮬·벤치**에서 먼저 검증한 뒤 로봇으로 옮기며 여러 딥러닝, IoT, 자율주행, 그리고 휴머노이드 로봇 팔들을 응용했습니다. **Gesto** 제스처부터 **ROS 2** 추적, **EduPing** teleop까지 **비전→UI→로봇을** 이어 붙이며 여러 기술들을 배우고 성장하였습니다.",
@@ -1761,6 +1763,7 @@ const PRISMIC_KEYS = {
   PRISMIC_SIM: "simBalls",
   PRISMIC_MUJOCO: "mujoco",
   PRISMIC_MUGUNGHWA: "mugunghwa",
+  PRISMIC_PROFILE: "profileId",
   PRISMIC_UI: "mugunghwaUi",
   PRISMIC_REPORT: "reportUi",
   PRISMIC_REPORT2: "reportTimeline",
