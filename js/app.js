@@ -1252,7 +1252,8 @@ function galleryItemsHtml(media, featuredFirst = true) {
         : "";
       const data = `data-full="${m.src}" data-type="${m.type}" data-caption="${cap}"${gifFb}`;
       if (m.type === "video") {
-        return `<figure class="gallery-item gallery-item--video${featured}" ${data}><video src="${m.src}" muted autoplay playsinline preload="metadata" loop></video><span class="gallery-item__play" aria-hidden="true">▶</span><figcaption>${m.caption}</figcaption></figure>`;
+        const posterAttr = m.poster ? ` poster="${String(m.poster).replace(/"/g, "&quot;")}"` : "";
+        return `<figure class="gallery-item gallery-item--video${featured}" ${data}><video src="${m.src}"${posterAttr} muted autoplay playsinline preload="metadata" loop></video><span class="gallery-item__play" aria-hidden="true">▶</span><figcaption>${m.caption}</figcaption></figure>`;
       }
       if (m.type === "gif") {
         return `<figure class="gallery-item gallery-item--image gallery-item--gif${featured}" ${data}><img src="${m.src}" alt="${m.caption}" loading="lazy" decoding="async" /><figcaption>${m.caption}</figcaption></figure>`;

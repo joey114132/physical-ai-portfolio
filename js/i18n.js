@@ -57,14 +57,18 @@ export const PRISMIC = {
     "https://minsung.cdn.prismic.io/minsung/aiDnLAeQX7-eWtio_%EC%B6%94%EC%A2%85_%EC%B5%9C%EC%A2%85.mp4",
   gogopingHideseek:
     "https://minsung.cdn.prismic.io/minsung/aiDiLgeQX7-eWtWx_%EC%88%A8%EB%B0%94%EA%BC%AD%EC%A7%88-%EC%B5%9C%EC%A2%85.mp4",
-  trackingReid: "https://woolimi.cdn.prismic.io/woolimi/ad_Me51ZCF7ETObD_yolo_reid_bytetracker.mp4",
+  trackingReid: "https://joey.cdn.prismic.io/joey/ajCbLY1P9HI4UitZ_shoppinkki-owner-tracking-h264.mp4",
   trackingLive: "https://woolimi.cdn.prismic.io/woolimi/ad-Dd51ZCF7ETNkJ_tracking_muted.mp4",
   trackingStart:
     "https://images.prismic.io/woolimi/ad-Bwp1ZCF7ETNiP_start-tracking.gif?auto=format,compress",
   shopRegister:
     "https://images.prismic.io/woolimi/ad9i4J1ZCF7ETNOV_register.gif?auto=format,compress",
   /** ShopPinkki — woolimi Prismic (minsungchoi.com/projects/schools/shoppinkki) */
-  finalDemo: "https://woolimi.cdn.prismic.io/woolimi/aee1FsBOoF08xL-c_final-demo.mp4",
+  finalDemo: "https://joey.cdn.prismic.io/joey/ajCbKo1P9HI4UitY_shoppinkki-final-demo-h264.mp4",
+  finalDemoPoster:
+    "https://images.prismic.io/joey/ajCbYI1P9HI4Uite_final-demo-poster.jpg?auto=format,compress",
+  ownerTrackingPoster:
+    "https://images.prismic.io/joey/ajCbYY1P9HI4Uitf_owner-tracking-poster.jpg?auto=format,compress",
   shopShoppingList: "https://woolimi.cdn.prismic.io/woolimi/aeB4WJ1ZCF7ETPD6_shopping-list.mp4",
   shopWaiting: "https://woolimi.cdn.prismic.io/woolimi/aeFIHJ1ZCF7ETRBu_waiting-demo.mp4",
   shopPayment: "https://woolimi.cdn.prismic.io/woolimi/aeFOLp1ZCF7ETRDK_payment-demo.mp4",
@@ -747,11 +751,13 @@ export const STRINGS = {
           {
             type: "video",
             src: "PRISMIC_FINAL_DEMO",
+            poster: "PRISMIC_FINAL_DEMO_POSTER",
             caption: "Integrated mart run — Pinky Pro final demo",
           },
           {
             type: "video",
             src: "PRISMIC_TRACKING_REID",
+            poster: "PRISMIC_OWNER_TRACKING_POSTER",
             caption: "Owner tracking — YOLO + ByteTrack + ReID",
           },
           {
@@ -1573,11 +1579,13 @@ export const STRINGS = {
           {
             type: "video",
             src: "PRISMIC_FINAL_DEMO",
+            poster: "PRISMIC_FINAL_DEMO_POSTER",
             caption: "통합 마트 주행 — Pinky Pro 최종 데모",
           },
           {
             type: "video",
             src: "PRISMIC_TRACKING_REID",
+            poster: "PRISMIC_OWNER_TRACKING_POSTER",
             caption: "Owner 추적 — YOLO + ByteTrack + ReID",
           },
           { type: "video", src: "PRISMIC_SHOP_GUIDE", caption: "가이드 — 고객 추종 주행" },
@@ -1777,6 +1785,8 @@ const PRISMIC_KEYS = {
   PRISMIC_TRACKING_START: "trackingStart",
   PRISMIC_SHOP_REGISTER: "shopRegister",
   PRISMIC_FINAL_DEMO: "finalDemo",
+  PRISMIC_FINAL_DEMO_POSTER: "finalDemoPoster",
+  PRISMIC_OWNER_TRACKING_POSTER: "ownerTrackingPoster",
   PRISMIC_SHOP_SHOPPING_LIST: "shopShoppingList",
   PRISMIC_SHOP_WAITING: "shopWaiting",
   PRISMIC_SHOP_PAYMENT: "shopPayment",
@@ -1818,7 +1828,8 @@ export function prioritizeMedia(media) {
       const src = resolveMediaSrc(token);
       const type = inferMediaType(src, m.type);
       const gifFallback = type === "video" ? resolveVideoGifFallback(token) : null;
-      return { ...m, src, type, gifFallback };
+      const poster = m.poster ? resolveMediaSrc(m.poster) : null;
+      return { ...m, src, type, gifFallback, poster };
     })
     .sort((a, b) => MEDIA_PRIORITY[a.type] - MEDIA_PRIORITY[b.type]);
 }
