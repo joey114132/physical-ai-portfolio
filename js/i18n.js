@@ -75,7 +75,9 @@ export const PRISMIC = {
   shopLlmGuide: "https://woolimi.cdn.prismic.io/woolimi/aeY-iMBOoF08xJCI_llm-guide.mp4",
   shopGuideAdmin: "https://woolimi.cdn.prismic.io/woolimi/aebHn8BOoF08xJ8-_guide-admin.mp4",
   shopReturn: "https://woolimi.cdn.prismic.io/woolimi/aeeisMBOoF08xL04_return-demo.mp4",
-  shopGuideDemo: "https://woolimi.cdn.prismic.io/woolimi/aeezmMBOoF08xL92_guide-demo.mp4",
+  shopGuideDemo: "https://joey.cdn.prismic.io/joey/ajCcAI1P9HI4Uiti_shoppinkki-guide-demo-h264.mp4",
+  shopGuidePoster:
+    "https://images.prismic.io/joey/ajCcAo1P9HI4Uitj_shoppinkki-guide-demo-poster.jpg?auto=format,compress",
   guidingDemo: "https://woolimi.cdn.prismic.io/woolimi/aeE4C51ZCF7ETQ5Z_guiding-18-demo.mp4",
   hifiveVideo:
     "https://minsung.cdn.prismic.io/minsung/aiDiPgeQX7-eWtW4_%ED%95%98%EC%9D%B4%ED%8C%8C%EC%9D%B4%EB%B8%8C-%EC%B5%9C%EC%A2%85-.mp4",
@@ -763,6 +765,7 @@ export const STRINGS = {
           {
             type: "video",
             src: "PRISMIC_SHOP_GUIDE",
+            poster: "PRISMIC_SHOP_GUIDE_POSTER",
             caption: "Guide — follow shopper to aisle",
           },
           {
